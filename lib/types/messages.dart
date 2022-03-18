@@ -51,7 +51,7 @@ class HydraMember {
     this.to,
     this.subject,
     this.intro,
-    this.seen,
+    this.seen = false,
     this.isDeleted,
     this.hasAttachments,
     this.size,
@@ -69,7 +69,7 @@ class HydraMember {
   List<From>? to;
   String? subject;
   String? intro;
-  bool? seen;
+  bool seen;
   bool? isDeleted;
   bool? hasAttachments;
   int? size;

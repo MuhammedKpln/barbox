@@ -111,7 +111,10 @@ class _MyHomePageState extends State<MyHomePage> {
               }),
           child: IndexedStack(
             index: pageIndex,
-            children: [const Home(), if (state is AccountLoaded) Messages()],
+            children: [
+              const Home(),
+              if (state is AccountLoaded) const Messages()
+            ],
           ),
         );
       },

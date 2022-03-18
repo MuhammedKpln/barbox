@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:macos_ui/macos_ui.dart';
 import 'package:spamify/Message.dart' as spamify_message;
 import 'package:spamify/cubits/MessagesCubit.dart';
@@ -21,14 +22,18 @@ class Messages extends StatefulWidget {
 class _MessagesState extends State<Messages> {
   List<HydraMember>? messages = [];
   int messagesTotalItemCount = 0;
+  String? messageId;
   late Timer _timer;
   bool firstStart = true;
 
   @override
   initState() {
+    super.initState();
     requestNotificationPermission();
 
-    super.initState();
+    Timer(Duration(milliseconds: 200), () {
+      MacosWindowScope.of(context).toggleSidebar();
+    });
 
     BlocProvider.of<MessagesCubit>(context).stream.listen((event) {
       if (event is MessagesLoaded) {
@@ -77,76 +82,173 @@ class _MessagesState extends State<Messages> {
     await BlocProvider.of<MessagesCubit>(context).loadMessages();
   }
 
+  Future<void> deleteMail(String messageId, int index) async {
+    await BlocProvider.of<MessagesCubit>(context).deleteMessage(messageId);
+    setState(() {
+      messages?.removeAt(index);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return CupertinoTabView(
       builder: (context) {
         return MacosScaffold(
-          titleBar: const TitleBar(title: Text("New incoming mails")),
+          titleBar: TitleBar(
+            leading: GestureDetector(
+              onTap: () {
+                MacosWindowScope.of(context).toggleSidebar();
+              },
+              child: const MacosIcon(CupertinoIcons.line_horizontal_3),
+            ),
+            title: const Text("Inbox"),
+          ),
           children: [
-            ContentArea(
+            ResizablePane(
+              startWidth: 250,
+              minWidth: 150,
+              resizableSide: ResizableSide.right,
+              isResizable: true,
               builder: (context, scrollController) {
-                return Center(
-                  child: Column(
+                if (messages!.isNotEmpty) {
+                  return MessagesList(
+                    messages: messages,
+                    messageId: messageId,
+                    onTap: (_messageId, index) {
+                      if (messageId == index) {
+                        setState(() => messageId = null);
+                        return;
+                      }
+
+                      setState((() {
+                        messageId = _messageId;
+                        messages?[index].seen = true;
+                      }));
+                    },
+                  );
+                } else {
+                  return Center(
+                      child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Container(
-                          height: 100,
-                          width: double.infinity,
-                          margin: const EdgeInsets.only(bottom: 10, top: 20),
-                          child: Column(
-                            children: [
-                              Center(
-                                child: Text("Mails",
-                                    textAlign: TextAlign.center,
-                                    style: MacosTheme.of(context)
-                                        .typography
-                                        .largeTitle),
-                              ),
-                              if (messages!.isEmpty)
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 10),
-                                  child: Text("Waiting for new emails",
-                                      style: MacosTheme.of(context)
-                                          .typography
-                                          .title3),
-                                )
-                            ],
-                          )),
-                      if (messages!.isNotEmpty)
-                        ListView.builder(
-                          itemBuilder: (context, index) {
-                            return Container(
-                              margin: const EdgeInsets.only(bottom: 10),
-                              child: MacosListTile(
-                                title: Text(messages?[index].subject ?? ""),
-                                subtitle: Text(
-                                    "From: ${messages?[index].from?.address}"),
-                                onClick: () => Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            spamify_message.Message(
-                                              messageId:
-                                                  messages?[index].id ?? "",
-                                            ))),
-                              ),
-                            );
-                          },
-                          itemCount: messages != null ? messages?.length : 0,
-                          shrinkWrap: true,
-                          scrollDirection: Axis.vertical,
-                        )
-                      else
-                        const ProgressCircle()
+                    children: const [
+                      ProgressCircle(),
+                      Text("Waiting for messages...")
                     ],
-                  ),
-                );
+                  ));
+                }
               },
             ),
+            ContentArea(builder: (context, scrollController) {
+              if (messageId != null) {
+                return spamify_message.Message(messageId: messageId ?? "");
+              }
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SvgPicture.asset(
+                      "assets/Mailbox.svg",
+                      width: 100,
+                    ),
+                    const Text("No message selected")
+                  ],
+                ),
+              );
+            })
           ],
         );
       },
+    );
+  }
+}
+
+class MessagesList extends StatelessWidget {
+  const MessagesList(
+      {Key? key,
+      required this.messages,
+      required this.messageId,
+      required this.onTap})
+      : super(key: key);
+
+  final List<HydraMember>? messages;
+  final String? messageId;
+  final Function onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 10),
+      child: ListView.separated(
+          itemBuilder: ((context, index) {
+            final message = messages?[index];
+
+            if (message == null) {
+              return Container();
+            }
+
+            return MouseRegion(
+              cursor: SystemMouseCursors.click,
+              child: GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () {
+                  onTap(message.id, index);
+                  // setState(() {
+                  //   messageId = message.id;
+                  // });
+                },
+                child: Container(
+                  padding: messageId == message.id
+                      ? const EdgeInsets.all(5)
+                      : const EdgeInsets.only(left: 5),
+                  decoration: messageId == message.id
+                      ? const BoxDecoration(color: Color.fromRGBO(0, 0, 0, 0.2))
+                      : null,
+                  child: Row(
+                    children: [
+                      if (!message.seen)
+                        Container(
+                          width: 10,
+                          height: 10,
+                          margin: const EdgeInsets.only(right: 10, left: 10),
+                          decoration: BoxDecoration(
+                              color: Colors.blue.shade600,
+                              borderRadius: BorderRadius.circular(10)),
+                        ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Row(children: [
+                            CircleAvatar(
+                              child: Text(
+                                  message.from?.name?.substring(0, 1) ?? "U"),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 10),
+                              child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                        message.from?.name ?? "Unknown sender"),
+                                    Text(message.subject ?? "No subject"),
+                                  ]),
+                            )
+                          ]),
+                          Text(message.intro ?? "No intro"),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          }),
+          separatorBuilder: (context, index) => Container(
+                margin: const EdgeInsets.only(top: 10, bottom: 10),
+              ),
+          itemCount: messages!.length),
     );
   }
 }

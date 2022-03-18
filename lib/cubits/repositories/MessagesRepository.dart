@@ -7,6 +7,7 @@ import 'package:spamify/types/messages.dart';
 
 abstract class MessagesRespository {
   Future<MessagesModel> getMessages(String token);
+  Future<bool> deleteMessage(String messageId, String token);
 }
 
 class MessagesRepo implements MessagesRespository {
@@ -16,9 +17,22 @@ class MessagesRepo implements MessagesRespository {
   getMessages(String token) async {
     final response = await http.get(
         Uri.parse("https://api.mail.tm/messages?page=1"),
-        headers: {"Authorization": "Bearer ${token}"});
+        headers: {"Authorization": "Bearer $token"});
     if (response.statusCode == HttpStatus.ok) {
       return MessagesModel.fromJson(json.decode(response.body));
+    } else {
+      throw NetworkError(
+          response.statusCode.toString(), "Could not load mails");
+    }
+  }
+
+  @override
+  deleteMessage(String messageId, String token) async {
+    final response = await http.delete(
+        Uri.parse("https://api.mail.tm/messages/$messageId"),
+        headers: {"Authorization": "Bearer $token"});
+    if (response.statusCode == HttpStatus.noContent) {
+      return true;
     } else {
       throw NetworkError(
           response.statusCode.toString(), "Could not load mails");

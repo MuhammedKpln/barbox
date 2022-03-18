@@ -129,9 +129,14 @@ class _HomeState extends State<Home> {
       },
       builder: (context, state) {
         return MacosScaffold(
-          titleBar: const TitleBar(
-            leading: MacosIcon(CupertinoIcons.thermometer),
-            title: Text("Fetch new account"),
+          titleBar: TitleBar(
+            leading: GestureDetector(
+              onTap: () {
+                MacosWindowScope.of(context).toggleSidebar();
+              },
+              child: const MacosIcon(CupertinoIcons.line_horizontal_3),
+            ),
+            title: const Text("Fetch new account"),
           ),
           children: [
             ContentArea(
