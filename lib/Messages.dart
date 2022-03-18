@@ -31,7 +31,7 @@ class _MessagesState extends State<Messages> {
     super.initState();
     requestNotificationPermission();
 
-    Timer(Duration(milliseconds: 200), () {
+    Timer(const Duration(milliseconds: 200), () {
       MacosWindowScope.of(context).toggleSidebar();
     });
 
@@ -151,7 +151,10 @@ class _MessagesState extends State<Messages> {
                       "assets/Mailbox.svg",
                       width: 100,
                     ),
-                    const Text("No message selected")
+                    const Padding(
+                      padding: EdgeInsets.only(top: 10),
+                      child: Text("No message selected"),
+                    )
                   ],
                 ),
               );

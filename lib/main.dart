@@ -109,16 +109,41 @@ class _MyHomePageState extends State<MyHomePage> {
                             ))
                     ]);
               }),
-          child: IndexedStack(
-            index: pageIndex,
-            children: [
-              const Home(),
-              if (state is AccountLoaded) const Messages()
-            ],
-          ),
+          child: Window(pageIndex: pageIndex),
         );
       },
     );
+  }
+}
+
+class Window extends StatelessWidget {
+  const Window({
+    Key? key,
+    required this.pageIndex,
+  }) : super(key: key);
+
+  final int pageIndex;
+
+  List<Widget> buildChildren() {
+    final children = <Widget>[
+      const Home(),
+    ];
+
+    switch (pageIndex) {
+      case 0:
+        return children;
+      case 1:
+        children.add(const Messages());
+        return children;
+
+      default:
+        return children;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return IndexedStack(index: pageIndex, children: buildChildren());
   }
 }
 
