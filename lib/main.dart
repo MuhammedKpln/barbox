@@ -87,7 +87,7 @@ class _MyHomePageState extends State<MyHomePage> {
           loggedIn = true;
           loaded = true;
         });
-      } else {
+      } else if (state is! AccountLoaded) {
         setState(() {
           loggedIn = false;
           loaded = true;
@@ -118,41 +118,36 @@ class _MyHomePageState extends State<MyHomePage> {
       );
     }
 
-    return BlocConsumer<AccountCubit, AccountInitial>(
-      listener: (context, state) {},
-      builder: (_context, state) {
-        return MacosWindow(
-          sidebar: Sidebar(
-              minWidth: 250,
-              windowBreakpoint: 300,
-              isResizable: true,
-              bottom: const MacosTooltip(
-                message: 'Logout',
-                child: Account(),
-              ),
-              builder: (context, controller) {
-                return SidebarItems(
-                    currentIndex: pageIndex,
-                    onChanged: (i) => setState(() => pageIndex = i),
-                    items: [
-                      const SidebarItem(
-                          label: Text("Get new email address"),
-                          leading: MacosIcon(
-                            CupertinoIcons.mail,
-                            size: 15,
-                          )),
-                      if (loggedIn)
-                        const SidebarItem(
-                            label: Text("Inbox"),
-                            leading: MacosIcon(
-                              CupertinoIcons.tray_full_fill,
-                              size: 15,
-                            ))
-                    ]);
-              }),
-          child: Window(pageIndex: pageIndex),
-        );
-      },
+    return MacosWindow(
+      sidebar: Sidebar(
+          minWidth: 250,
+          windowBreakpoint: 300,
+          isResizable: true,
+          bottom: const MacosTooltip(
+            message: 'Logout',
+            child: Account(),
+          ),
+          builder: (context, controller) {
+            return SidebarItems(
+                currentIndex: pageIndex,
+                onChanged: (i) => setState(() => pageIndex = i),
+                items: [
+                  const SidebarItem(
+                      label: Text("Get new email address"),
+                      leading: MacosIcon(
+                        CupertinoIcons.mail,
+                        size: 15,
+                      )),
+                  if (loggedIn)
+                    const SidebarItem(
+                        label: Text("Inbox"),
+                        leading: MacosIcon(
+                          CupertinoIcons.tray_full_fill,
+                          size: 15,
+                        ))
+                ]);
+          }),
+      child: Window(pageIndex: pageIndex),
     );
   }
 }
