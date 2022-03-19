@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -90,7 +92,13 @@ class _MyHomePageState extends State<MyHomePage> {
       } else if (state is! AccountLoaded) {
         setState(() {
           loggedIn = false;
-          loaded = true;
+          loaded = false;
+        });
+
+        Timer(const Duration(milliseconds: 200), () {
+          setState(() {
+            loaded = true;
+          });
         });
       }
     });
