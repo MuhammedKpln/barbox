@@ -120,6 +120,9 @@ class _HomeState extends State<Home> {
         if (state is AccountLoaded) {
           textFieldController.text = state.account.adress;
         }
+        if (state is! AccountLoaded) {
+          textFieldController.text = "";
+        }
 
         if (state is AccountError) {
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(

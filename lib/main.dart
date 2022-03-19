@@ -8,6 +8,8 @@ import 'package:spamify/cubits/AccountCubit.dart';
 import 'package:spamify/cubits/MessageCubit.dart';
 import 'package:spamify/cubits/repositories/AccountsRespository.dart';
 import 'package:spamify/cubits/repositories/MessageRepository.dart';
+import 'package:spamify/settings.dart';
+import 'package:spamify/storage/account.dart';
 import 'package:spamify/utils.dart';
 
 import 'cubits/MessagesCubit.dart';
@@ -30,7 +32,6 @@ class MyApp extends StatelessWidget {
             create: (context) => AccountCubit(AccountRepo()),
           ),
           BlocProvider<MessageCubit>(
-            lazy: false,
             create: (context) => MessageCubit(
                 BlocProvider.of<AccountCubit>(context), MessageRepo()),
           ),
@@ -42,7 +43,13 @@ class MyApp extends StatelessWidget {
         child: MacosApp(
           title: 'Spamify',
           theme: MacosThemeData.light(),
-          home: const MyHomePage(title: 'Spamify'),
+          initialRoute: '/',
+          routes: {
+            // When navigating to the "/" route, build the FirstScreen widget.
+            '/': (context) => const MyHomePage(title: "Spamify"),
+            // When navigating to the "/second" route, build the SecondScreen widget.
+            '/settings': (context) => const Settings(),
+          },
           scrollBehavior: MyCustomScrollBehavior(),
         ));
   }
@@ -68,15 +75,49 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int pageIndex = 0;
+  bool loggedIn = false;
+  bool loaded = false;
+
+  @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<AccountCubit>(context).stream.listen((state) {
+      if (state is AccountLoaded) {
+        setState(() {
+          loggedIn = true;
+          loaded = true;
+        });
+      } else {
+        setState(() {
+          loggedIn = false;
+          loaded = true;
+        });
+      }
+    });
+
+    isLoggedIn().then((loggedIn) {
+      if (loggedIn) {
+        setState(() {
+          loggedIn = true;
+          loaded = true;
+        });
+      } else {
+        setState(() {
+          loggedIn = false;
+          loaded = true;
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
+    if (!loaded) {
+      return const Center(
+        child: ProgressCircle(),
+      );
+    }
+
     return BlocConsumer<AccountCubit, AccountInitial>(
       listener: (context, state) {},
       builder: (_context, state) {
@@ -100,7 +141,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             CupertinoIcons.mail,
                             size: 15,
                           )),
-                      if (state is AccountLoaded)
+                      if (loggedIn)
                         const SidebarItem(
                             label: Text("Inbox"),
                             leading: MacosIcon(
@@ -154,15 +195,11 @@ class Account extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    logout() {
-      BlocProvider.of<AccountCubit>(context).logout();
-    }
-
     return BlocConsumer<AccountCubit, AccountInitial>(
         builder: ((context, state) {
           if (state is AccountLoaded) {
             return TextButton(
-              onPressed: logout,
+              onPressed: () => Navigator.pushNamed(context, "/settings"),
               child: Padding(
                 padding: const EdgeInsets.all(20),
                 child: Row(children: [

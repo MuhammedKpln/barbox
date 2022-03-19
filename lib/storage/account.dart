@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:ffi';
 
 import 'package:spamify/cubits/AccountCubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -30,4 +29,15 @@ getAccount() async {
   }
 
   return null;
+}
+
+Future<bool> isLoggedIn() async {
+  final storage = await SharedPreferences.getInstance();
+  final _json = storage.getString('account');
+
+  if (_json != null) {
+    return true;
+  }
+
+  return false;
 }
