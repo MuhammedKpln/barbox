@@ -235,7 +235,12 @@ class MessagesList extends StatelessWidget {
                                   children: [
                                     Text(
                                         message.from?.name ?? "Unknown sender"),
-                                    Text(message.subject ?? "No subject"),
+                                    SizedBox(
+                                      width: 100,
+                                      child: Text(
+                                          message.subject ?? "No subject",
+                                          overflow: TextOverflow.ellipsis),
+                                    ),
                                   ]),
                             )
                           ]),

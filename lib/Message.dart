@@ -87,12 +87,15 @@ class _MessageState extends State<Message> {
                                     // ),
                                   ],
                                 ),
-                                Text(
-                                  state.response.subject ?? "Unknown subject",
-                                  overflow: TextOverflow.clip,
-                                  maxLines: 1,
-                                  softWrap: false,
-                                  style: const TextStyle(fontSize: 13),
+                                SizedBox(
+                                  width: 300,
+                                  child: Text(
+                                    state.response.subject ?? "Unknown subject",
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                    softWrap: false,
+                                    style: const TextStyle(fontSize: 13),
+                                  ),
                                 ),
                               ],
                             ),
