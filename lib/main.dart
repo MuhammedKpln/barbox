@@ -5,10 +5,13 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:macos_ui/macos_ui.dart';
 import 'package:spamify/Home.dart';
 import 'package:spamify/Messages.dart';
+import 'package:spamify/Updates.dart';
 import 'package:spamify/cubits/AccountCubit.dart';
 import 'package:spamify/cubits/MessageCubit.dart';
+import 'package:spamify/cubits/UpdateCubit.dart';
 import 'package:spamify/cubits/repositories/AccountsRespository.dart';
 import 'package:spamify/cubits/repositories/MessageRepository.dart';
+import 'package:spamify/cubits/repositories/UpdatesRepository.dart';
 import 'package:spamify/settings.dart';
 import 'package:spamify/storage/account.dart';
 import 'package:spamify/storage/messagesStorage.dart';
@@ -21,6 +24,7 @@ void main() async {
   await Hive.initFlutter();
   await Hive.openBox(accountBox);
   await Hive.openBox(messagesBox);
+  WidgetsFlutterBinding.ensureInitialized();
 
   runApp(const MyApp());
 }
@@ -44,17 +48,17 @@ class MyApp extends StatelessWidget {
           BlocProvider(
             create: (context) => MessagesCubit(
                 MessagesRepo(), BlocProvider.of<AccountCubit>(context)),
-          )
+          ),
+          BlocProvider(create: (context) => UpdatesCubit(UpdatesRepo()))
         ],
         child: MacosApp(
           title: 'Spamify',
           theme: MacosThemeData.light(),
           initialRoute: '/',
           routes: {
-            // When navigating to the "/" route, build the FirstScreen widget.
             '/': (context) => const MyHomePage(title: "Spamify"),
-            // When navigating to the "/second" route, build the SecondScreen widget.
             '/settings': (context) => const Settings(),
+            '/updates': (context) => Updates(),
           },
           scrollBehavior: MyCustomScrollBehavior(),
         ));
@@ -85,6 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
+
     BlocProvider.of<AccountCubit>(context).loadAccount();
     // Hive.box(accountBox).clear();
     // Hive.box(messagesBox).clear();
@@ -111,6 +116,10 @@ class _MyHomePageState extends State<MyHomePage> {
     // });
   }
 
+  void checkForUpdates() async {
+    Navigator.of(context).pushNamed("/updates");
+  }
+
   @override
   Widget build(BuildContext context) {
     // if (!loaded) {
@@ -124,10 +133,12 @@ class _MyHomePageState extends State<MyHomePage> {
           minWidth: 250,
           windowBreakpoint: 300,
           isResizable: true,
-          bottom: const MacosTooltip(
-            message: 'Logout',
-            child: Account(),
-          ),
+          bottom: Column(children: [
+            CheckForUpdates(
+              onPressed: checkForUpdates,
+            ),
+            const Account()
+          ]),
           builder: (context, controller) {
             return BlocConsumer<AccountCubit, AccountInitial>(
                 builder: (context, state) {
@@ -172,6 +183,33 @@ class _MyHomePageState extends State<MyHomePage> {
                 listener: (context, s) => {});
           }),
       child: Window(pageIndex: pageIndex),
+    );
+  }
+}
+
+class CheckForUpdates extends StatelessWidget {
+  const CheckForUpdates({
+    Key? key,
+    required this.onPressed,
+  }) : super(key: key);
+
+  final Function onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: () => onPressed(),
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Row(children: [
+          const MacosIcon(CupertinoIcons.arrow_counterclockwise),
+          Padding(
+            padding: const EdgeInsets.only(left: 10),
+            child: Text("Check for updates",
+                style: MacosTheme.of(context).typography.body),
+          )
+        ]),
+      ),
     );
   }
 }
