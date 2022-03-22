@@ -31,7 +31,6 @@ class _MessagesState extends State<Messages> {
   initState() {
     super.initState();
     requestNotificationPermission();
-    BlocProvider.of<MessagesCubit>(context).loadFromCache();
 
     Timer(const Duration(milliseconds: 200), () {
       MacosWindowScope.of(context).toggleSidebar();
@@ -39,10 +38,7 @@ class _MessagesState extends State<Messages> {
 
     BlocProvider.of<MessagesCubit>(context).stream.listen((event) {
       if (event is MessagesLoaded) {
-        print("State init");
-        if (getCachedMessages() == null) {
-          print("stored");
-
+        if (getCachedMessages() == null && event.messages.hydraTotalItems > 0) {
           storeMessages(event.messages);
         }
 
@@ -56,29 +52,34 @@ class _MessagesState extends State<Messages> {
           return;
         }
 
-        if (event.messages.hydraMember?.last.msgid != messages?.last.msgid) {
-          addNewMessage(event.messages.hydraMember!.last);
+        if (event.messages.hydraMember!.isNotEmpty && messages!.isNotEmpty) {
+          if (messages!.length >= 1) {
+            final MessagesModel messagesFromCache = getCachedMessages();
+            if (event.messages.hydraMember?.first.id !=
+                messagesFromCache.hydraMember?.last.id) {
+              addNewMessage(event.messages.hydraMember!.first);
+              FlutterLocalNotificationsPlugin().show(
+                  Random().nextInt(9999),
+                  "Received new email!",
+                  "You have received a new email!",
+                  const NotificationDetails(
+                    macOS: MacOSNotificationDetails(
+                      sound: 'default',
+                      subtitle: "You have received a new email!",
+                    ),
+                  ));
+            }
+          }
         }
 
-        if (event.messages.hydraTotalItems > messagesTotalItemCount) {
-          FlutterLocalNotificationsPlugin().show(
-              Random().nextInt(9999),
-              "Received new email!",
-              "You have received a new email!",
-              const NotificationDetails(
-                macOS: MacOSNotificationDetails(
-                  sound: 'default',
-                  subtitle: "You have received a new email!",
-                ),
-              ));
-          // New message arrived
-          setState(() {
-            messages = event.messages.hydraMember;
-            messagesTotalItemCount = event.messages.hydraTotalItems;
-          });
-        }
+        setState(() {
+          messages = event.messages.hydraMember;
+          messagesTotalItemCount = event.messages.hydraTotalItems;
+        });
       }
     });
+
+    BlocProvider.of<MessagesCubit>(context).loadFromCache();
 
     _timer = Timer.periodic(const Duration(seconds: 5), (timer) {
       fetchMessages();
@@ -146,7 +147,7 @@ class _MessagesState extends State<Messages> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: const [
                       ProgressCircle(),
-                      Text("Waiting for messages...")
+                      Text("Fetching inbox...")
                     ],
                   ));
                 }

@@ -8,10 +8,9 @@ const messagesBox = "messagesBox";
 void storeMessages(MessagesModel _messages) {
   final _messagesBox = Hive.box(messagesBox);
   final messages = _messagesBox.get("messages");
-  final messagesListToJson = _messages.toJson();
 
   if (messages == null) {
-    _messagesBox.put("messages", json.encode(messagesListToJson));
+    _messagesBox.put("messages", json.encode(_messages.toJson()));
   }
 }
 
@@ -30,7 +29,6 @@ getCachedMessages() {
   final messages = box.get("messages");
   if (messages != null) {
     final messagesModel = MessagesModel.fromJson(json.decode(messages));
-
     return messagesModel;
   }
 }

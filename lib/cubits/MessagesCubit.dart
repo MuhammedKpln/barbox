@@ -30,19 +30,10 @@ class MessagesCubit extends Cubit<MessagesInitial> {
   void loadFromCache() {
     emit(MessagesLoading());
 
-    try {
-      final messages = getCachedMessages();
-      print("qwe");
-      print(messages);
-      if (messages is MessagesModel) {
-        emit(MessagesLoaded(messages));
-      } else {
-        print("eqwe");
+    final messages = getCachedMessages();
 
-        print(messages.runtimeType);
-      }
-    } catch (e) {
-      print(e);
+    if (messages != null) {
+      emit(MessagesLoaded(messages));
     }
   }
 

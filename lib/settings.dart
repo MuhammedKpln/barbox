@@ -25,7 +25,7 @@ class Settings extends StatelessWidget {
             return MacosAlertDialog(
               appIcon: const MacosIcon(CupertinoIcons.mail_solid),
               message: const Text(
-                  "This process will clear all the cached data!\nAre you sure?"),
+                  "This process will clear all the cached data! You will be logged out. \nAre you sure?"),
               title: const Text("Are you sure you want to clear all data?"),
               horizontalActions: true,
               primaryButton: PushButton(

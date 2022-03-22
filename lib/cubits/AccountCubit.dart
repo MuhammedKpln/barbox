@@ -1,8 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:spamify/cubits/repositories/AccountsRespository.dart';
 import 'package:spamify/storage/account.dart';
+import 'package:spamify/storage/messagesStorage.dart';
 
 import '../utils.dart';
 
@@ -90,7 +92,6 @@ class AccountCubit extends Cubit<AccountInitial> {
       final _account = Account(account.address ?? "", password, token.token);
 
       await saveAccount(_account);
-      await saveAccount(_account);
       emit(AccountLoaded(_account));
     } catch (e) {
       emit(AccountError(e.toString()));
@@ -101,6 +102,9 @@ class AccountCubit extends Cubit<AccountInitial> {
     emit(AccountLoading());
     try {
       await removeAccount();
+      Hive.box(accountBox).clear();
+      Hive.box(messagesBox).clear();
+
       emit(AccountInitial());
     } catch (e) {
       emit(AccountError(e.toString()));

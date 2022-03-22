@@ -131,24 +131,43 @@ class _MyHomePageState extends State<MyHomePage> {
           builder: (context, controller) {
             return BlocConsumer<AccountCubit, AccountInitial>(
                 builder: (context, state) {
-                  return SidebarItems(
-                      currentIndex: pageIndex,
-                      onChanged: (i) => setState(() => pageIndex = i),
-                      items: [
-                        const SidebarItem(
-                            label: Text("Get new email address"),
-                            leading: MacosIcon(
-                              CupertinoIcons.mail,
-                              size: 15,
-                            )),
-                        if (state is AccountLoaded)
-                          const SidebarItem(
+                  if (state is! AccountLoaded) {
+                    return SidebarItems(
+                        currentIndex: pageIndex,
+                        onChanged: (i) => setState(() => pageIndex = i),
+                        items: const [
+                          SidebarItem(
+                              label: Text("Get new email address"),
+                              leading: MacosIcon(
+                                CupertinoIcons.mail,
+                                size: 15,
+                              )),
+                        ]);
+                  }
+
+                  if (state is AccountLoaded) {
+                    return SidebarItems(
+                        currentIndex: pageIndex,
+                        onChanged: (i) => setState(() => pageIndex = i),
+                        items: const [
+                          SidebarItem(
+                              label: Text("Get new email address"),
+                              leading: MacosIcon(
+                                CupertinoIcons.mail,
+                                size: 15,
+                              )),
+                          SidebarItem(
                               label: Text("Inbox"),
                               leading: MacosIcon(
                                 CupertinoIcons.tray_full_fill,
                                 size: 15,
                               ))
-                      ]);
+                        ]);
+                  }
+
+                  return const Center(
+                    child: ProgressCircle(),
+                  );
                 },
                 listener: (context, s) => {});
           }),
