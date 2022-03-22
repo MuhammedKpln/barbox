@@ -132,12 +132,19 @@ class _HomeState extends State<Home> {
       builder: (context, state) {
         return MacosScaffold(
           titleBar: TitleBar(
-            leading: GestureDetector(
-              onTap: () {
-                MacosWindowScope.of(context).toggleSidebar();
-              },
-              child: const MacosIcon(CupertinoIcons.line_horizontal_3),
-            ),
+            leading: PushButton(
+                buttonSize: ButtonSize.large,
+                child: const MacosIcon(CupertinoIcons.line_horizontal_3),
+                color: MacosTheme.of(context).pushButtonTheme.disabledColor,
+                onPressed: () => MacosWindowScope.of(context).toggleSidebar()),
+            actions: [
+              PushButton(
+                child: const MacosIcon(CupertinoIcons.settings),
+                buttonSize: ButtonSize.large,
+                onPressed: () => Navigator.of(context).pushNamed("/settings"),
+                color: MacosTheme.of(context).pushButtonTheme.disabledColor,
+              ),
+            ],
             title: const Text("Fetch new account"),
           ),
           children: [

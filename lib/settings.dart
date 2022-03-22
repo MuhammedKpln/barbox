@@ -108,7 +108,17 @@ class Settings extends StatelessWidget {
                     );
                   }
 
-                  return const ProgressCircle();
+                  return Center(
+                    child: Container(
+                      margin: const EdgeInsets.only(top: 30),
+                      child: PushButton(
+                        child: const Text("Clear all data"),
+                        buttonSize: ButtonSize.small,
+                        isSecondary: true,
+                        onPressed: clearData,
+                      ),
+                    ),
+                  );
                 });
           },
         )
