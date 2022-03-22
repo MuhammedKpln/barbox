@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spamify/cubits/AccountCubit.dart';
 import 'package:spamify/cubits/repositories/MessagesRepository.dart';
+import 'package:spamify/storage/messagesStorage.dart';
 import 'package:spamify/types/messages.dart';
 
 class MessagesInitial {
@@ -26,6 +27,25 @@ class MessagesCubit extends Cubit<MessagesInitial> {
   MessagesCubit(this.messagesRepository, this.accountCubit)
       : super(MessagesInitial());
 
+  void loadFromCache() {
+    emit(MessagesLoading());
+
+    try {
+      final messages = getCachedMessages();
+      print("qwe");
+      print(messages);
+      if (messages is MessagesModel) {
+        emit(MessagesLoaded(messages));
+      } else {
+        print("eqwe");
+
+        print(messages.runtimeType);
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
   Future<void> loadMessages() async {
     emit(MessagesLoading());
 
@@ -33,6 +53,7 @@ class MessagesCubit extends Cubit<MessagesInitial> {
 
     try {
       final response = await messagesRepository.getMessages(accountToken);
+
       emit(MessagesLoaded(response));
     } catch (e) {
       emit(MessagesNotLoaded());

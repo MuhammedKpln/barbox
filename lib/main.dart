@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,6 +11,7 @@ import 'package:spamify/cubits/repositories/AccountsRespository.dart';
 import 'package:spamify/cubits/repositories/MessageRepository.dart';
 import 'package:spamify/settings.dart';
 import 'package:spamify/storage/account.dart';
+import 'package:spamify/storage/messagesStorage.dart';
 import 'package:spamify/utils.dart';
 
 import 'cubits/MessagesCubit.dart';
@@ -20,8 +19,8 @@ import 'cubits/repositories/MessagesRepository.dart';
 
 void main() async {
   await Hive.initFlutter();
-  await Hive.openBox('accountBox');
-  await Hive.openLazyBox('mailsBox');
+  await Hive.openBox(accountBox);
+  await Hive.openBox(messagesBox);
 
   runApp(const MyApp());
 }
@@ -87,6 +86,9 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
     BlocProvider.of<AccountCubit>(context).loadAccount();
+    // Hive.box(accountBox).clear();
+    // Hive.box(messagesBox).clear();
+    // print(Hive.box(messagesBox).values);
 
     // BlocProvider.of<AccountCubit>(context).stream.listen((state) {
     //   if (state is AccountLoaded) {

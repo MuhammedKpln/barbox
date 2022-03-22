@@ -21,14 +21,13 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    getAccount().then((account) {
-      if (account is Account) {
-        BlocProvider.of<AccountCubit>(context)
-            .login(account.adress, account.password);
-      } else {
-        showWelcomeSheet();
-      }
-    });
+
+    if (isLoggedIn()) {
+      textFieldController.text =
+          (BlocProvider.of<AccountCubit>(context).state as AccountLoaded)
+              .account
+              .adress;
+    }
   }
 
   Timer showWelcomeSheet() {

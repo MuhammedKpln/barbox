@@ -1,6 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:macos_ui/macos_ui.dart';
+import 'package:spamify/storage/account.dart';
+import 'package:spamify/storage/messagesStorage.dart';
 
 import 'cubits/AccountCubit.dart';
 
@@ -12,6 +16,52 @@ class Settings extends StatelessWidget {
     void logout() {
       BlocProvider.of<AccountCubit>(context).logout();
       Navigator.of(context).pop();
+    }
+
+    void clearData() {
+      showMacosAlertDialog(
+          context: context,
+          builder: (context) {
+            return MacosAlertDialog(
+              appIcon: const MacosIcon(CupertinoIcons.mail_solid),
+              message: const Text(
+                  "This process will clear all the cached data!\nAre you sure?"),
+              title: const Text("Are you sure you want to clear all data?"),
+              horizontalActions: true,
+              primaryButton: PushButton(
+                child: const Text("Clear"),
+                onPressed: () {
+                  Hive.box(messagesBox).clear();
+                  Hive.box(accountBox).clear();
+                  Navigator.of(context).pop();
+
+                  showMacosAlertDialog(
+                      context: context,
+                      builder: (_context) {
+                        return MacosAlertDialog(
+                            appIcon: const MacosIcon(CupertinoIcons.mail_solid),
+                            title: Text("Cleared!"),
+                            message: Text("Cache successfully cleared!"),
+                            primaryButton: PushButton(
+                                buttonSize: ButtonSize.small,
+                                child: Text("OK"),
+                                onPressed: () {
+                                  Navigator.of(_context).pop();
+                                }));
+                      });
+                },
+                buttonSize: ButtonSize.small,
+              ),
+              secondaryButton: PushButton(
+                isSecondary: true,
+                child: const Text("Cancel"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                buttonSize: ButtonSize.small,
+              ),
+            );
+          });
     }
 
     return MacosScaffold(
@@ -42,8 +92,16 @@ class Settings extends StatelessWidget {
                           child: PushButton(
                             child: const Text("Logout"),
                             buttonSize: ButtonSize.large,
-                            isSecondary: true,
                             onPressed: logout,
+                          ),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.only(top: 30),
+                          child: PushButton(
+                            child: const Text("Clear all data"),
+                            buttonSize: ButtonSize.small,
+                            isSecondary: true,
+                            onPressed: clearData,
                           ),
                         )
                       ],

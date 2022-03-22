@@ -57,6 +57,8 @@ class AccountCubit extends Cubit<AccountInitial> {
 
       if (account != null) {
         emit(AccountLoaded(account));
+      } else {
+        emit(AccountError("No account found"));
       }
     } catch (e) {
       emit(AccountError(e.toString()));

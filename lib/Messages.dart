@@ -9,6 +9,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:macos_ui/macos_ui.dart';
 import 'package:spamify/Message.dart' as spamify_message;
 import 'package:spamify/cubits/MessagesCubit.dart';
+import 'package:spamify/storage/messagesStorage.dart';
 import 'package:spamify/types/messages.dart';
 import 'package:spamify/utils.dart';
 
@@ -30,6 +31,7 @@ class _MessagesState extends State<Messages> {
   initState() {
     super.initState();
     requestNotificationPermission();
+    BlocProvider.of<MessagesCubit>(context).loadFromCache();
 
     Timer(const Duration(milliseconds: 200), () {
       MacosWindowScope.of(context).toggleSidebar();
@@ -37,6 +39,13 @@ class _MessagesState extends State<Messages> {
 
     BlocProvider.of<MessagesCubit>(context).stream.listen((event) {
       if (event is MessagesLoaded) {
+        print("State init");
+        if (getCachedMessages() == null) {
+          print("stored");
+
+          storeMessages(event.messages);
+        }
+
         if (firstStart) {
           setState(() {
             messages = event.messages.hydraMember;
@@ -45,6 +54,10 @@ class _MessagesState extends State<Messages> {
           });
 
           return;
+        }
+
+        if (event.messages.hydraMember?.last.msgid != messages?.last.msgid) {
+          addNewMessage(event.messages.hydraMember!.last);
         }
 
         if (event.messages.hydraTotalItems > messagesTotalItemCount) {
@@ -74,8 +87,8 @@ class _MessagesState extends State<Messages> {
 
   @override
   dispose() {
-    super.dispose();
     _timer.cancel();
+    super.dispose();
   }
 
   Future<void> fetchMessages() async {
