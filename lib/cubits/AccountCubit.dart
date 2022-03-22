@@ -50,6 +50,19 @@ class AccountCubit extends Cubit<AccountInitial> {
   final AccountRepository accountRepository;
   AccountCubit(this.accountRepository) : super(AccountInitial());
 
+  void loadAccount() {
+    emit(AccountLoading());
+    try {
+      final account = getAccount();
+
+      if (account != null) {
+        emit(AccountLoaded(account));
+      }
+    } catch (e) {
+      emit(AccountError(e.toString()));
+    }
+  }
+
   Future<void> login(String adress, String password) async {
     emit(AccountLoading());
     try {
@@ -74,6 +87,7 @@ class AccountCubit extends Cubit<AccountInitial> {
 
       final _account = Account(account.address ?? "", password, token.token);
 
+      await saveAccount(_account);
       await saveAccount(_account);
       emit(AccountLoaded(_account));
     } catch (e) {

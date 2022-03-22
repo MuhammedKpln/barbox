@@ -1,26 +1,23 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:spamify/cubits/AccountCubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 saveAccount(Account account) async {
-  final json = account.toJson();
-
-  final storage = await SharedPreferences.getInstance();
-
-  await storage.setString('account', json);
+  final box = Hive.box('accountBox');
+  box.put('account', account.toJson());
 }
 
 removeAccount() async {
-  final storage = await SharedPreferences.getInstance();
-
-  await storage.remove('account');
+  final box = Hive.box('accountBox');
+  box.delete('account');
 }
 
-getAccount() async {
-  final storage = await SharedPreferences.getInstance();
-  final _json = storage.getString('account');
+getAccount() {
+  final box = Hive.box('accountBox');
+  final _json = box.get('account');
 
   if (_json != null) {
     final account = Account.fromJson(json.decode(_json));
@@ -32,8 +29,8 @@ getAccount() async {
 }
 
 Future<bool> isLoggedIn() async {
-  final storage = await SharedPreferences.getInstance();
-  final _json = storage.getString('account');
+  final box = Hive.box('accountBox');
+  final _json = box.get('account');
 
   if (_json != null) {
     return true;

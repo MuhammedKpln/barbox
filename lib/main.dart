@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:macos_ui/macos_ui.dart';
 import 'package:spamify/Home.dart';
 import 'package:spamify/Messages.dart';
@@ -17,7 +18,11 @@ import 'package:spamify/utils.dart';
 import 'cubits/MessagesCubit.dart';
 import 'cubits/repositories/MessagesRepository.dart';
 
-void main() {
+void main() async {
+  await Hive.initFlutter();
+  await Hive.openBox('accountBox');
+  await Hive.openLazyBox('mailsBox');
+
   runApp(const MyApp());
 }
 
@@ -77,54 +82,40 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int pageIndex = 0;
-  bool loggedIn = false;
-  bool loaded = false;
 
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<AccountCubit>(context).stream.listen((state) {
-      if (state is AccountLoaded) {
-        setState(() {
-          loggedIn = true;
-          loaded = true;
-        });
-      } else if (state is! AccountLoaded) {
-        setState(() {
-          loggedIn = false;
-          loaded = false;
-        });
+    BlocProvider.of<AccountCubit>(context).loadAccount();
 
-        Timer(const Duration(milliseconds: 200), () {
-          setState(() {
-            loaded = true;
-          });
-        });
-      }
-    });
+    // BlocProvider.of<AccountCubit>(context).stream.listen((state) {
+    //   if (state is AccountLoaded) {
+    //     setState(() {
+    //       loggedIn = true;
+    //       loaded = true;
+    //     });
+    //   } else if (state is! AccountLoaded) {
+    //     setState(() {
+    //       loggedIn = false;
+    //       loaded = false;
+    //     });
 
-    isLoggedIn().then((loggedIn) {
-      if (loggedIn) {
-        setState(() {
-          loggedIn = true;
-          loaded = true;
-        });
-      } else {
-        setState(() {
-          loggedIn = false;
-          loaded = true;
-        });
-      }
-    });
+    //     Timer(const Duration(milliseconds: 200), () {
+    //       setState(() {
+    //         loaded = true;
+    //       });
+    //     });
+    //   }
+    // });
   }
 
   @override
   Widget build(BuildContext context) {
-    if (!loaded) {
-      return const Center(
-        child: ProgressCircle(),
-      );
-    }
+    // if (!loaded) {
+    //   return const Center(
+    //     child: ProgressCircle(),
+    //   );
+    // }
 
     return MacosWindow(
       sidebar: Sidebar(
@@ -136,24 +127,28 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Account(),
           ),
           builder: (context, controller) {
-            return SidebarItems(
-                currentIndex: pageIndex,
-                onChanged: (i) => setState(() => pageIndex = i),
-                items: [
-                  const SidebarItem(
-                      label: Text("Get new email address"),
-                      leading: MacosIcon(
-                        CupertinoIcons.mail,
-                        size: 15,
-                      )),
-                  if (loggedIn)
-                    const SidebarItem(
-                        label: Text("Inbox"),
-                        leading: MacosIcon(
-                          CupertinoIcons.tray_full_fill,
-                          size: 15,
-                        ))
-                ]);
+            return BlocConsumer<AccountCubit, AccountInitial>(
+                builder: (context, state) {
+                  return SidebarItems(
+                      currentIndex: pageIndex,
+                      onChanged: (i) => setState(() => pageIndex = i),
+                      items: [
+                        const SidebarItem(
+                            label: Text("Get new email address"),
+                            leading: MacosIcon(
+                              CupertinoIcons.mail,
+                              size: 15,
+                            )),
+                        if (state is AccountLoaded)
+                          const SidebarItem(
+                              label: Text("Inbox"),
+                              leading: MacosIcon(
+                                CupertinoIcons.tray_full_fill,
+                                size: 15,
+                              ))
+                      ]);
+                },
+                listener: (context, s) => {});
           }),
       child: Window(pageIndex: pageIndex),
     );
