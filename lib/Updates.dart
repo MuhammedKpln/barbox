@@ -35,7 +35,7 @@ class _UpdatesState extends State<Updates> {
       PackageInfo packageInfo = await PackageInfo.fromPlatform();
 
       final remoteVersion = Version.parse(state.updates.version);
-      final localVersion = Version.parse("1.0.0");
+      final localVersion = Version.parse(packageInfo.version);
 
       final compare = localVersion.compareTo(remoteVersion);
 
