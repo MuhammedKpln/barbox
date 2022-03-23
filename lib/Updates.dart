@@ -27,8 +27,7 @@ class _UpdatesState extends State<Updates> {
   }
 
   Future<void> checkForUpdates() async {
-    final update =
-        await BlocProvider.of<UpdatesCubit>(context).checkForUpdates();
+    await BlocProvider.of<UpdatesCubit>(context).checkForUpdates();
     final state = BlocProvider.of<UpdatesCubit>(context).state;
 
     if (state is UpdatesLoaded) {
@@ -36,7 +35,6 @@ class _UpdatesState extends State<Updates> {
 
       final remoteVersion = Version.parse(state.updates.version);
       final localVersion = Version.parse(packageInfo.version);
-
       final compare = localVersion.compareTo(remoteVersion);
 
       switch (compare) {
@@ -109,70 +107,87 @@ class _UpdatesState extends State<Updates> {
           return BlocConsumer<UpdatesCubit, UpdatesState>(
               builder: ((context, state) {
                 if (state is UpdatesLoaded) {
+                  var updateAvailableWidget = [
+                    SvgPicture.asset("assets/Settings.svg",
+                        width: 100,
+                        color: MacosTheme.of(context).iconTheme.color),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: Text(
+                        "Update available! (v${state.updates.version})",
+                        style: TextStyle(
+                          fontSize:
+                              MacosTheme.of(context).typography.title3.fontSize,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5),
+                          color: MacosTheme.of(context).dividerColor),
+                      child: Column(
+                        children: [
+                          MacosListTile(
+                            title: const Text("Changelog: "),
+                            subtitle: Text(state.updates.changelog),
+                            leading: const MacosIcon(CupertinoIcons.down_arrow),
+                          ),
+                          if (!downloading)
+                            Padding(
+                              padding: const EdgeInsets.only(top: 20),
+                              child: PushButton(
+                                  onPressed: () =>
+                                      downloadUpdate(state.updates.downloadUrl),
+                                  child: const Text("Download update"),
+                                  buttonSize: ButtonSize.large),
+                            )
+                          else
+                            Padding(
+                              padding: const EdgeInsets.only(top: 20),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: const [
+                                  ProgressCircle(),
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 10),
+                                    child: Text("Downloading..."),
+                                  ),
+                                ],
+                              ),
+                            )
+                        ],
+                      ),
+                    ),
+                  ];
                   return Center(
                     child: SizedBox(
                       width: 300,
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset("assets/Settings.svg",
-                              width: 100,
-                              color: MacosTheme.of(context).iconTheme.color),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 10),
-                            child: Text(
-                              "Update available! (v${state.updates.version})",
-                              style: TextStyle(
-                                fontSize: MacosTheme.of(context)
-                                    .typography
-                                    .title3
-                                    .fontSize,
-                              ),
-                            ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                color: MacosTheme.of(context).dividerColor),
-                            child: Column(
-                              children: [
-                                MacosListTile(
-                                  title: const Text("Changelog: "),
-                                  subtitle: Text(state.updates.changelog),
-                                  leading: const MacosIcon(
-                                      CupertinoIcons.down_arrow),
-                                ),
-                                if (!downloading)
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: updateAvailable
+                              ? updateAvailableWidget
+                              : [
+                                  SvgPicture.asset("assets/Settings.svg",
+                                      width: 100,
+                                      color: MacosTheme.of(context)
+                                          .iconTheme
+                                          .color),
                                   Padding(
-                                    padding: const EdgeInsets.only(top: 20),
-                                    child: PushButton(
-                                        onPressed: () => downloadUpdate(
-                                            state.updates.downloadUrl),
-                                        child: const Text("Download update"),
-                                        buttonSize: ButtonSize.large),
-                                  )
-                                else
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 20),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: const [
-                                        ProgressCircle(),
-                                        Padding(
-                                          padding: EdgeInsets.only(left: 10),
-                                          child: Text("Downloading..."),
-                                        ),
-                                      ],
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10),
+                                    child: Text(
+                                      "🎉 You're up to date!",
+                                      style: TextStyle(
+                                        fontSize: MacosTheme.of(context)
+                                            .typography
+                                            .title3
+                                            .fontSize,
+                                      ),
                                     ),
-                                  )
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
+                                  ),
+                                ]),
                     ),
                   );
                 }
