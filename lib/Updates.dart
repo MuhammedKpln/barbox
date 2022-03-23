@@ -63,9 +63,35 @@ class _UpdatesState extends State<Updates> {
     final downloaded = await downloadFile(url, "Spamify.dmg");
 
     if (downloaded) {
-      print("Downloaded!");
+      showMacosAlertDialog(
+          context: context,
+          builder: (context) {
+            return MacosAlertDialog(
+                appIcon: const MacosIcon(CupertinoIcons.checkmark_circle,
+                    color: Colors.green),
+                title: const Text("Download Successful!"),
+                message: const Text(
+                    "The update has been downloaded to the folder you selected."),
+                primaryButton: PushButton(
+                    buttonSize: ButtonSize.large,
+                    child: const Text("Ok"),
+                    onPressed: () => Navigator.of(context).pop()));
+          });
     } else {
-      print("Failed to download");
+      showMacosAlertDialog(
+          context: context,
+          builder: (context) {
+            return MacosAlertDialog(
+                appIcon: const MacosIcon(CupertinoIcons.xmark_octagon,
+                    color: Colors.red),
+                title: const Text("Download interrupted!"),
+                message: const Text(
+                    "Please select a folder to download new version of Spamify"),
+                primaryButton: PushButton(
+                    buttonSize: ButtonSize.large,
+                    child: const Text("Ok"),
+                    onPressed: () => Navigator.of(context).pop()));
+          });
     }
     setState(() {
       downloading = false;
@@ -106,16 +132,17 @@ class _UpdatesState extends State<Updates> {
                             ),
                           ),
                           Container(
-                            padding: EdgeInsets.all(10),
+                            padding: const EdgeInsets.all(10),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
                                 color: MacosTheme.of(context).dividerColor),
                             child: Column(
                               children: [
                                 MacosListTile(
-                                  title: Text("Changelog: "),
+                                  title: const Text("Changelog: "),
                                   subtitle: Text(state.updates.changelog),
-                                  leading: MacosIcon(CupertinoIcons.down_arrow),
+                                  leading: const MacosIcon(
+                                      CupertinoIcons.down_arrow),
                                 ),
                                 if (!downloading)
                                   Padding(
@@ -123,13 +150,15 @@ class _UpdatesState extends State<Updates> {
                                     child: PushButton(
                                         onPressed: () => downloadUpdate(
                                             state.updates.downloadUrl),
-                                        child: Text("Download update"),
+                                        child: const Text("Download update"),
                                         buttonSize: ButtonSize.large),
                                   )
                                 else
                                   Padding(
                                     padding: const EdgeInsets.only(top: 20),
                                     child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: const [
                                         ProgressCircle(),
                                         Padding(
