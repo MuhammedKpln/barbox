@@ -1,5 +1,5 @@
 {
-  "version": "1.0.1",
-  "changelog": "Initial version uploaded! 🎉",
-  "downloadUrl": "https://github.com/MuhammedKpln/spamify/releases/download/1.0.0/Spamify.dmg"
+  "version": "1.1.0",
+  "changelog": "Added self-update, cache and a few other minor changes.",
+  "downloadUrl": "https://github.com/MuhammedKpln/spamify/releases/latest/download/Spamify.dmg"
 }
