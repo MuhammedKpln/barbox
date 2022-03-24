@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
+import 'package:macos_ui/macos_ui.dart';
 import 'package:spamify/cubits/MessageCubit.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -53,7 +54,7 @@ class _MessageState extends State<Message> {
                   children: [
                     Container(
                       decoration: BoxDecoration(
-                          color: Colors.grey.shade200,
+                          color: MacosTheme.of(context).canvasColor,
                           borderRadius: BorderRadius.circular(10)),
                       padding: const EdgeInsets.all(10),
                       child: Row(
@@ -94,7 +95,8 @@ class _MessageState extends State<Message> {
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                     softWrap: false,
-                                    style: const TextStyle(fontSize: 13),
+                                    style:
+                                        MacosTheme.of(context).typography.body,
                                   ),
                                 ),
                               ],
@@ -106,7 +108,9 @@ class _MessageState extends State<Message> {
                     Container(
                         margin: const EdgeInsets.only(top: 10),
                         padding: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(color: Colors.grey.shade100),
+                        decoration: BoxDecoration(
+                          color: MacosTheme.of(context).canvasColor,
+                        ),
                         child: HtmlWidget(
                           state.response.html?[0] ?? "",
                           onTapUrl: onTapUrl,

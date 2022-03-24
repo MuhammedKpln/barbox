@@ -22,7 +22,7 @@ class _UpdatesState extends State<Updates> {
 
   @override
   void initState() {
-    checkForUpdates();
+    checkForUpdates().then((value) => true);
     super.initState();
   }
 

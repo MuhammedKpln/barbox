@@ -68,14 +68,13 @@ class _MessagesState extends State<Messages> {
                       subtitle: "You have received a new email!",
                     ),
                   ));
+              setState(() {
+                messages = event.messages.hydraMember;
+                messagesTotalItemCount = event.messages.hydraTotalItems;
+              });
             }
           }
         }
-
-        setState(() {
-          messages = event.messages.hydraMember;
-          messagesTotalItemCount = event.messages.hydraTotalItems;
-        });
       }
     });
 
@@ -250,15 +249,20 @@ class MessagesList extends StatelessWidget {
                                     Text(
                                         message.from?.name ?? "Unknown sender"),
                                     SizedBox(
-                                      width: 100,
+                                      width: 150,
                                       child: Text(
                                           message.subject ?? "No subject",
-                                          overflow: TextOverflow.ellipsis),
+                                          overflow: TextOverflow.clip),
                                     ),
                                   ]),
                             )
                           ]),
-                          Text(message.intro ?? "No intro"),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 20, left: 10),
+                            child: SizedBox(
+                                width: 200,
+                                child: Text(message.intro ?? "No intro")),
+                          ),
                         ],
                       ),
                     ],
