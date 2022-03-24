@@ -160,9 +160,9 @@ class _UpdatesState extends State<Updates> {
                       ),
                     ),
                   ];
-                  return Center(
-                    child: SizedBox(
-                      width: 300,
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 50),
+                    child: Center(
                       child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
