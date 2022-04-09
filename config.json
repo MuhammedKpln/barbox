@@ -1,6 +1,6 @@
 {
   "title": "Spamify",
-  "icon": "installer_icon.icns",
+  "icon": "Spamify.icns",
   "contents": [
     { "x": 448, "y": 344, "type": "link", "path": "/Applications" },
     {
