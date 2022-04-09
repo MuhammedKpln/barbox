@@ -1,11 +1,21 @@
 {
   "title": "Spamify",
   "icon": "Spamify.icns",
+  "window": {
+    "size": {
+      "width": 600,
+      "height": 200
+    },
+    "position": {
+      "x": 500,
+      "y": 500
+    }
+  },
   "contents": [
-    { "x": 448, "y": 344, "type": "link", "path": "/Applications" },
+    { "x": 400, "y": 100, "type": "link", "path": "/Applications" },
     {
-      "x": 192,
-      "y": 344,
+      "x": 200,
+      "y": 100,
       "type": "file",
       "path": "./build/macos/Build/Products/Release/Spamify.app"
     }
