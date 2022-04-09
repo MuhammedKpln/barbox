@@ -24,6 +24,17 @@ void addNewMessage(HydraMember _message) {
   box.put("messages", json.encode(messageModel.toJson()));
 }
 
+void markMessageAsSeen(String _messageId) {
+  final box = Hive.box(messagesBox);
+  final messages = box.get("messages");
+  final messageModel = MessagesModel.fromJson(json.decode(messages));
+  final seenMessage = messageModel.hydraMember
+      ?.firstWhere((element) => element.id == _messageId);
+  seenMessage!.seen = true;
+
+  box.put("messages", json.encode(messageModel.toJson()));
+}
+
 getCachedMessages() {
   final box = Hive.box(messagesBox);
   final messages = box.get("messages");

@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:macos_ui/macos_ui.dart';
 import 'package:spamify/cubits/MessageCubit.dart';
+import 'package:spamify/storage/messagesStorage.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Message extends StatefulWidget {
@@ -22,6 +23,7 @@ class _MessageState extends State<Message> {
     super.initState();
 
     BlocProvider.of<MessageCubit>(context).getMessage(widget.messageId);
+    markMessageAsSeen(widget.messageId);
   }
 
   @override
