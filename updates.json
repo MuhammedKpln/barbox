@@ -1,5 +1,5 @@
 {
-  "version": "1.1.1",
-  "changelog": "Fixed a bug where the canvas color was not being set correctly.",
+  "version": "1.1.2",
+  "changelog": "New app icon",
   "downloadUrl": "https://github.com/MuhammedKpln/spamify/releases/latest/download/Spamify.dmg"
 }
