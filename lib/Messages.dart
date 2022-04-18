@@ -146,8 +146,8 @@ class _MessagesState extends State<Messages> {
       context: context,
       builder: (context) {
         return MacosAlertDialog(
-          appIcon:
-              MacosIcon(CupertinoIcons.delete_solid, color: Colors.redAccent),
+          appIcon: const MacosIcon(CupertinoIcons.delete_solid,
+              color: Colors.redAccent),
           title: const Text('Delete all messages'),
           message: const Text('Are you sure you want to delete all messages?'),
           primaryButton: PushButton(
@@ -314,9 +314,13 @@ class MessagesList extends StatelessWidget {
                     padding: messageId == message.id
                         ? const EdgeInsets.all(5)
                         : const EdgeInsets.only(left: 5),
+                    margin: messageId == message.id
+                        ? const EdgeInsets.all(10)
+                        : null,
                     decoration: messageId == message.id
-                        ? const BoxDecoration(
-                            color: Color.fromRGBO(0, 0, 0, 0.2))
+                        ? BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: const Color.fromRGBO(0, 0, 0, 0.2))
                         : null,
                     child: Row(
                       children: [
