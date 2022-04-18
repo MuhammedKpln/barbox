@@ -4,9 +4,11 @@ import 'package:clipboard/clipboard.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive/hive.dart';
 import 'package:macos_ui/macos_ui.dart';
 import 'package:spamify/cubits/AccountCubit.dart';
 import 'package:spamify/storage/account.dart';
+import 'package:spamify/storage/messagesStorage.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -89,6 +91,10 @@ class _HomeState extends State<Home> {
   }
 
   Future<void> fetchNewEmailAdress() async {
+    if (isLoggedIn()) {
+      await BlocProvider.of<AccountCubit>(context).logout();
+    }
+
     await BlocProvider.of<AccountCubit>(context).fetchNewAdress();
   }
 

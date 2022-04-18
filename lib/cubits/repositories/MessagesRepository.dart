@@ -8,6 +8,7 @@ import 'package:spamify/types/messages.dart';
 abstract class MessagesRespository {
   Future<MessagesModel> getMessages(String token);
   Future<bool> deleteMessage(String messageId, String token);
+  Future<bool> deleteMessages(List<HydraMember>? messages, String token);
 }
 
 class MessagesRepo implements MessagesRespository {
@@ -37,5 +38,33 @@ class MessagesRepo implements MessagesRespository {
       throw NetworkError(
           response.statusCode.toString(), "Could not load mails");
     }
+  }
+
+  @override
+  Future<bool> deleteMessages(List<HydraMember>? messages, String token) async {
+    List<HydraMember> messagesDeleted = [];
+
+    if (messages!.isNotEmpty) {
+      messages.forEach((element) async {
+        final response = await http.delete(
+            Uri.parse("https://api.mail.tm/messages/${element.id}"),
+            headers: {"Authorization": "Bearer $token"});
+        if (response.statusCode == HttpStatus.noContent) {
+          messagesDeleted.add(element);
+        } else {
+          print(response.statusCode);
+          throw NetworkError(
+              response.statusCode.toString(), "Could not load mails");
+        }
+      });
+
+      if (messagesDeleted.length == messages.length) {
+        return true;
+      }
+
+      return false;
+    }
+
+    return false;
   }
 }

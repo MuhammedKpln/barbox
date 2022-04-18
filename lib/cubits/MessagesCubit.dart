@@ -56,12 +56,32 @@ class MessagesCubit extends Cubit<MessagesInitial> {
 
     try {
       await messagesRepository.deleteMessage(messageId, accountToken);
+      deleteCachedMessage(messageId);
 
       final messagesFromRepo = (state as MessagesLoaded).messages;
       messagesFromRepo.hydraMember
           ?.removeWhere((message) => message.id == messageId);
 
       emit(MessagesLoaded(messagesFromRepo));
+
+      return true;
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  Future<bool> deleteMessages() async {
+    final accountToken = (accountCubit.state as AccountLoaded).account.token;
+
+    try {
+      await messagesRepository.deleteMessages(
+          (state as MessagesLoaded).messages.hydraMember, accountToken);
+
+      deleteAllCachedMessage();
+
+      emit(MessagesLoading());
+
+      emit(MessagesLoaded(MessagesModel(hydraMember: [], hydraTotalItems: 0)));
 
       return true;
     } catch (e) {

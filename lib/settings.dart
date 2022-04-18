@@ -81,6 +81,10 @@ class _SettingsState extends State<Settings> {
         });
   }
 
+  clearCachedMessages() {
+    Hive.box(messagesBox).clear();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MacosScaffold(
@@ -121,6 +125,15 @@ class _SettingsState extends State<Settings> {
                             buttonSize: ButtonSize.small,
                             isSecondary: true,
                             onPressed: clearData,
+                          ),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.only(top: 30),
+                          child: PushButton(
+                            child: const Text("Clear all cached mail"),
+                            buttonSize: ButtonSize.small,
+                            isSecondary: true,
+                            onPressed: clearCachedMessages,
                           ),
                         )
                       ],

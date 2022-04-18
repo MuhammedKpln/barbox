@@ -42,6 +42,7 @@ dependencies:
   package_info_plus: ^1.4.0
   path_provider: ^2.0.9
   file_picker: ^4.5.1
+  native_context_menu: ^0.2.1+4
 
   flutter:
     sdk: flutter

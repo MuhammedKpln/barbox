@@ -42,4 +42,21 @@ getCachedMessages() {
     final messagesModel = MessagesModel.fromJson(json.decode(messages));
     return messagesModel;
   }
+
+  return MessagesModel(hydraMember: [], hydraTotalItems: 0);
+}
+
+deleteCachedMessage(String messageId) {
+  final box = Hive.box(messagesBox);
+  final messages = box.get("messages");
+  final messageModel = MessagesModel.fromJson(json.decode(messages));
+  messageModel.hydraMember?.removeWhere((element) => element.id == messageId);
+
+  box.put("messages", json.encode(messageModel.toJson()));
+}
+
+deleteAllCachedMessage() {
+  final box = Hive.box(messagesBox);
+
+  box.clear();
 }
