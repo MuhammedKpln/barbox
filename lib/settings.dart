@@ -88,7 +88,7 @@ class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     return MacosScaffold(
-      titleBar: const TitleBar(
+      toolBar: const ToolBar(
         title: Text("Settings"),
       ),
       children: [

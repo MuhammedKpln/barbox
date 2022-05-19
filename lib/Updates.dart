@@ -99,7 +99,7 @@ class _UpdatesState extends State<Updates> {
   @override
   Widget build(BuildContext context) {
     return MacosScaffold(
-      titleBar: const TitleBar(
+      toolBar: const ToolBar(
         title: Text("Check for updates"),
       ),
       children: [

@@ -137,18 +137,18 @@ class _HomeState extends State<Home> {
       },
       builder: (context, state) {
         return MacosScaffold(
-          titleBar: TitleBar(
+          toolBar: ToolBar(
             leading: PushButton(
                 buttonSize: ButtonSize.large,
                 child: const MacosIcon(CupertinoIcons.line_horizontal_3),
                 color: MacosTheme.of(context).pushButtonTheme.disabledColor,
                 onPressed: () => MacosWindowScope.of(context).toggleSidebar()),
             actions: [
-              PushButton(
-                child: const MacosIcon(CupertinoIcons.settings),
-                buttonSize: ButtonSize.large,
+              ToolBarIconButton(
+                label: "",
+                showLabel: false,
+                icon: const MacosIcon(CupertinoIcons.settings),
                 onPressed: () => Navigator.of(context).pushNamed("/settings"),
-                color: MacosTheme.of(context).pushButtonTheme.disabledColor,
               ),
             ],
             title: const Text("Fetch new account"),

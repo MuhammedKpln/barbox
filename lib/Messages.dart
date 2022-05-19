@@ -7,8 +7,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:macos_ui/macos_ui.dart';
-import 'package:native_context_menu/native_context_menu.dart'
-    as NativeContextMenu;
 import 'package:spamify/Message.dart' as spamify_message;
 import 'package:spamify/cubits/MessagesCubit.dart';
 import 'package:spamify/storage/messagesStorage.dart';
@@ -174,31 +172,34 @@ class _MessagesState extends State<Messages> {
     return CupertinoTabView(
       builder: (context) {
         return MacosScaffold(
-          titleBar: TitleBar(
-            actions: [
-              TextButton.icon(
-                label: const Text(""),
-                icon: const MacosIcon(
-                  CupertinoIcons.delete,
-                  color: Colors.redAccent,
-                ),
-                onPressed: deleteMessages,
-              ),
-              TextButton.icon(
-                  label: const Text(""),
-                  icon: const MacosIcon(
-                    CupertinoIcons.refresh,
-                    color: MacosColors.appleBlue,
-                  ),
-                  onPressed: refetchMessages),
-            ],
+          toolBar: ToolBar(
             leading: GestureDetector(
               onTap: () {
                 MacosWindowScope.of(context).toggleSidebar();
               },
               child: const MacosIcon(CupertinoIcons.line_horizontal_3),
             ),
-            title: const Text("Inbox"),
+            actions: [
+              ToolBarIconButton(
+                label: "",
+                showLabel: false,
+                icon: const MacosIcon(
+                  CupertinoIcons.delete,
+                  color: Colors.redAccent,
+                ),
+                onPressed: deleteMessages,
+              ),
+              ToolBarIconButton(
+                label: "",
+                showLabel: false,
+                icon: const MacosIcon(
+                  CupertinoIcons.refresh,
+                  color: MacosColors.appleBlue,
+                ),
+                onPressed: refetchMessages,
+              ),
+            ],
+            title: const Text("Fetch new account"),
           ),
           children: [
             ResizablePane(
@@ -291,85 +292,70 @@ class MessagesList extends StatelessWidget {
               return Container();
             }
 
-            return NativeContextMenu.ContextMenuRegion(
-              onItemSelected: (item) async {
-                if (item.action == "delete") {
-                  await deleteMessage(message.id, index);
-
-                  return;
-                }
-              },
-              menuItems: [
-                NativeContextMenu.MenuItem(
-                    title: "Delete mail", action: "delete")
-              ],
-              child: MouseRegion(
-                cursor: SystemMouseCursors.click,
-                child: GestureDetector(
-                  behavior: HitTestBehavior.opaque,
-                  onTap: () {
-                    onTap(message.id, index);
-                  },
-                  child: Container(
-                    padding: messageId == message.id
-                        ? const EdgeInsets.all(5)
-                        : const EdgeInsets.only(left: 5),
-                    margin: messageId == message.id
-                        ? const EdgeInsets.all(10)
-                        : null,
-                    decoration: messageId == message.id
-                        ? BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: const Color.fromRGBO(0, 0, 0, 0.2))
-                        : null,
-                    child: Row(
-                      children: [
-                        if (!message.seen)
-                          Container(
-                            width: 10,
-                            height: 10,
-                            margin: const EdgeInsets.only(right: 10, left: 10),
-                            decoration: BoxDecoration(
-                                color: Colors.blue.shade600,
-                                borderRadius: BorderRadius.circular(10)),
-                          ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Row(children: [
-                              CircleAvatar(
-                                child: Text(
-                                    message.from?.name?.substring(0, 1) ?? "U"),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 10),
-                                child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text(message.from?.name ??
-                                          "Unknown sender"),
-                                      SizedBox(
-                                        width: 150,
-                                        child: Text(
-                                            message.subject ?? "No subject",
-                                            overflow: TextOverflow.clip),
-                                      ),
-                                    ]),
-                              )
-                            ]),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 20, left: 10),
-                              child: SizedBox(
-                                  width: 200,
-                                  child: Text(message.intro ?? "No intro")),
-                            ),
-                          ],
+            return MouseRegion(
+              cursor: SystemMouseCursors.click,
+              child: GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () {
+                  onTap(message.id, index);
+                },
+                child: Container(
+                  padding: messageId == message.id
+                      ? const EdgeInsets.all(5)
+                      : const EdgeInsets.only(left: 5),
+                  margin:
+                      messageId == message.id ? const EdgeInsets.all(10) : null,
+                  decoration: messageId == message.id
+                      ? BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: const Color.fromRGBO(0, 0, 0, 0.2))
+                      : null,
+                  child: Row(
+                    children: [
+                      if (!message.seen)
+                        Container(
+                          width: 10,
+                          height: 10,
+                          margin: const EdgeInsets.only(right: 10, left: 10),
+                          decoration: BoxDecoration(
+                              color: Colors.blue.shade600,
+                              borderRadius: BorderRadius.circular(10)),
                         ),
-                      ],
-                    ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Row(children: [
+                            CircleAvatar(
+                              child: Text(
+                                  message.from?.name?.substring(0, 1) ?? "U"),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 10),
+                              child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                        message.from?.name ?? "Unknown sender"),
+                                    SizedBox(
+                                      width: 150,
+                                      child: Text(
+                                          message.subject ?? "No subject",
+                                          overflow: TextOverflow.clip),
+                                    ),
+                                  ]),
+                            )
+                          ]),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 20, left: 10),
+                            child: SizedBox(
+                                width: 200,
+                                child: Text(message.intro ?? "No intro")),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
               ),
