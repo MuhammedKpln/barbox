@@ -12,6 +12,7 @@ import 'package:spamify/cubits/UpdateCubit.dart';
 import 'package:spamify/cubits/repositories/AccountsRespository.dart';
 import 'package:spamify/cubits/repositories/MessageRepository.dart';
 import 'package:spamify/cubits/repositories/UpdatesRepository.dart';
+import 'package:spamify/services/di.service.dart';
 import 'package:spamify/settings.dart';
 import 'package:spamify/storage/account.dart';
 import 'package:spamify/storage/messagesStorage.dart';
@@ -25,7 +26,7 @@ void main() async {
   await Hive.openBox(accountBox);
   await Hive.openBox(messagesBox);
   WidgetsFlutterBinding.ensureInitialized();
-
+  configureDependencies();
   runApp(const MyApp());
 }
 
