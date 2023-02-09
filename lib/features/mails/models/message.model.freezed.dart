@@ -20,9 +20,13 @@ Messages _$MessagesFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Messages {
-  List<Message>? get hydraMember => throw _privateConstructorUsedError;
-  int? get hydraTotalItems => throw _privateConstructorUsedError;
+  @JsonKey(name: "hydra:member")
+  List<Message> get hydraMember => throw _privateConstructorUsedError;
+  @JsonKey(name: "hydra:totalItems")
+  int get hydraTotalItems => throw _privateConstructorUsedError;
+  @JsonKey(name: "hydra:view")
   HydraView? get hydraView => throw _privateConstructorUsedError;
+  @JsonKey(name: "hydra:search")
   HydraSearch? get hydraSearch => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -37,10 +41,10 @@ abstract class $MessagesCopyWith<$Res> {
       _$MessagesCopyWithImpl<$Res, Messages>;
   @useResult
   $Res call(
-      {List<Message>? hydraMember,
-      int? hydraTotalItems,
-      HydraView? hydraView,
-      HydraSearch? hydraSearch});
+      {@JsonKey(name: "hydra:member") List<Message> hydraMember,
+      @JsonKey(name: "hydra:totalItems") int hydraTotalItems,
+      @JsonKey(name: "hydra:view") HydraView? hydraView,
+      @JsonKey(name: "hydra:search") HydraSearch? hydraSearch});
 
   $HydraViewCopyWith<$Res>? get hydraView;
   $HydraSearchCopyWith<$Res>? get hydraSearch;
@@ -59,20 +63,20 @@ class _$MessagesCopyWithImpl<$Res, $Val extends Messages>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? hydraMember = freezed,
-    Object? hydraTotalItems = freezed,
+    Object? hydraMember = null,
+    Object? hydraTotalItems = null,
     Object? hydraView = freezed,
     Object? hydraSearch = freezed,
   }) {
     return _then(_value.copyWith(
-      hydraMember: freezed == hydraMember
+      hydraMember: null == hydraMember
           ? _value.hydraMember
           : hydraMember // ignore: cast_nullable_to_non_nullable
-              as List<Message>?,
-      hydraTotalItems: freezed == hydraTotalItems
+              as List<Message>,
+      hydraTotalItems: null == hydraTotalItems
           ? _value.hydraTotalItems
           : hydraTotalItems // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as int,
       hydraView: freezed == hydraView
           ? _value.hydraView
           : hydraView // ignore: cast_nullable_to_non_nullable
@@ -117,10 +121,10 @@ abstract class _$$_MessagesCopyWith<$Res> implements $MessagesCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {List<Message>? hydraMember,
-      int? hydraTotalItems,
-      HydraView? hydraView,
-      HydraSearch? hydraSearch});
+      {@JsonKey(name: "hydra:member") List<Message> hydraMember,
+      @JsonKey(name: "hydra:totalItems") int hydraTotalItems,
+      @JsonKey(name: "hydra:view") HydraView? hydraView,
+      @JsonKey(name: "hydra:search") HydraSearch? hydraSearch});
 
   @override
   $HydraViewCopyWith<$Res>? get hydraView;
@@ -139,20 +143,20 @@ class __$$_MessagesCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? hydraMember = freezed,
-    Object? hydraTotalItems = freezed,
+    Object? hydraMember = null,
+    Object? hydraTotalItems = null,
     Object? hydraView = freezed,
     Object? hydraSearch = freezed,
   }) {
     return _then(_$_Messages(
-      hydraMember: freezed == hydraMember
+      hydraMember: null == hydraMember
           ? _value._hydraMember
           : hydraMember // ignore: cast_nullable_to_non_nullable
-              as List<Message>?,
-      hydraTotalItems: freezed == hydraTotalItems
+              as List<Message>,
+      hydraTotalItems: null == hydraTotalItems
           ? _value.hydraTotalItems
           : hydraTotalItems // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as int,
       hydraView: freezed == hydraView
           ? _value.hydraView
           : hydraView // ignore: cast_nullable_to_non_nullable
@@ -169,30 +173,32 @@ class __$$_MessagesCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_Messages implements _Messages {
   const _$_Messages(
-      {final List<Message>? hydraMember,
-      this.hydraTotalItems,
-      this.hydraView,
-      this.hydraSearch})
+      {@JsonKey(name: "hydra:member") required final List<Message> hydraMember,
+      @JsonKey(name: "hydra:totalItems") required this.hydraTotalItems,
+      @JsonKey(name: "hydra:view") this.hydraView,
+      @JsonKey(name: "hydra:search") this.hydraSearch})
       : _hydraMember = hydraMember;
 
   factory _$_Messages.fromJson(Map<String, dynamic> json) =>
       _$$_MessagesFromJson(json);
 
-  final List<Message>? _hydraMember;
+  final List<Message> _hydraMember;
   @override
-  List<Message>? get hydraMember {
-    final value = _hydraMember;
-    if (value == null) return null;
+  @JsonKey(name: "hydra:member")
+  List<Message> get hydraMember {
     if (_hydraMember is EqualUnmodifiableListView) return _hydraMember;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(value);
+    return EqualUnmodifiableListView(_hydraMember);
   }
 
   @override
-  final int? hydraTotalItems;
+  @JsonKey(name: "hydra:totalItems")
+  final int hydraTotalItems;
   @override
+  @JsonKey(name: "hydra:view")
   final HydraView? hydraView;
   @override
+  @JsonKey(name: "hydra:search")
   final HydraSearch? hydraSearch;
 
   @override
@@ -240,20 +246,28 @@ class _$_Messages implements _Messages {
 
 abstract class _Messages implements Messages {
   const factory _Messages(
-      {final List<Message>? hydraMember,
-      final int? hydraTotalItems,
-      final HydraView? hydraView,
-      final HydraSearch? hydraSearch}) = _$_Messages;
+      {@JsonKey(name: "hydra:member")
+          required final List<Message> hydraMember,
+      @JsonKey(name: "hydra:totalItems")
+          required final int hydraTotalItems,
+      @JsonKey(name: "hydra:view")
+          final HydraView? hydraView,
+      @JsonKey(name: "hydra:search")
+          final HydraSearch? hydraSearch}) = _$_Messages;
 
   factory _Messages.fromJson(Map<String, dynamic> json) = _$_Messages.fromJson;
 
   @override
-  List<Message>? get hydraMember;
+  @JsonKey(name: "hydra:member")
+  List<Message> get hydraMember;
   @override
-  int? get hydraTotalItems;
+  @JsonKey(name: "hydra:totalItems")
+  int get hydraTotalItems;
   @override
+  @JsonKey(name: "hydra:view")
   HydraView? get hydraView;
   @override
+  @JsonKey(name: "hydra:search")
   HydraSearch? get hydraSearch;
   @override
   @JsonKey(ignore: true)
@@ -267,23 +281,27 @@ Message _$MessageFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Message {
+  @JsonKey(name: "@id")
   String? get id => throw _privateConstructorUsedError;
+  @JsonKey(name: "@type")
   String? get type => throw _privateConstructorUsedError;
+  @JsonKey(name: "@context")
   String? get context => throw _privateConstructorUsedError;
-  String? get hydraMemberId => throw _privateConstructorUsedError;
-  String? get accountId => throw _privateConstructorUsedError;
-  String? get msgid => throw _privateConstructorUsedError;
-  MessageFrom? get from => throw _privateConstructorUsedError;
+  @JsonKey(name: "id")
+  String get hydraMemberId => throw _privateConstructorUsedError;
+  String get accountId => throw _privateConstructorUsedError;
+  String get msgid => throw _privateConstructorUsedError;
+  MessageFrom get from => throw _privateConstructorUsedError;
   List<MessageFrom>? get to => throw _privateConstructorUsedError;
-  String? get subject => throw _privateConstructorUsedError;
-  String? get intro => throw _privateConstructorUsedError;
-  bool? get seen => throw _privateConstructorUsedError;
-  bool? get isDeleted => throw _privateConstructorUsedError;
-  bool? get hasAttachments => throw _privateConstructorUsedError;
-  int? get size => throw _privateConstructorUsedError;
-  String? get downloadUrl => throw _privateConstructorUsedError;
-  DateTime? get createdAt => throw _privateConstructorUsedError;
-  DateTime? get updatedAt => throw _privateConstructorUsedError;
+  String get subject => throw _privateConstructorUsedError;
+  String get intro => throw _privateConstructorUsedError;
+  bool get seen => throw _privateConstructorUsedError;
+  bool get isDeleted => throw _privateConstructorUsedError;
+  bool get hasAttachments => throw _privateConstructorUsedError;
+  int get size => throw _privateConstructorUsedError;
+  String get downloadUrl => throw _privateConstructorUsedError;
+  DateTime get createdAt => throw _privateConstructorUsedError;
+  DateTime get updatedAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -296,25 +314,25 @@ abstract class $MessageCopyWith<$Res> {
       _$MessageCopyWithImpl<$Res, Message>;
   @useResult
   $Res call(
-      {String? id,
-      String? type,
-      String? context,
-      String? hydraMemberId,
-      String? accountId,
-      String? msgid,
-      MessageFrom? from,
+      {@JsonKey(name: "@id") String? id,
+      @JsonKey(name: "@type") String? type,
+      @JsonKey(name: "@context") String? context,
+      @JsonKey(name: "id") String hydraMemberId,
+      String accountId,
+      String msgid,
+      MessageFrom from,
       List<MessageFrom>? to,
-      String? subject,
-      String? intro,
-      bool? seen,
-      bool? isDeleted,
-      bool? hasAttachments,
-      int? size,
-      String? downloadUrl,
-      DateTime? createdAt,
-      DateTime? updatedAt});
+      String subject,
+      String intro,
+      bool seen,
+      bool isDeleted,
+      bool hasAttachments,
+      int size,
+      String downloadUrl,
+      DateTime createdAt,
+      DateTime updatedAt});
 
-  $MessageFromCopyWith<$Res>? get from;
+  $MessageFromCopyWith<$Res> get from;
 }
 
 /// @nodoc
@@ -333,20 +351,20 @@ class _$MessageCopyWithImpl<$Res, $Val extends Message>
     Object? id = freezed,
     Object? type = freezed,
     Object? context = freezed,
-    Object? hydraMemberId = freezed,
-    Object? accountId = freezed,
-    Object? msgid = freezed,
-    Object? from = freezed,
+    Object? hydraMemberId = null,
+    Object? accountId = null,
+    Object? msgid = null,
+    Object? from = null,
     Object? to = freezed,
-    Object? subject = freezed,
-    Object? intro = freezed,
-    Object? seen = freezed,
-    Object? isDeleted = freezed,
-    Object? hasAttachments = freezed,
-    Object? size = freezed,
-    Object? downloadUrl = freezed,
-    Object? createdAt = freezed,
-    Object? updatedAt = freezed,
+    Object? subject = null,
+    Object? intro = null,
+    Object? seen = null,
+    Object? isDeleted = null,
+    Object? hasAttachments = null,
+    Object? size = null,
+    Object? downloadUrl = null,
+    Object? createdAt = null,
+    Object? updatedAt = null,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -361,73 +379,69 @@ class _$MessageCopyWithImpl<$Res, $Val extends Message>
           ? _value.context
           : context // ignore: cast_nullable_to_non_nullable
               as String?,
-      hydraMemberId: freezed == hydraMemberId
+      hydraMemberId: null == hydraMemberId
           ? _value.hydraMemberId
           : hydraMemberId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      accountId: freezed == accountId
+              as String,
+      accountId: null == accountId
           ? _value.accountId
           : accountId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      msgid: freezed == msgid
+              as String,
+      msgid: null == msgid
           ? _value.msgid
           : msgid // ignore: cast_nullable_to_non_nullable
-              as String?,
-      from: freezed == from
+              as String,
+      from: null == from
           ? _value.from
           : from // ignore: cast_nullable_to_non_nullable
-              as MessageFrom?,
+              as MessageFrom,
       to: freezed == to
           ? _value.to
           : to // ignore: cast_nullable_to_non_nullable
               as List<MessageFrom>?,
-      subject: freezed == subject
+      subject: null == subject
           ? _value.subject
           : subject // ignore: cast_nullable_to_non_nullable
-              as String?,
-      intro: freezed == intro
+              as String,
+      intro: null == intro
           ? _value.intro
           : intro // ignore: cast_nullable_to_non_nullable
-              as String?,
-      seen: freezed == seen
+              as String,
+      seen: null == seen
           ? _value.seen
           : seen // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      isDeleted: freezed == isDeleted
+              as bool,
+      isDeleted: null == isDeleted
           ? _value.isDeleted
           : isDeleted // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      hasAttachments: freezed == hasAttachments
+              as bool,
+      hasAttachments: null == hasAttachments
           ? _value.hasAttachments
           : hasAttachments // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      size: freezed == size
+              as bool,
+      size: null == size
           ? _value.size
           : size // ignore: cast_nullable_to_non_nullable
-              as int?,
-      downloadUrl: freezed == downloadUrl
+              as int,
+      downloadUrl: null == downloadUrl
           ? _value.downloadUrl
           : downloadUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      createdAt: freezed == createdAt
+              as String,
+      createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      updatedAt: freezed == updatedAt
+              as DateTime,
+      updatedAt: null == updatedAt
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+              as DateTime,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $MessageFromCopyWith<$Res>? get from {
-    if (_value.from == null) {
-      return null;
-    }
-
-    return $MessageFromCopyWith<$Res>(_value.from!, (value) {
+  $MessageFromCopyWith<$Res> get from {
+    return $MessageFromCopyWith<$Res>(_value.from, (value) {
       return _then(_value.copyWith(from: value) as $Val);
     });
   }
@@ -441,26 +455,26 @@ abstract class _$$_MessageCopyWith<$Res> implements $MessageCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String? id,
-      String? type,
-      String? context,
-      String? hydraMemberId,
-      String? accountId,
-      String? msgid,
-      MessageFrom? from,
+      {@JsonKey(name: "@id") String? id,
+      @JsonKey(name: "@type") String? type,
+      @JsonKey(name: "@context") String? context,
+      @JsonKey(name: "id") String hydraMemberId,
+      String accountId,
+      String msgid,
+      MessageFrom from,
       List<MessageFrom>? to,
-      String? subject,
-      String? intro,
-      bool? seen,
-      bool? isDeleted,
-      bool? hasAttachments,
-      int? size,
-      String? downloadUrl,
-      DateTime? createdAt,
-      DateTime? updatedAt});
+      String subject,
+      String intro,
+      bool seen,
+      bool isDeleted,
+      bool hasAttachments,
+      int size,
+      String downloadUrl,
+      DateTime createdAt,
+      DateTime updatedAt});
 
   @override
-  $MessageFromCopyWith<$Res>? get from;
+  $MessageFromCopyWith<$Res> get from;
 }
 
 /// @nodoc
@@ -476,20 +490,20 @@ class __$$_MessageCopyWithImpl<$Res>
     Object? id = freezed,
     Object? type = freezed,
     Object? context = freezed,
-    Object? hydraMemberId = freezed,
-    Object? accountId = freezed,
-    Object? msgid = freezed,
-    Object? from = freezed,
+    Object? hydraMemberId = null,
+    Object? accountId = null,
+    Object? msgid = null,
+    Object? from = null,
     Object? to = freezed,
-    Object? subject = freezed,
-    Object? intro = freezed,
-    Object? seen = freezed,
-    Object? isDeleted = freezed,
-    Object? hasAttachments = freezed,
-    Object? size = freezed,
-    Object? downloadUrl = freezed,
-    Object? createdAt = freezed,
-    Object? updatedAt = freezed,
+    Object? subject = null,
+    Object? intro = null,
+    Object? seen = null,
+    Object? isDeleted = null,
+    Object? hasAttachments = null,
+    Object? size = null,
+    Object? downloadUrl = null,
+    Object? createdAt = null,
+    Object? updatedAt = null,
   }) {
     return _then(_$_Message(
       id: freezed == id
@@ -504,62 +518,62 @@ class __$$_MessageCopyWithImpl<$Res>
           ? _value.context
           : context // ignore: cast_nullable_to_non_nullable
               as String?,
-      hydraMemberId: freezed == hydraMemberId
+      hydraMemberId: null == hydraMemberId
           ? _value.hydraMemberId
           : hydraMemberId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      accountId: freezed == accountId
+              as String,
+      accountId: null == accountId
           ? _value.accountId
           : accountId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      msgid: freezed == msgid
+              as String,
+      msgid: null == msgid
           ? _value.msgid
           : msgid // ignore: cast_nullable_to_non_nullable
-              as String?,
-      from: freezed == from
+              as String,
+      from: null == from
           ? _value.from
           : from // ignore: cast_nullable_to_non_nullable
-              as MessageFrom?,
+              as MessageFrom,
       to: freezed == to
           ? _value._to
           : to // ignore: cast_nullable_to_non_nullable
               as List<MessageFrom>?,
-      subject: freezed == subject
+      subject: null == subject
           ? _value.subject
           : subject // ignore: cast_nullable_to_non_nullable
-              as String?,
-      intro: freezed == intro
+              as String,
+      intro: null == intro
           ? _value.intro
           : intro // ignore: cast_nullable_to_non_nullable
-              as String?,
-      seen: freezed == seen
+              as String,
+      seen: null == seen
           ? _value.seen
           : seen // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      isDeleted: freezed == isDeleted
+              as bool,
+      isDeleted: null == isDeleted
           ? _value.isDeleted
           : isDeleted // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      hasAttachments: freezed == hasAttachments
+              as bool,
+      hasAttachments: null == hasAttachments
           ? _value.hasAttachments
           : hasAttachments // ignore: cast_nullable_to_non_nullable
-              as bool?,
-      size: freezed == size
+              as bool,
+      size: null == size
           ? _value.size
           : size // ignore: cast_nullable_to_non_nullable
-              as int?,
-      downloadUrl: freezed == downloadUrl
+              as int,
+      downloadUrl: null == downloadUrl
           ? _value.downloadUrl
           : downloadUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      createdAt: freezed == createdAt
+              as String,
+      createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      updatedAt: freezed == updatedAt
+              as DateTime,
+      updatedAt: null == updatedAt
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+              as DateTime,
     ));
   }
 }
@@ -568,42 +582,46 @@ class __$$_MessageCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_Message implements _Message {
   const _$_Message(
-      {this.id,
-      this.type,
-      this.context,
-      this.hydraMemberId,
-      this.accountId,
-      this.msgid,
-      this.from,
-      final List<MessageFrom>? to,
-      this.subject,
-      this.intro,
-      this.seen,
-      this.isDeleted,
-      this.hasAttachments,
-      this.size,
-      this.downloadUrl,
-      this.createdAt,
-      this.updatedAt})
+      {@JsonKey(name: "@id") this.id,
+      @JsonKey(name: "@type") this.type,
+      @JsonKey(name: "@context") this.context,
+      @JsonKey(name: "id") required this.hydraMemberId,
+      required this.accountId,
+      required this.msgid,
+      required this.from,
+      required final List<MessageFrom>? to,
+      required this.subject,
+      required this.intro,
+      required this.seen,
+      required this.isDeleted,
+      required this.hasAttachments,
+      required this.size,
+      required this.downloadUrl,
+      required this.createdAt,
+      required this.updatedAt})
       : _to = to;
 
   factory _$_Message.fromJson(Map<String, dynamic> json) =>
       _$$_MessageFromJson(json);
 
   @override
+  @JsonKey(name: "@id")
   final String? id;
   @override
+  @JsonKey(name: "@type")
   final String? type;
   @override
+  @JsonKey(name: "@context")
   final String? context;
   @override
-  final String? hydraMemberId;
+  @JsonKey(name: "id")
+  final String hydraMemberId;
   @override
-  final String? accountId;
+  final String accountId;
   @override
-  final String? msgid;
+  final String msgid;
   @override
-  final MessageFrom? from;
+  final MessageFrom from;
   final List<MessageFrom>? _to;
   @override
   List<MessageFrom>? get to {
@@ -615,23 +633,23 @@ class _$_Message implements _Message {
   }
 
   @override
-  final String? subject;
+  final String subject;
   @override
-  final String? intro;
+  final String intro;
   @override
-  final bool? seen;
+  final bool seen;
   @override
-  final bool? isDeleted;
+  final bool isDeleted;
   @override
-  final bool? hasAttachments;
+  final bool hasAttachments;
   @override
-  final int? size;
+  final int size;
   @override
-  final String? downloadUrl;
+  final String downloadUrl;
   @override
-  final DateTime? createdAt;
+  final DateTime createdAt;
   @override
-  final DateTime? updatedAt;
+  final DateTime updatedAt;
 
   @override
   String toString() {
@@ -707,60 +725,64 @@ class _$_Message implements _Message {
 
 abstract class _Message implements Message {
   const factory _Message(
-      {final String? id,
-      final String? type,
-      final String? context,
-      final String? hydraMemberId,
-      final String? accountId,
-      final String? msgid,
-      final MessageFrom? from,
-      final List<MessageFrom>? to,
-      final String? subject,
-      final String? intro,
-      final bool? seen,
-      final bool? isDeleted,
-      final bool? hasAttachments,
-      final int? size,
-      final String? downloadUrl,
-      final DateTime? createdAt,
-      final DateTime? updatedAt}) = _$_Message;
+      {@JsonKey(name: "@id") final String? id,
+      @JsonKey(name: "@type") final String? type,
+      @JsonKey(name: "@context") final String? context,
+      @JsonKey(name: "id") required final String hydraMemberId,
+      required final String accountId,
+      required final String msgid,
+      required final MessageFrom from,
+      required final List<MessageFrom>? to,
+      required final String subject,
+      required final String intro,
+      required final bool seen,
+      required final bool isDeleted,
+      required final bool hasAttachments,
+      required final int size,
+      required final String downloadUrl,
+      required final DateTime createdAt,
+      required final DateTime updatedAt}) = _$_Message;
 
   factory _Message.fromJson(Map<String, dynamic> json) = _$_Message.fromJson;
 
   @override
+  @JsonKey(name: "@id")
   String? get id;
   @override
+  @JsonKey(name: "@type")
   String? get type;
   @override
+  @JsonKey(name: "@context")
   String? get context;
   @override
-  String? get hydraMemberId;
+  @JsonKey(name: "id")
+  String get hydraMemberId;
   @override
-  String? get accountId;
+  String get accountId;
   @override
-  String? get msgid;
+  String get msgid;
   @override
-  MessageFrom? get from;
+  MessageFrom get from;
   @override
   List<MessageFrom>? get to;
   @override
-  String? get subject;
+  String get subject;
   @override
-  String? get intro;
+  String get intro;
   @override
-  bool? get seen;
+  bool get seen;
   @override
-  bool? get isDeleted;
+  bool get isDeleted;
   @override
-  bool? get hasAttachments;
+  bool get hasAttachments;
   @override
-  int? get size;
+  int get size;
   @override
-  String? get downloadUrl;
+  String get downloadUrl;
   @override
-  DateTime? get createdAt;
+  DateTime get createdAt;
   @override
-  DateTime? get updatedAt;
+  DateTime get updatedAt;
   @override
   @JsonKey(ignore: true)
   _$$_MessageCopyWith<_$_Message> get copyWith =>
@@ -773,8 +795,8 @@ MessageFrom _$MessageFromFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$MessageFrom {
-  String? get name => throw _privateConstructorUsedError;
-  String? get address => throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError;
+  String get address => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -788,7 +810,7 @@ abstract class $MessageFromCopyWith<$Res> {
           MessageFrom value, $Res Function(MessageFrom) then) =
       _$MessageFromCopyWithImpl<$Res, MessageFrom>;
   @useResult
-  $Res call({String? name, String? address});
+  $Res call({String name, String address});
 }
 
 /// @nodoc
@@ -804,18 +826,18 @@ class _$MessageFromCopyWithImpl<$Res, $Val extends MessageFrom>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = freezed,
-    Object? address = freezed,
+    Object? name = null,
+    Object? address = null,
   }) {
     return _then(_value.copyWith(
-      name: freezed == name
+      name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String?,
-      address: freezed == address
+              as String,
+      address: null == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
     ) as $Val);
   }
 }
@@ -828,7 +850,7 @@ abstract class _$$_MessageFromCopyWith<$Res>
       __$$_MessageFromCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? name, String? address});
+  $Res call({String name, String address});
 }
 
 /// @nodoc
@@ -842,18 +864,18 @@ class __$$_MessageFromCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = freezed,
-    Object? address = freezed,
+    Object? name = null,
+    Object? address = null,
   }) {
     return _then(_$_MessageFrom(
-      name: freezed == name
+      name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String?,
-      address: freezed == address
+              as String,
+      address: null == address
           ? _value.address
           : address // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
     ));
   }
 }
@@ -861,15 +883,15 @@ class __$$_MessageFromCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_MessageFrom implements _MessageFrom {
-  const _$_MessageFrom({this.name, this.address});
+  const _$_MessageFrom({required this.name, required this.address});
 
   factory _$_MessageFrom.fromJson(Map<String, dynamic> json) =>
       _$$_MessageFromFromJson(json);
 
   @override
-  final String? name;
+  final String name;
   @override
-  final String? address;
+  final String address;
 
   @override
   String toString() {
@@ -904,16 +926,17 @@ class _$_MessageFrom implements _MessageFrom {
 }
 
 abstract class _MessageFrom implements MessageFrom {
-  const factory _MessageFrom({final String? name, final String? address}) =
-      _$_MessageFrom;
+  const factory _MessageFrom(
+      {required final String name,
+      required final String address}) = _$_MessageFrom;
 
   factory _MessageFrom.fromJson(Map<String, dynamic> json) =
       _$_MessageFrom.fromJson;
 
   @override
-  String? get name;
+  String get name;
   @override
-  String? get address;
+  String get address;
   @override
   @JsonKey(ignore: true)
   _$$_MessageFromCopyWith<_$_MessageFrom> get copyWith =>
@@ -926,8 +949,11 @@ HydraSearch _$HydraSearchFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$HydraSearch {
+  @JsonKey(name: "@type")
   String? get type => throw _privateConstructorUsedError;
+  @JsonKey(name: "hydra:template")
   String? get hydraTemplate => throw _privateConstructorUsedError;
+  @JsonKey(name: "hydra:variableRepresentation")
   String? get hydraVariableRepresentation => throw _privateConstructorUsedError;
   List<HydraMapping>? get hydraMapping => throw _privateConstructorUsedError;
 
@@ -944,9 +970,12 @@ abstract class $HydraSearchCopyWith<$Res> {
       _$HydraSearchCopyWithImpl<$Res, HydraSearch>;
   @useResult
   $Res call(
-      {String? type,
-      String? hydraTemplate,
-      String? hydraVariableRepresentation,
+      {@JsonKey(name: "@type")
+          String? type,
+      @JsonKey(name: "hydra:template")
+          String? hydraTemplate,
+      @JsonKey(name: "hydra:variableRepresentation")
+          String? hydraVariableRepresentation,
       List<HydraMapping>? hydraMapping});
 }
 
@@ -998,9 +1027,12 @@ abstract class _$$_HydraSearchCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String? type,
-      String? hydraTemplate,
-      String? hydraVariableRepresentation,
+      {@JsonKey(name: "@type")
+          String? type,
+      @JsonKey(name: "hydra:template")
+          String? hydraTemplate,
+      @JsonKey(name: "hydra:variableRepresentation")
+          String? hydraVariableRepresentation,
       List<HydraMapping>? hydraMapping});
 }
 
@@ -1045,9 +1077,12 @@ class __$$_HydraSearchCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_HydraSearch implements _HydraSearch {
   const _$_HydraSearch(
-      {this.type,
-      this.hydraTemplate,
-      this.hydraVariableRepresentation,
+      {@JsonKey(name: "@type")
+          this.type,
+      @JsonKey(name: "hydra:template")
+          this.hydraTemplate,
+      @JsonKey(name: "hydra:variableRepresentation")
+          this.hydraVariableRepresentation,
       final List<HydraMapping>? hydraMapping})
       : _hydraMapping = hydraMapping;
 
@@ -1055,10 +1090,13 @@ class _$_HydraSearch implements _HydraSearch {
       _$$_HydraSearchFromJson(json);
 
   @override
+  @JsonKey(name: "@type")
   final String? type;
   @override
+  @JsonKey(name: "hydra:template")
   final String? hydraTemplate;
   @override
+  @JsonKey(name: "hydra:variableRepresentation")
   final String? hydraVariableRepresentation;
   final List<HydraMapping>? _hydraMapping;
   @override
@@ -1116,19 +1154,25 @@ class _$_HydraSearch implements _HydraSearch {
 
 abstract class _HydraSearch implements HydraSearch {
   const factory _HydraSearch(
-      {final String? type,
-      final String? hydraTemplate,
-      final String? hydraVariableRepresentation,
+      {@JsonKey(name: "@type")
+          final String? type,
+      @JsonKey(name: "hydra:template")
+          final String? hydraTemplate,
+      @JsonKey(name: "hydra:variableRepresentation")
+          final String? hydraVariableRepresentation,
       final List<HydraMapping>? hydraMapping}) = _$_HydraSearch;
 
   factory _HydraSearch.fromJson(Map<String, dynamic> json) =
       _$_HydraSearch.fromJson;
 
   @override
+  @JsonKey(name: "@type")
   String? get type;
   @override
+  @JsonKey(name: "hydra:template")
   String? get hydraTemplate;
   @override
+  @JsonKey(name: "hydra:variableRepresentation")
   String? get hydraVariableRepresentation;
   @override
   List<HydraMapping>? get hydraMapping;
@@ -1144,6 +1188,7 @@ HydraMapping _$HydraMappingFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$HydraMapping {
+  @JsonKey(name: "@type")
   String? get type => throw _privateConstructorUsedError;
   String? get variable => throw _privateConstructorUsedError;
   String? get property => throw _privateConstructorUsedError;
@@ -1161,7 +1206,11 @@ abstract class $HydraMappingCopyWith<$Res> {
           HydraMapping value, $Res Function(HydraMapping) then) =
       _$HydraMappingCopyWithImpl<$Res, HydraMapping>;
   @useResult
-  $Res call({String? type, String? variable, String? property, bool? required});
+  $Res call(
+      {@JsonKey(name: "@type") String? type,
+      String? variable,
+      String? property,
+      bool? required});
 }
 
 /// @nodoc
@@ -1211,7 +1260,11 @@ abstract class _$$_HydraMappingCopyWith<$Res>
       __$$_HydraMappingCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? type, String? variable, String? property, bool? required});
+  $Res call(
+      {@JsonKey(name: "@type") String? type,
+      String? variable,
+      String? property,
+      bool? required});
 }
 
 /// @nodoc
@@ -1255,12 +1308,16 @@ class __$$_HydraMappingCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_HydraMapping implements _HydraMapping {
   const _$_HydraMapping(
-      {this.type, this.variable, this.property, this.required});
+      {@JsonKey(name: "@type") this.type,
+      this.variable,
+      this.property,
+      this.required});
 
   factory _$_HydraMapping.fromJson(Map<String, dynamic> json) =>
       _$$_HydraMappingFromJson(json);
 
   @override
+  @JsonKey(name: "@type")
   final String? type;
   @override
   final String? variable;
@@ -1309,7 +1366,7 @@ class _$_HydraMapping implements _HydraMapping {
 
 abstract class _HydraMapping implements HydraMapping {
   const factory _HydraMapping(
-      {final String? type,
+      {@JsonKey(name: "@type") final String? type,
       final String? variable,
       final String? property,
       final bool? required}) = _$_HydraMapping;
@@ -1318,6 +1375,7 @@ abstract class _HydraMapping implements HydraMapping {
       _$_HydraMapping.fromJson;
 
   @override
+  @JsonKey(name: "@type")
   String? get type;
   @override
   String? get variable;
@@ -1337,12 +1395,18 @@ HydraView _$HydraViewFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$HydraView {
+  @JsonKey(name: "@id")
   String? get id => throw _privateConstructorUsedError;
+  @JsonKey(name: "@type")
   String? get type => throw _privateConstructorUsedError;
-  String? get hydraFirst => throw _privateConstructorUsedError;
-  String? get hydraLast => throw _privateConstructorUsedError;
-  String? get hydraPrevious => throw _privateConstructorUsedError;
-  String? get hydraNext => throw _privateConstructorUsedError;
+  @JsonKey(name: "hydra:first")
+  String get hydraFirst => throw _privateConstructorUsedError;
+  @JsonKey(name: "hydra:last")
+  String get hydraLast => throw _privateConstructorUsedError;
+  @JsonKey(name: "hydra:previous")
+  String get hydraPrevious => throw _privateConstructorUsedError;
+  @JsonKey(name: "hydra:next")
+  String get hydraNext => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -1356,12 +1420,12 @@ abstract class $HydraViewCopyWith<$Res> {
       _$HydraViewCopyWithImpl<$Res, HydraView>;
   @useResult
   $Res call(
-      {String? id,
-      String? type,
-      String? hydraFirst,
-      String? hydraLast,
-      String? hydraPrevious,
-      String? hydraNext});
+      {@JsonKey(name: "@id") String? id,
+      @JsonKey(name: "@type") String? type,
+      @JsonKey(name: "hydra:first") String hydraFirst,
+      @JsonKey(name: "hydra:last") String hydraLast,
+      @JsonKey(name: "hydra:previous") String hydraPrevious,
+      @JsonKey(name: "hydra:next") String hydraNext});
 }
 
 /// @nodoc
@@ -1379,10 +1443,10 @@ class _$HydraViewCopyWithImpl<$Res, $Val extends HydraView>
   $Res call({
     Object? id = freezed,
     Object? type = freezed,
-    Object? hydraFirst = freezed,
-    Object? hydraLast = freezed,
-    Object? hydraPrevious = freezed,
-    Object? hydraNext = freezed,
+    Object? hydraFirst = null,
+    Object? hydraLast = null,
+    Object? hydraPrevious = null,
+    Object? hydraNext = null,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -1393,22 +1457,22 @@ class _$HydraViewCopyWithImpl<$Res, $Val extends HydraView>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as String?,
-      hydraFirst: freezed == hydraFirst
+      hydraFirst: null == hydraFirst
           ? _value.hydraFirst
           : hydraFirst // ignore: cast_nullable_to_non_nullable
-              as String?,
-      hydraLast: freezed == hydraLast
+              as String,
+      hydraLast: null == hydraLast
           ? _value.hydraLast
           : hydraLast // ignore: cast_nullable_to_non_nullable
-              as String?,
-      hydraPrevious: freezed == hydraPrevious
+              as String,
+      hydraPrevious: null == hydraPrevious
           ? _value.hydraPrevious
           : hydraPrevious // ignore: cast_nullable_to_non_nullable
-              as String?,
-      hydraNext: freezed == hydraNext
+              as String,
+      hydraNext: null == hydraNext
           ? _value.hydraNext
           : hydraNext // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
     ) as $Val);
   }
 }
@@ -1421,12 +1485,12 @@ abstract class _$$_HydraViewCopyWith<$Res> implements $HydraViewCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String? id,
-      String? type,
-      String? hydraFirst,
-      String? hydraLast,
-      String? hydraPrevious,
-      String? hydraNext});
+      {@JsonKey(name: "@id") String? id,
+      @JsonKey(name: "@type") String? type,
+      @JsonKey(name: "hydra:first") String hydraFirst,
+      @JsonKey(name: "hydra:last") String hydraLast,
+      @JsonKey(name: "hydra:previous") String hydraPrevious,
+      @JsonKey(name: "hydra:next") String hydraNext});
 }
 
 /// @nodoc
@@ -1442,10 +1506,10 @@ class __$$_HydraViewCopyWithImpl<$Res>
   $Res call({
     Object? id = freezed,
     Object? type = freezed,
-    Object? hydraFirst = freezed,
-    Object? hydraLast = freezed,
-    Object? hydraPrevious = freezed,
-    Object? hydraNext = freezed,
+    Object? hydraFirst = null,
+    Object? hydraLast = null,
+    Object? hydraPrevious = null,
+    Object? hydraNext = null,
   }) {
     return _then(_$_HydraView(
       id: freezed == id
@@ -1456,22 +1520,22 @@ class __$$_HydraViewCopyWithImpl<$Res>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as String?,
-      hydraFirst: freezed == hydraFirst
+      hydraFirst: null == hydraFirst
           ? _value.hydraFirst
           : hydraFirst // ignore: cast_nullable_to_non_nullable
-              as String?,
-      hydraLast: freezed == hydraLast
+              as String,
+      hydraLast: null == hydraLast
           ? _value.hydraLast
           : hydraLast // ignore: cast_nullable_to_non_nullable
-              as String?,
-      hydraPrevious: freezed == hydraPrevious
+              as String,
+      hydraPrevious: null == hydraPrevious
           ? _value.hydraPrevious
           : hydraPrevious // ignore: cast_nullable_to_non_nullable
-              as String?,
-      hydraNext: freezed == hydraNext
+              as String,
+      hydraNext: null == hydraNext
           ? _value.hydraNext
           : hydraNext // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
     ));
   }
 }
@@ -1480,28 +1544,34 @@ class __$$_HydraViewCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_HydraView implements _HydraView {
   const _$_HydraView(
-      {this.id,
-      this.type,
-      this.hydraFirst,
-      this.hydraLast,
-      this.hydraPrevious,
-      this.hydraNext});
+      {@JsonKey(name: "@id") this.id,
+      @JsonKey(name: "@type") this.type,
+      @JsonKey(name: "hydra:first") required this.hydraFirst,
+      @JsonKey(name: "hydra:last") required this.hydraLast,
+      @JsonKey(name: "hydra:previous") required this.hydraPrevious,
+      @JsonKey(name: "hydra:next") required this.hydraNext});
 
   factory _$_HydraView.fromJson(Map<String, dynamic> json) =>
       _$$_HydraViewFromJson(json);
 
   @override
+  @JsonKey(name: "@id")
   final String? id;
   @override
+  @JsonKey(name: "@type")
   final String? type;
   @override
-  final String? hydraFirst;
+  @JsonKey(name: "hydra:first")
+  final String hydraFirst;
   @override
-  final String? hydraLast;
+  @JsonKey(name: "hydra:last")
+  final String hydraLast;
   @override
-  final String? hydraPrevious;
+  @JsonKey(name: "hydra:previous")
+  final String hydraPrevious;
   @override
-  final String? hydraNext;
+  @JsonKey(name: "hydra:next")
+  final String hydraNext;
 
   @override
   String toString() {
@@ -1546,28 +1616,35 @@ class _$_HydraView implements _HydraView {
 
 abstract class _HydraView implements HydraView {
   const factory _HydraView(
-      {final String? id,
-      final String? type,
-      final String? hydraFirst,
-      final String? hydraLast,
-      final String? hydraPrevious,
-      final String? hydraNext}) = _$_HydraView;
+          {@JsonKey(name: "@id") final String? id,
+          @JsonKey(name: "@type") final String? type,
+          @JsonKey(name: "hydra:first") required final String hydraFirst,
+          @JsonKey(name: "hydra:last") required final String hydraLast,
+          @JsonKey(name: "hydra:previous") required final String hydraPrevious,
+          @JsonKey(name: "hydra:next") required final String hydraNext}) =
+      _$_HydraView;
 
   factory _HydraView.fromJson(Map<String, dynamic> json) =
       _$_HydraView.fromJson;
 
   @override
+  @JsonKey(name: "@id")
   String? get id;
   @override
+  @JsonKey(name: "@type")
   String? get type;
   @override
-  String? get hydraFirst;
+  @JsonKey(name: "hydra:first")
+  String get hydraFirst;
   @override
-  String? get hydraLast;
+  @JsonKey(name: "hydra:last")
+  String get hydraLast;
   @override
-  String? get hydraPrevious;
+  @JsonKey(name: "hydra:previous")
+  String get hydraPrevious;
   @override
-  String? get hydraNext;
+  @JsonKey(name: "hydra:next")
+  String get hydraNext;
   @override
   @JsonKey(ignore: true)
   _$$_HydraViewCopyWith<_$_HydraView> get copyWith =>

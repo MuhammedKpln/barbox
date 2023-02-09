@@ -1,62 +1,62 @@
-import 'dart:convert';
-
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:spamify/types/messages.dart';
+import 'package:injectable/injectable.dart';
 
 const messagesBox = "messagesBox";
 
-void storeMessages(MessagesModel _messages) {
-  final _messagesBox = Hive.box(messagesBox);
-  final messages = _messagesBox.get("messages");
+@LazySingleton()
+class MessageStorage {}
 
-  if (messages == null) {
-    _messagesBox.put("messages", json.encode(_messages.toJson()));
-  }
-}
+// void storeMessages(MessagesModel _messages) {
+//   final _messagesBox = Hive.box(messagesBox);
+//   final messages = _messagesBox.get("messages");
 
-void addNewMessage(HydraMember _message) {
-  final box = Hive.box(messagesBox);
-  final messages = box.get("messages");
-  final messageModel = MessagesModel.fromJson(json.decode(messages));
-  messageModel.hydraMember?.add(_message);
-  messageModel.hydraTotalItems += 1;
+//   if (messages == null) {
+//     _messagesBox.put("messages", json.encode(_messages.toJson()));
+//   }
+// }
 
-  box.put("messages", json.encode(messageModel.toJson()));
-}
+// void addNewMessage(HydraMember _message) {
+//   final box = Hive.box(messagesBox);
+//   final messages = box.get("messages");
+//   final messageModel = MessagesModel.fromJson(json.decode(messages));
+//   messageModel.hydraMember?.add(_message);
+//   messageModel.hydraTotalItems += 1;
 
-void markMessageAsSeen(String _messageId) {
-  final box = Hive.box(messagesBox);
-  final messages = box.get("messages");
-  final messageModel = MessagesModel.fromJson(json.decode(messages));
-  final seenMessage = messageModel.hydraMember
-      ?.firstWhere((element) => element.id == _messageId);
-  seenMessage!.seen = true;
+//   box.put("messages", json.encode(messageModel.toJson()));
+// }
 
-  box.put("messages", json.encode(messageModel.toJson()));
-}
+// void markMessageAsSeen(String _messageId) {
+//   final box = Hive.box(messagesBox);
+//   final messages = box.get("messages");
+//   final messageModel = MessagesModel.fromJson(json.decode(messages));
+//   final seenMessage = messageModel.hydraMember
+//       ?.firstWhere((element) => element.id == _messageId);
+//   seenMessage!.seen = true;
 
-getCachedMessages() {
-  final box = Hive.box(messagesBox);
-  final messages = box.get("messages");
-  if (messages != null) {
-    final messagesModel = MessagesModel.fromJson(json.decode(messages));
-    return messagesModel;
-  }
+//   box.put("messages", json.encode(messageModel.toJson()));
+// }
 
-  return MessagesModel(hydraMember: [], hydraTotalItems: 0);
-}
+// getCachedMessages() {
+//   final box = Hive.box(messagesBox);
+//   final messages = box.get("messages");
+//   if (messages != null) {
+//     final messagesModel = MessagesModel.fromJson(json.decode(messages));
+//     return messagesModel;
+//   }
 
-deleteCachedMessage(String messageId) {
-  final box = Hive.box(messagesBox);
-  final messages = box.get("messages");
-  final messageModel = MessagesModel.fromJson(json.decode(messages));
-  messageModel.hydraMember?.removeWhere((element) => element.id == messageId);
+//   return MessagesModel(hydraMember: [], hydraTotalItems: 0);
+// }
 
-  box.put("messages", json.encode(messageModel.toJson()));
-}
+// deleteCachedMessage(String messageId) {
+//   final box = Hive.box(messagesBox);
+//   final messages = box.get("messages");
+//   final messageModel = MessagesModel.fromJson(json.decode(messages));
+//   messageModel.hydraMember?.removeWhere((element) => element.id == messageId);
 
-deleteAllCachedMessage() {
-  final box = Hive.box(messagesBox);
+//   box.put("messages", json.encode(messageModel.toJson()));
+// }
 
-  box.clear();
-}
+// deleteAllCachedMessage() {
+//   final box = Hive.box(messagesBox);
+
+//   box.clear();
+// }

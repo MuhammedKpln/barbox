@@ -46,3 +46,6 @@ app.*.map.json
 /android/app/release
 
 Spamify.dmg
+
+*.g.dart
+*.freezed.dart

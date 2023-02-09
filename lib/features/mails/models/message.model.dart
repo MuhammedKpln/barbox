@@ -6,10 +6,10 @@ part 'message.model.g.dart';
 @freezed
 class Messages with _$Messages {
   const factory Messages({
-    List<Message>? hydraMember,
-    int? hydraTotalItems,
-    HydraView? hydraView,
-    HydraSearch? hydraSearch,
+    @JsonKey(name: "hydra:member") required List<Message> hydraMember,
+    @JsonKey(name: "hydra:totalItems") required int hydraTotalItems,
+    @JsonKey(name: "hydra:view") HydraView? hydraView,
+    @JsonKey(name: "hydra:search") HydraSearch? hydraSearch,
   }) = _Messages;
 
   factory Messages.fromJson(Map<String, dynamic> json) =>
@@ -19,23 +19,23 @@ class Messages with _$Messages {
 @freezed
 class Message with _$Message {
   const factory Message({
-    String? id,
-    String? type,
-    String? context,
-    String? hydraMemberId,
-    String? accountId,
-    String? msgid,
-    MessageFrom? from,
-    List<MessageFrom>? to,
-    String? subject,
-    String? intro,
-    bool? seen,
-    bool? isDeleted,
-    bool? hasAttachments,
-    int? size,
-    String? downloadUrl,
-    DateTime? createdAt,
-    DateTime? updatedAt,
+    @JsonKey(name: "@id") String? id,
+    @JsonKey(name: "@type") String? type,
+    @JsonKey(name: "@context") String? context,
+    @JsonKey(name: "id") required String hydraMemberId,
+    required String accountId,
+    required String msgid,
+    required MessageFrom from,
+    required List<MessageFrom>? to,
+    required String subject,
+    required String intro,
+    required bool seen,
+    required bool isDeleted,
+    required bool hasAttachments,
+    required int size,
+    required String downloadUrl,
+    required DateTime createdAt,
+    required DateTime updatedAt,
   }) = _Message;
 
   factory Message.fromJson(Map<String, dynamic> json) =>
@@ -45,8 +45,8 @@ class Message with _$Message {
 @freezed
 class MessageFrom with _$MessageFrom {
   const factory MessageFrom({
-    String? name,
-    String? address,
+    required String name,
+    required String address,
   }) = _MessageFrom;
 
   factory MessageFrom.fromJson(Map<String, dynamic> json) =>
@@ -56,9 +56,10 @@ class MessageFrom with _$MessageFrom {
 @freezed
 class HydraSearch with _$HydraSearch {
   const factory HydraSearch({
-    String? type,
-    String? hydraTemplate,
-    String? hydraVariableRepresentation,
+    @JsonKey(name: "@type") String? type,
+    @JsonKey(name: "hydra:template") String? hydraTemplate,
+    @JsonKey(name: "hydra:variableRepresentation")
+        String? hydraVariableRepresentation,
     List<HydraMapping>? hydraMapping,
   }) = _HydraSearch;
 
@@ -69,7 +70,7 @@ class HydraSearch with _$HydraSearch {
 @freezed
 class HydraMapping with _$HydraMapping {
   const factory HydraMapping({
-    String? type,
+    @JsonKey(name: "@type") String? type,
     String? variable,
     String? property,
     bool? required,
@@ -82,12 +83,12 @@ class HydraMapping with _$HydraMapping {
 @freezed
 class HydraView with _$HydraView {
   const factory HydraView({
-    String? id,
-    String? type,
-    String? hydraFirst,
-    String? hydraLast,
-    String? hydraPrevious,
-    String? hydraNext,
+    @JsonKey(name: "@id") String? id,
+    @JsonKey(name: "@type") String? type,
+    @JsonKey(name: "hydra:first") required String hydraFirst,
+    @JsonKey(name: "hydra:last") required String hydraLast,
+    @JsonKey(name: "hydra:previous") required String hydraPrevious,
+    @JsonKey(name: "hydra:next") required String hydraNext,
   }) = _HydraView;
 
   factory HydraView.fromJson(Map<String, dynamic> json) =>
