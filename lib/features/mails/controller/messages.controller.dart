@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:injectable/injectable.dart';
+import 'package:macos_ui/macos_ui.dart';
 import 'package:mobx/mobx.dart';
 import 'package:spamify/features/mails/models/message.model.dart';
 import 'package:spamify/features/mails/models/single_message.model.dart';
@@ -32,6 +33,9 @@ abstract class _MessagesControllerBase with Store {
   @observable
   ObservableList<Message> selectedMessages = ObservableList.of([]);
 
+  @observable
+  bool deleteMode = false;
+
   @action
   init() async {
     final messagesFromRepo = await messagesRepository.fetchMessages();
@@ -52,10 +56,15 @@ abstract class _MessagesControllerBase with Store {
   }
 
   @action
-  bool toggleMessageCheckbox(Message message) {
-    selectedMessages.add(message);
+  void toggleMessageCheckbox(Message message) {
+    final contains = selectedMessages.contains(message);
 
-    return true;
+    if (contains) {
+      selectedMessages.remove(message);
+      return;
+    }
+
+    selectedMessages.add(message);
   }
 
   @action
@@ -71,5 +80,10 @@ abstract class _MessagesControllerBase with Store {
         : false;
 
     return true;
+  }
+
+  @action
+  toggleDeleteMode() {
+    deleteMode = !deleteMode;
   }
 }

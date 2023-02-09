@@ -31,47 +31,55 @@ class _MailsViewState extends State<MailsView> {
       children: [
         ResizablePane(
           builder: (context, scrollController) {
-            return Observer(
-              builder: (_) {
-                return ListView.separated(
-                    itemBuilder: (context, index) {
-                      final message = controller.messages[index];
-                      print(controller.selectedMessages
-                          .where((element) =>
-                              element.hydraMemberId == message.hydraMemberId)
-                          .toList()
-                          .isNotEmpty);
-                      return Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          MacosCheckbox(
-                            value: controller.selectedMessages
-                                    .where((element) =>
-                                        element.hydraMemberId ==
-                                        message.hydraMemberId)
-                                    .toList()
-                                    .isNotEmpty
-                                ? true
-                                : false,
-                            onChanged: (value) =>
-                                controller.toggleMessageCheckbox(
-                                    controller.messages[index]),
-                          ),
-                          Expanded(
-                            child: MessageComponent(
-                              from: message.from.name,
-                              description: message.subject,
-                              date: message.createdAt,
-                              onPressed: () => controller.fetchMessage(message),
+            return ListView.separated(
+                itemBuilder: (context, index) {
+                  final message = controller.messages[index];
+
+                  return Observer(
+                    builder: (context) {
+                      if (controller.deleteMode) {
+                        final checkboxValue = controller.selectedMessages
+                                .where((element) =>
+                                    element.hydraMemberId ==
+                                    message.hydraMemberId)
+                                .toList()
+                                .isNotEmpty
+                            ? true
+                            : false;
+
+                        return Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            MacosCheckbox(
+                              value: checkboxValue,
+                              onChanged: (value) =>
+                                  controller.toggleMessageCheckbox(
+                                      controller.messages[index]),
                             ),
-                          )
-                        ],
+                            Expanded(
+                              child: MessageComponent(
+                                from: message.from.name,
+                                description: message.subject,
+                                date: message.createdAt,
+                                onPressed: () =>
+                                    controller.fetchMessage(message),
+                              ),
+                            )
+                          ],
+                        );
+                      }
+
+                      return MessageComponent(
+                        from: message.from.name,
+                        description: message.subject,
+                        date: message.createdAt,
+                        onPressed: () => controller.fetchMessage(message),
                       );
                     },
-                    separatorBuilder: (context, index) => const Divider(),
-                    itemCount: controller.messages.length);
-              },
-            );
+                  );
+                },
+                separatorBuilder: (context, index) => const Divider(),
+                itemCount: controller.messages.length);
           },
           startWidth: 250,
           maxWidth: 300,
@@ -120,14 +128,13 @@ class _MailsViewState extends State<MailsView> {
       ),
       actions: [
         ToolBarIconButton(
-          label: "Delete",
+          label: "Select",
           showLabel: true,
           tooltipMessage: "Delete one or more messages",
           icon: const MacosIcon(
-            CupertinoIcons.delete,
-            color: Colors.redAccent,
+            CupertinoIcons.square_pencil,
           ),
-          onPressed: controller.deleteMessages,
+          onPressed: controller.toggleDeleteMode,
         ),
         const ToolBarIconButton(
           label: "Refresh",
@@ -137,6 +144,28 @@ class _MailsViewState extends State<MailsView> {
             color: MacosColors.appleBlue,
           ),
           // onPressed: refetchMessages,
+        ),
+        CustomToolbarItem(
+          inToolbarBuilder: (context) {
+            return Observer(
+              builder: (context) {
+                if (controller.selectedMessages.isEmpty) {
+                  return const SizedBox.shrink();
+                }
+
+                return ToolBarIconButton(
+                  label: "Delete",
+                  showLabel: true,
+                  tooltipMessage: "Delete one or more messages",
+                  icon: const MacosIcon(
+                    CupertinoIcons.delete,
+                    color: Colors.redAccent,
+                  ),
+                  onPressed: controller.deleteMessages,
+                ).build(context, ToolbarItemDisplayMode.inToolbar);
+              },
+            );
+          },
         ),
       ],
       title: const Text("Inbox"),
