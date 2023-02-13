@@ -28,7 +28,7 @@ class Message with _$Message {
     required MessageFrom from,
     required List<MessageFrom>? to,
     required String subject,
-    required String intro,
+    String? intro,
     required bool seen,
     required bool isDeleted,
     required bool hasAttachments,

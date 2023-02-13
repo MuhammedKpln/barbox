@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:macos_ui/macos_ui.dart';
 import 'package:spamify/isar/base.db.dart';
 import 'package:spamify/isar/local_account.db.dart';
+import 'package:spamify/isar/messages.db.dart';
 import 'package:spamify/services/di.service.dart';
 import 'package:spamify/services/router.service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   configureDependencies();
-  initDb([LocalAccountSchema]).then((_) => runApp(const MyApp()));
+  initDb([LocalAccountSchema, MessagesDatabaseSchema])
+      .then((_) => runApp(const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
