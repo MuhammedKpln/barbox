@@ -42,14 +42,10 @@ abstract class _AppViewControllerBase with Store {
 
   final List<SidebarItemWithRouter> _authenticationTabs = [
     SidebarItemWithRouter(
-        initialLocation: RouterMeta.inbox.toString(),
-        label: Text(RouterMeta.inbox.displayTitle),
-        icon: CupertinoIcons.tray),
-    SidebarItemWithRouter(
-      initialLocation: RouterMeta.settings.toString(),
-      label: Text(RouterMeta.settings.displayTitle),
-      icon: CupertinoIcons.settings,
-    )
+      initialLocation: RouterMeta.inbox.toString(),
+      label: Text(RouterMeta.inbox.displayTitle),
+      icon: CupertinoIcons.tray,
+    ),
   ];
 
   int _locationToTabIndex(String location) {

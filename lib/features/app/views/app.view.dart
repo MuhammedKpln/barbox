@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:go_router/go_router.dart';
 import 'package:macos_ui/macos_ui.dart';
 import 'package:spamify/core/auth/controllers/auth.controller.dart';
 import 'package:spamify/features/app/controller/app.controller.dart';
 import 'package:spamify/main.dart';
 import 'package:spamify/services/di.service.dart';
+import 'package:spamify/services/router.service.dart';
 
 class App extends StatefulWidget {
   const App({super.key, required this.child});
@@ -54,6 +56,7 @@ class _AppState extends State<App> {
                   }
 
                   return MacosListTile(
+                    onClick: () => context.go(RouterMeta.settings.toString()),
                     leading: const Icon(CupertinoIcons.person_circle),
                     title: Text(
                       controller.authController.account.value?.address ?? "",

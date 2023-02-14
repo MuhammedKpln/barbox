@@ -34,7 +34,7 @@ final router = GoRouter(
           builder: (context, state) => const HomeView(),
         ),
         GoRoute(
-          path: RouterMeta.inbox.path,
+          path: RouterMeta.inbox.toString(),
           builder: (context, state) => const MailsView(),
         ),
         GoRoute(
