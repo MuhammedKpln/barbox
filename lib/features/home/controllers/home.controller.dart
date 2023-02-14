@@ -32,11 +32,16 @@ abstract class _HomeViewControllerBase with Store {
   final TextEditingController textFieldController = TextEditingController();
 
   Future<void> initState() async {
-    await authController.init();
-
-    if (authController.authState == AuthState.loggedIn) {
-      textFieldController.text = authController.account!.address!;
-    }
+    authController.authState.observe((value) {
+      if (value.newValue == AuthState.loggedIn) {
+        textFieldController.text = authController.account.value?.address ?? "";
+      }
+    });
+    authController.account.observe((value) {
+      if (value.newValue != null) {
+        textFieldController.text = authController.account.value?.address ?? "";
+      }
+    });
   }
 
   @action
@@ -50,12 +55,12 @@ abstract class _HomeViewControllerBase with Store {
         domains.hydraMember[0].domain, password);
 
     final token = await accountRepository.login(_account.address, password);
-    authController.account = LocalAccount(
+    authController.account.value = LocalAccount(
         address: _account.address, password: password, token: token.token);
 
-    await accountStorage.saveAccount(authController.account!);
+    await accountStorage.saveAccount(authController.account.value!);
 
-    textFieldController.text = authController.account!.address!;
+    textFieldController.text = authController.account.value?.address ?? "";
 
     isLoading = false;
     // } catch (e) {
@@ -79,12 +84,11 @@ abstract class _HomeViewControllerBase with Store {
   Future<void> copyEmailAddress() async {
     copied = true;
 
-    if (authController.account != null) {
-      Clipboard.setData(ClipboardData(text: authController.account?.address))
-          .then((value) {
-        Future.delayed(const Duration(milliseconds: 500), () => copied = false);
-      });
-    }
+    Clipboard.setData(
+            ClipboardData(text: authController.account.value?.address))
+        .then((value) {
+      Future.delayed(const Duration(milliseconds: 500), () => copied = false);
+    });
   }
 
   dispose() {}

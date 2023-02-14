@@ -31,7 +31,7 @@ class _SettingsViewState extends State<SettingsView> {
       ),
       children: [
         ContentArea(
-          builder: (context) {
+          builder: (context, _) {
             return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -40,12 +40,12 @@ class _SettingsViewState extends State<SettingsView> {
                     return Column(
                       children: [
                         CircleAvatar(
-                          child:
-                              Text(authController.account?.address?[0] ?? "S"),
+                          child: Text(
+                              authController.account.value?.address?[0] ?? "S"),
                           minRadius: 50,
                           maxRadius: 50,
                         ),
-                        Text(authController.account?.address ?? "S")
+                        Text(authController.account.value?.address ?? "S")
                       ],
                     );
                   }),

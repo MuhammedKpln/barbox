@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:macos_ui/macos_ui.dart';
+import 'package:spamify/core/auth/controllers/auth.controller.dart';
 import 'package:spamify/features/app/controller/app.controller.dart';
 import 'package:spamify/main.dart';
 import 'package:spamify/services/di.service.dart';
@@ -25,6 +27,12 @@ class _AppState extends State<App> {
   }
 
   @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ScaffoldMessenger(
       key: scaffoldMessengerKey,
@@ -40,27 +48,18 @@ class _AppState extends State<App> {
                 // ),
 
                 Observer(builder: (_) {
-                  if (!controller.hasAlreadyAccount) {
+                  if (controller.authController.authState.value !=
+                      AuthState.loggedIn) {
                     return const SizedBox.shrink();
                   }
 
-                  return TextButton(
-                      onPressed: () => null, child: const Text("#Qwe"));
-
-                  // return TextButton(
-                  //   onPressed: () => Navigator.pushNamed(context, "/settings"),
-                  //   child: Padding(
-                  //     padding: const EdgeInsets.all(20),
-                  //     child: Row(children: [
-                  //       const MacosIcon(CupertinoIcons.person_circle),
-                  //       Padding(
-                  //         padding: const EdgeInsets.only(left: 10),
-                  //         child: Text(controller.account?.address ?? "",
-                  //             style: MacosTheme.of(context).typography.body),
-                  //       )
-                  //     ]),
-                  //   ),
-                  // );
+                  return MacosListTile(
+                    leading: const Icon(CupertinoIcons.person_circle),
+                    title: Text(
+                      controller.authController.account.value?.address ?? "",
+                      style: MacosTheme.of(context).typography.headline,
+                    ),
+                  );
                 })
               ]),
               builder: (context, _) {

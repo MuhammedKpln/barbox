@@ -4,9 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mobx/mobx.dart';
+import 'package:spamify/core/auth/controllers/auth.controller.dart';
 import 'package:spamify/features/app/views/components/sidebarItem.component.dart';
-import 'package:spamify/isar/base.db.dart';
-import 'package:spamify/isar/local_account.db.dart';
 import 'package:spamify/services/router.service.dart';
 import 'package:spamify/storage/account.storage.dart';
 
@@ -16,24 +15,18 @@ part 'app.controller.g.dart';
 class AppViewController = _AppViewControllerBase with _$AppViewController;
 
 abstract class _AppViewControllerBase with Store {
-  _AppViewControllerBase(this.accountStorage);
+  _AppViewControllerBase(this.accountStorage, this.authController);
 
   final AccountStorage accountStorage;
+  final AuthController authController;
 
-  bool hasAlreadyAccount = false;
+  ReactionDisposer? autoRunDisposer;
 
-  LocalAccount? account;
+  Future<void> init() async {
+    await authController.init();
 
-  StreamSubscription<dynamic>? localAccountWatcher;
-
-  init() {
-    localAccountWatcher = isarInstance.localAccounts
-        .watchLazy(fireImmediately: true)
-        .listen((_) async {
-      if (await accountStorage.isLoggedIn()) {
-        hasAlreadyAccount = true;
-        account = await accountStorage.getAccount();
-
+    autoRunDisposer = autorun((_) {
+      if (authController.authState.value == AuthState.loggedIn) {
         tabs = [...tabs, ..._authenticationTabs];
       }
     });
@@ -78,7 +71,7 @@ abstract class _AppViewControllerBase with Store {
   }
 
   Future<void> dispose() async {
-    await localAccountWatcher?.cancel();
+    autoRunDisposer?.call();
   }
 }
 

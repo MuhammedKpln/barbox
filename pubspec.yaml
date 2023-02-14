@@ -28,7 +28,7 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   http: ^0.13.4
-  macos_ui: ^1.9.1
+  macos_ui: ^1.10.0
   flutter_local_notifications: ^13.0.0
   flutter_widget_from_html_core: ^0.9.1
   url_launcher: ^6.1.8
@@ -47,7 +47,7 @@ dependencies:
   json_annotation: ^4.8.0
   isar: ^3.0.5
   isar_flutter_libs: ^3.0.5
-  jiffy: ^5.0.0  
+  jiffy: ^5.0.0
 
 
   flutter:

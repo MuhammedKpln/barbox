@@ -127,7 +127,7 @@ class _MailsViewState extends State<MailsView> {
           isResizable: true,
         ),
         ContentArea(
-          builder: (context) {
+          builder: (context, _) {
             return Observer(builder: (_) {
               if (controller.isFetchingSingleMessage) {
                 return const Center(

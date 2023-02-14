@@ -94,7 +94,7 @@ class _HomeViewState extends State<HomeView> {
       toolBar: _toolBar(),
       children: [
         ContentArea(
-          builder: (context) {
+          builder: (context, _) {
             return Center(
               child: Padding(
                 padding: const EdgeInsets.all(10),

@@ -16,25 +16,27 @@ abstract class _AuthControllerBase with Store {
   final MessagesStorage messagesStorage;
 
   @observable
-  AuthState authState = AuthState.none;
+  Observable<AuthState> authState = Observable(AuthState.none);
 
   @observable
-  LocalAccount? account;
+  Observable<LocalAccount?> account = Observable(null);
 
+  @action
   Future<void> init() async {
     final isLoggedIn = await accountStorage.isLoggedIn();
 
     if (isLoggedIn) {
-      authState = AuthState.loggedIn;
-      account = await accountStorage.getAccount();
+      authState.value = AuthState.loggedIn;
+      account.value = await accountStorage.getAccount();
     }
   }
 
+  @action
   Future<void> logout() async {
     await accountStorage.removeAccount();
     await messagesStorage.clear();
 
-    account = null;
-    authState = AuthState.none;
+    account.value = null;
+    authState.value = AuthState.none;
   }
 }

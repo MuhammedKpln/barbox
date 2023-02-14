@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:macos_ui/macos_ui.dart';
 import 'package:spamify/features/app/views/app.view.dart';
 import 'package:spamify/features/home/views/home.view.dart';
 import 'package:spamify/features/mails/views/mails.view.dart';
@@ -35,18 +34,12 @@ final router = GoRouter(
           builder: (context, state) => const HomeView(),
         ),
         GoRoute(
-          path: '/inbox',
+          path: RouterMeta.inbox.path,
           builder: (context, state) => const MailsView(),
         ),
         GoRoute(
           path: RouterMeta.settings.toString(),
-          builder: (context, state) => MacosScaffold(children: [
-            ContentArea(
-              builder: (context) {
-                return const SettingsView();
-              },
-            )
-          ]),
+          builder: (context, state) => const SettingsView(),
         ),
       ],
       builder: (context, state, child) {
