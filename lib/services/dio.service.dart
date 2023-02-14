@@ -44,12 +44,15 @@ class DioService {
   }
 
   Future<Response<dynamic>?> delete(String path) async {
-    final request = await _dio.delete(path);
+    try {
+      final request = await _dio.delete(path);
 
-    if (request.statusCode == HttpStatus.noContent) {
-      return request;
+      if (request.statusCode == HttpStatus.noContent) {
+        return request;
+      }
+    } catch (e) {
+      throw Exception("Could not send DELETE request: $path");
     }
-
-    throw Exception("Could not send DELETE request: $path");
+    return null;
   }
 }

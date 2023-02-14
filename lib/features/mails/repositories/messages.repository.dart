@@ -38,7 +38,7 @@ class MessagesRepository implements MessagesRespositoryBase {
 
   @override
   Future<bool> deleteMessage(String messageId) async {
-    final request = await _api.get("/messages/$messageId");
+    final request = await _api.delete("/messages/$messageId");
 
     return request?.statusCode == HttpStatus.noContent ? true : false;
   }

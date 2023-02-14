@@ -79,7 +79,7 @@ class MessagesDatabase {
   String? type;
 
   DateTime? updatedAt;
-
+  @Index(unique: true)
   String? id;
   MessagesDatabase({
     this.accountId,

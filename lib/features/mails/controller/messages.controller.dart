@@ -24,6 +24,7 @@ abstract class _MessagesControllerBase with Store {
 
   @observable
   StreamController<List<Message>> messages = StreamController.broadcast();
+  List<Message> _messagesWithoutStream = [];
 
   @observable
   SingleMessage? showingMessage;
@@ -54,6 +55,7 @@ abstract class _MessagesControllerBase with Store {
       if (!alreadyStored || !deleteMode) {
         _saveMessagesToDatabase(_messages);
         messages.sink.add(_messages);
+        _messagesWithoutStream = _messages;
       }
     }
   }
@@ -66,6 +68,7 @@ abstract class _MessagesControllerBase with Store {
         messagesFromRepo.map((e) => Message.fromJson(e.toMap())).toList();
 
     messages.sink.add(mappedList);
+    _messagesWithoutStream = mappedList;
   }
 
   Future<void> _saveMessagesToDatabase(List<Message> messages) async {
@@ -105,8 +108,21 @@ abstract class _MessagesControllerBase with Store {
   }
 
   @action
-  deleteMessages() {
-    print(selectedMessages);
+  Future<void> deleteMessages() async {
+    for (var message in selectedMessages) {
+      await messagesRepository
+          .deleteMessage(message.hydraMemberId)
+          .then((ok) async {
+        if (ok) {
+          await messagesStorage.deleteMessage(message.hydraMemberId);
+
+          _messagesWithoutStream
+              .removeWhere((element) => element.msgid == message.msgid);
+        }
+      });
+    }
+
+    messages.sink.add(_messagesWithoutStream);
   }
 
   FutureOr<bool> onTapUrl(String url) async {

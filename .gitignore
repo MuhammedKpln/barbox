@@ -49,3 +49,4 @@ Spamify.dmg
 
 *.g.dart
 *.freezed.dart
+di.service.config.dart

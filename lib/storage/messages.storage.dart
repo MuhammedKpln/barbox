@@ -7,7 +7,7 @@ import 'package:spamify/isar/messages.db.dart';
 @LazySingleton()
 class MessagesStorage {
   Future<void> saveMessage(Message message) async {
-    isarInstance.writeTxn(() async {
+    await isarInstance.writeTxn(() async {
       final entry = MessagesDatabase()
         ..accountId = message.accountId
         ..context = message.context
@@ -36,7 +36,7 @@ class MessagesStorage {
   }
 
   Future<void> saveMessages(List<MessagesDatabase> message) async {
-    isarInstance.writeTxn(() async {
+    await isarInstance.writeTxn(() async {
       await isarInstance.messagesDatabases.putAll(message);
     });
   }
@@ -56,5 +56,14 @@ class MessagesStorage {
 
   Future<List<MessagesDatabase>> fetchMessages() async {
     return isarInstance.messagesDatabases.where().findAll();
+  }
+
+  Future<void> deleteMessage(String messageId) async {
+    return isarInstance.writeTxn(() async {
+      await isarInstance.messagesDatabases
+          .filter()
+          .hydraMemberIdEqualTo(messageId)
+          .deleteAll();
+    });
   }
 }
