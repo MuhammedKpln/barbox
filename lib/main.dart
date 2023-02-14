@@ -6,6 +6,9 @@ import 'package:spamify/isar/messages.db.dart';
 import 'package:spamify/services/di.service.dart';
 import 'package:spamify/services/router.service.dart';
 
+final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
+    GlobalKey<ScaffoldMessengerState>();
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   configureDependencies();

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mobx/mobx.dart';
+import 'package:spamify/core/auth/controllers/auth.controller.dart';
 import 'package:spamify/features/home/repositories/account.repository.dart';
 import 'package:spamify/isar/local_account.db.dart';
 import 'package:spamify/services/dio.service.dart';
@@ -17,8 +18,10 @@ abstract class _HomeViewControllerBase with Store {
   final AccountRepository accountRepository;
   final AccountStorage accountStorage;
   final DioService dioService;
-  _HomeViewControllerBase(
-      this.accountRepository, this.accountStorage, this.dioService);
+  final AuthController authController;
+
+  _HomeViewControllerBase(this.accountRepository, this.accountStorage,
+      this.dioService, this.authController);
 
   @observable
   bool isLoading = false;
@@ -26,24 +29,13 @@ abstract class _HomeViewControllerBase with Store {
   @observable
   bool copied = false;
 
-  @observable
-  LocalAccount? account;
-
-  ReactionDisposer? accountListener;
-
   final TextEditingController textFieldController = TextEditingController();
 
   Future<void> initState() async {
-    final isLoggedIn = await accountStorage.isLoggedIn();
+    await authController.init();
 
-    accountListener = autorun((_) {
-      if (account != null) {
-        textFieldController.text = account!.address!;
-      }
-    });
-
-    if (isLoggedIn) {
-      account = await accountStorage.getAccount();
+    if (authController.authState == AuthState.loggedIn) {
+      textFieldController.text = authController.account!.address!;
     }
   }
 
@@ -58,12 +50,12 @@ abstract class _HomeViewControllerBase with Store {
         domains.hydraMember[0].domain, password);
 
     final token = await accountRepository.login(_account.address, password);
-    account = LocalAccount(
+    authController.account = LocalAccount(
         address: _account.address, password: password, token: token.token);
 
-    await accountStorage.saveAccount(account!);
+    await accountStorage.saveAccount(authController.account!);
 
-    textFieldController.text = account!.address!;
+    textFieldController.text = authController.account!.address!;
 
     isLoading = false;
     // } catch (e) {
@@ -87,16 +79,15 @@ abstract class _HomeViewControllerBase with Store {
   Future<void> copyEmailAddress() async {
     copied = true;
 
-    if (account != null) {
-      Clipboard.setData(ClipboardData(text: account?.address)).then((value) {
+    if (authController.account != null) {
+      Clipboard.setData(ClipboardData(text: authController.account?.address))
+          .then((value) {
         Future.delayed(const Duration(milliseconds: 500), () => copied = false);
       });
     }
   }
 
-  dispose() {
-    accountListener!();
-  }
+  dispose() {}
 }
 
 void disposeHomeViewController(HomeViewController instance) {

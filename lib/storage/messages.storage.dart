@@ -66,4 +66,10 @@ class MessagesStorage {
           .deleteAll();
     });
   }
+
+  Future<void> clear() async {
+    return isarInstance.writeTxn(() async {
+      await isarInstance.messagesDatabases.clear();
+    });
+  }
 }
