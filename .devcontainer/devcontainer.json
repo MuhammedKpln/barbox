@@ -1,4 +1,0 @@
-{
-    "image": "cirrusci/flutter:stable",
-    "forwardPorts": [3000]
-}
