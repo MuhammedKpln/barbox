@@ -29,13 +29,13 @@ mixin _$MessagesController on _MessagesControllerBase, Store {
       Atom(name: '_MessagesControllerBase.messages', context: context);
 
   @override
-  List<Message> get messages {
+  StreamController<List<Message>> get messages {
     _$messagesAtom.reportRead();
     return super.messages;
   }
 
   @override
-  set messages(List<Message> value) {
+  set messages(StreamController<List<Message>> value) {
     _$messagesAtom.reportWrite(value, super.messages, () {
       super.messages = value;
     });
@@ -91,12 +91,46 @@ mixin _$MessagesController on _MessagesControllerBase, Store {
     });
   }
 
+  late final _$deleteModeAtom =
+      Atom(name: '_MessagesControllerBase.deleteMode', context: context);
+
+  @override
+  bool get deleteMode {
+    _$deleteModeAtom.reportRead();
+    return super.deleteMode;
+  }
+
+  @override
+  set deleteMode(bool value) {
+    _$deleteModeAtom.reportWrite(value, super.deleteMode, () {
+      super.deleteMode = value;
+    });
+  }
+
   late final _$initAsyncAction =
       AsyncAction('_MessagesControllerBase.init', context: context);
 
   @override
   Future init() {
     return _$initAsyncAction.run(() => super.init());
+  }
+
+  late final _$fetchMessagesAsyncAction =
+      AsyncAction('_MessagesControllerBase.fetchMessages', context: context);
+
+  @override
+  Future<void> fetchMessages() {
+    return _$fetchMessagesAsyncAction.run(() => super.fetchMessages());
+  }
+
+  late final _$fetchLocalMessagesAsyncAction = AsyncAction(
+      '_MessagesControllerBase.fetchLocalMessages',
+      context: context);
+
+  @override
+  Future<void> fetchLocalMessages() {
+    return _$fetchLocalMessagesAsyncAction
+        .run(() => super.fetchLocalMessages());
   }
 
   late final _$fetchMessageAsyncAction =
@@ -107,11 +141,19 @@ mixin _$MessagesController on _MessagesControllerBase, Store {
     return _$fetchMessageAsyncAction.run(() => super.fetchMessage(message));
   }
 
+  late final _$deleteMessagesAsyncAction =
+      AsyncAction('_MessagesControllerBase.deleteMessages', context: context);
+
+  @override
+  Future<void> deleteMessages() {
+    return _$deleteMessagesAsyncAction.run(() => super.deleteMessages());
+  }
+
   late final _$_MessagesControllerBaseActionController =
       ActionController(name: '_MessagesControllerBase', context: context);
 
   @override
-  bool toggleMessageCheckbox(Message message) {
+  void toggleMessageCheckbox(Message message) {
     final _$actionInfo = _$_MessagesControllerBaseActionController.startAction(
         name: '_MessagesControllerBase.toggleMessageCheckbox');
     try {
@@ -122,11 +164,11 @@ mixin _$MessagesController on _MessagesControllerBase, Store {
   }
 
   @override
-  dynamic deleteMessages() {
+  dynamic toggleDeleteMode() {
     final _$actionInfo = _$_MessagesControllerBaseActionController.startAction(
-        name: '_MessagesControllerBase.deleteMessages');
+        name: '_MessagesControllerBase.toggleDeleteMode');
     try {
-      return super.deleteMessages();
+      return super.toggleDeleteMode();
     } finally {
       _$_MessagesControllerBaseActionController.endAction(_$actionInfo);
     }
@@ -139,7 +181,8 @@ isLoading: ${isLoading},
 messages: ${messages},
 showingMessage: ${showingMessage},
 isFetchingSingleMessage: ${isFetchingSingleMessage},
-selectedMessages: ${selectedMessages}
+selectedMessages: ${selectedMessages},
+deleteMode: ${deleteMode}
     ''';
   }
 }

@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
-import 'package:spamify/storage/account.storage.dart';
+import 'package:spamify/core/storage/account.storage.dart';
 
 @LazySingleton()
 class AuthInterceptor extends Interceptor {

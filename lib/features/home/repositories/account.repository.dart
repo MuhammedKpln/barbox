@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:injectable/injectable.dart';
-import 'package:spamify/services/dio.service.dart';
+import 'package:spamify/core/services/dio.service.dart';
 import 'package:spamify/types/account.dart';
 import 'package:spamify/types/domains.dart';
 import 'package:spamify/types/login.dart';

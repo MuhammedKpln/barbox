@@ -39,7 +39,7 @@ _$_Message _$$_MessageFromJson(Map<String, dynamic> json) => _$_Message(
           ?.map((e) => MessageFrom.fromJson(e as Map<String, dynamic>))
           .toList(),
       subject: json['subject'] as String,
-      intro: json['intro'] as String,
+      intro: json['intro'] as String?,
       seen: json['seen'] as bool,
       isDeleted: json['isDeleted'] as bool,
       hasAttachments: json['hasAttachments'] as bool,

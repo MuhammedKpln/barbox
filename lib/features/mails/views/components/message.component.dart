@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:jiffy/jiffy.dart';
-import 'package:spamify/core/theme.dart';
+import 'package:spamify/core/constants/theme.dart';
 
 class MessageComponent extends StatelessWidget {
   const MessageComponent(

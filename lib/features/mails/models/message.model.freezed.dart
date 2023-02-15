@@ -294,7 +294,7 @@ mixin _$Message {
   MessageFrom get from => throw _privateConstructorUsedError;
   List<MessageFrom>? get to => throw _privateConstructorUsedError;
   String get subject => throw _privateConstructorUsedError;
-  String get intro => throw _privateConstructorUsedError;
+  String? get intro => throw _privateConstructorUsedError;
   bool get seen => throw _privateConstructorUsedError;
   bool get isDeleted => throw _privateConstructorUsedError;
   bool get hasAttachments => throw _privateConstructorUsedError;
@@ -323,7 +323,7 @@ abstract class $MessageCopyWith<$Res> {
       MessageFrom from,
       List<MessageFrom>? to,
       String subject,
-      String intro,
+      String? intro,
       bool seen,
       bool isDeleted,
       bool hasAttachments,
@@ -357,7 +357,7 @@ class _$MessageCopyWithImpl<$Res, $Val extends Message>
     Object? from = null,
     Object? to = freezed,
     Object? subject = null,
-    Object? intro = null,
+    Object? intro = freezed,
     Object? seen = null,
     Object? isDeleted = null,
     Object? hasAttachments = null,
@@ -403,10 +403,10 @@ class _$MessageCopyWithImpl<$Res, $Val extends Message>
           ? _value.subject
           : subject // ignore: cast_nullable_to_non_nullable
               as String,
-      intro: null == intro
+      intro: freezed == intro
           ? _value.intro
           : intro // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       seen: null == seen
           ? _value.seen
           : seen // ignore: cast_nullable_to_non_nullable
@@ -464,7 +464,7 @@ abstract class _$$_MessageCopyWith<$Res> implements $MessageCopyWith<$Res> {
       MessageFrom from,
       List<MessageFrom>? to,
       String subject,
-      String intro,
+      String? intro,
       bool seen,
       bool isDeleted,
       bool hasAttachments,
@@ -496,7 +496,7 @@ class __$$_MessageCopyWithImpl<$Res>
     Object? from = null,
     Object? to = freezed,
     Object? subject = null,
-    Object? intro = null,
+    Object? intro = freezed,
     Object? seen = null,
     Object? isDeleted = null,
     Object? hasAttachments = null,
@@ -542,10 +542,10 @@ class __$$_MessageCopyWithImpl<$Res>
           ? _value.subject
           : subject // ignore: cast_nullable_to_non_nullable
               as String,
-      intro: null == intro
+      intro: freezed == intro
           ? _value.intro
           : intro // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
       seen: null == seen
           ? _value.seen
           : seen // ignore: cast_nullable_to_non_nullable
@@ -591,7 +591,7 @@ class _$_Message implements _Message {
       required this.from,
       required final List<MessageFrom>? to,
       required this.subject,
-      required this.intro,
+      this.intro,
       required this.seen,
       required this.isDeleted,
       required this.hasAttachments,
@@ -635,7 +635,7 @@ class _$_Message implements _Message {
   @override
   final String subject;
   @override
-  final String intro;
+  final String? intro;
   @override
   final bool seen;
   @override
@@ -734,7 +734,7 @@ abstract class _Message implements Message {
       required final MessageFrom from,
       required final List<MessageFrom>? to,
       required final String subject,
-      required final String intro,
+      final String? intro,
       required final bool seen,
       required final bool isDeleted,
       required final bool hasAttachments,
@@ -768,7 +768,7 @@ abstract class _Message implements Message {
   @override
   String get subject;
   @override
-  String get intro;
+  String? get intro;
   @override
   bool get seen;
   @override

@@ -1,8 +1,8 @@
 import 'package:injectable/injectable.dart';
 import 'package:isar/isar.dart';
+import 'package:spamify/core/storage/isar/base.db.dart';
+import 'package:spamify/core/storage/isar/messages.db.dart';
 import 'package:spamify/features/mails/models/message.model.dart';
-import 'package:spamify/isar/base.db.dart';
-import 'package:spamify/isar/messages.db.dart';
 
 @LazySingleton()
 class MessagesStorage {

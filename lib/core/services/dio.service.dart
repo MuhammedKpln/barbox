@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
-import 'package:spamify/services/dio/interceptors/auth.interceptor.dart';
+import 'package:spamify/core/services/dio/interceptors/auth.interceptor.dart';
 
 @LazySingleton()
 class DioService {

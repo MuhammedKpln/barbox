@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
-import 'package:spamify/core/theme.dart';
+import 'package:spamify/core/constants/theme.dart';
 import 'package:spamify/main.dart';
 
 /// It's a class that shows a toast

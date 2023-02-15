@@ -3,10 +3,10 @@ import 'package:injectable/injectable.dart';
 import 'package:mobx/mobx.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:spamify/core/auth/controllers/auth.controller.dart';
+import 'package:spamify/core/constants/theme.dart';
 import 'package:spamify/core/exstensions/toast.extension.dart';
-import 'package:spamify/core/theme.dart';
-import 'package:spamify/storage/account.storage.dart';
-import 'package:spamify/storage/messages.storage.dart';
+import 'package:spamify/core/storage/account.storage.dart';
+import 'package:spamify/core/storage/messages.storage.dart';
 part 'settings.controller.g.dart';
 
 @LazySingleton()

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:macos_ui/macos_ui.dart';
 import 'package:spamify/features/home/controllers/home.controller.dart';
-import 'package:spamify/services/di.service.dart';
+import 'package:spamify/core/services/di.service.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:macos_ui/macos_ui.dart';
-import 'package:spamify/isar/base.db.dart';
-import 'package:spamify/isar/local_account.db.dart';
-import 'package:spamify/isar/messages.db.dart';
-import 'package:spamify/services/di.service.dart';
-import 'package:spamify/services/router.service.dart';
+
+import 'package:spamify/core/services/di.service.dart';
+import 'package:spamify/core/services/router.service.dart';
+import 'package:spamify/core/storage/isar/base.db.dart';
+import 'package:spamify/core/storage/isar/local_account.db.dart';
+import 'package:spamify/core/storage/isar/messages.db.dart';
 
 final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
     GlobalKey<ScaffoldMessengerState>();

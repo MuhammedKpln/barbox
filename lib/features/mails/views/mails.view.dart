@@ -2,11 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:macos_ui/macos_ui.dart';
-import 'package:spamify/core/theme.dart';
+import 'package:spamify/core/constants/theme.dart';
 import 'package:spamify/features/mails/controller/messages.controller.dart';
 import 'package:spamify/features/mails/models/message.model.dart';
 import 'package:spamify/features/mails/views/components/message.component.dart';
-import 'package:spamify/services/di.service.dart';
+import 'package:spamify/core/services/di.service.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 
 class MailsView extends StatefulWidget {

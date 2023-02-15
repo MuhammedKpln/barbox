@@ -6,8 +6,8 @@ import 'package:macos_ui/macos_ui.dart';
 import 'package:spamify/core/auth/controllers/auth.controller.dart';
 import 'package:spamify/features/app/controller/app.controller.dart';
 import 'package:spamify/main.dart';
-import 'package:spamify/services/di.service.dart';
-import 'package:spamify/services/router.service.dart';
+import 'package:spamify/core/services/di.service.dart';
+import 'package:spamify/core/services/router.service.dart';
 
 class App extends StatefulWidget {
   const App({super.key, required this.child});

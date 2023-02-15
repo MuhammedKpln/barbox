@@ -4,7 +4,7 @@ import 'package:injectable/injectable.dart';
 import 'package:spamify/config.dart';
 import 'package:spamify/features/mails/models/message.model.dart';
 import 'package:spamify/features/mails/models/single_message.model.dart';
-import 'package:spamify/services/dio.service.dart';
+import 'package:spamify/core/services/dio.service.dart';
 
 abstract class MessagesRespositoryBase {
   Future<Messages> fetchMessages();

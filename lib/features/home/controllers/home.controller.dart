@@ -3,10 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mobx/mobx.dart';
 import 'package:spamify/core/auth/controllers/auth.controller.dart';
+import 'package:spamify/core/storage/isar/local_account.db.dart';
 import 'package:spamify/features/home/repositories/account.repository.dart';
-import 'package:spamify/isar/local_account.db.dart';
-import 'package:spamify/services/dio.service.dart';
-import 'package:spamify/storage/account.storage.dart';
+import 'package:spamify/core/services/dio.service.dart';
+import 'package:spamify/core/storage/account.storage.dart';
 import 'package:spamify/utils.dart';
 
 part 'home.controller.g.dart';
