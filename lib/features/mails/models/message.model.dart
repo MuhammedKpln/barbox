@@ -19,10 +19,10 @@ class Messages with _$Messages {
 @freezed
 class Message with _$Message {
   const factory Message({
-    @JsonKey(name: "@id") String? id,
+    @JsonKey(name: "@id") String? typeId,
     @JsonKey(name: "@type") String? type,
     @JsonKey(name: "@context") String? context,
-    @JsonKey(name: "id") required String hydraMemberId,
+    @JsonKey(name: "id") required String primaryId,
     required String accountId,
     required String msgid,
     required MessageFrom from,

@@ -1,16 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:go_router/go_router.dart';
 import 'package:macos_ui/macos_ui.dart';
 import 'package:spamify/core/constants/theme.dart';
+import 'package:spamify/core/services/router.service.dart';
 import 'package:spamify/features/mails/controller/messages.controller.dart';
 import 'package:spamify/features/mails/models/message.model.dart';
 import 'package:spamify/features/mails/views/components/message.component.dart';
 import 'package:spamify/core/services/di.service.dart';
-import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 
 class MailsView extends StatefulWidget {
-  const MailsView({super.key});
+  const MailsView({super.key, required this.child});
+
+  final Widget child;
 
   @override
   State<MailsView> createState() => _MailsViewState();
@@ -67,8 +70,8 @@ class _MailsViewState extends State<MailsView> {
                                   final checkboxValue = controller
                                           .selectedMessages
                                           .where((element) =>
-                                              element.hydraMemberId ==
-                                              message.hydraMemberId)
+                                              element.primaryId ==
+                                              message.primaryId)
                                           .toList()
                                           .isNotEmpty
                                       ? true
@@ -105,8 +108,9 @@ class _MailsViewState extends State<MailsView> {
                                   from: message.from.name,
                                   description: message.subject,
                                   date: message.createdAt,
-                                  onPressed: () =>
-                                      controller.fetchMessage(message),
+                                  onPressed: () => context.goNamed(
+                                      RouterMeta.message.name,
+                                      params: {"msgId": message.primaryId}),
                                 );
                               },
                               separatorBuilder: (context, index) =>
@@ -128,37 +132,7 @@ class _MailsViewState extends State<MailsView> {
         ),
         ContentArea(
           builder: (context, _) {
-            return Observer(builder: (_) {
-              if (controller.isFetchingSingleMessage) {
-                return const Center(
-                  child: ProgressCircle(
-                    value: null,
-                  ),
-                );
-              }
-
-              final html = controller.showingMessage != null
-                  ? controller.showingMessage!.html.isNotEmpty
-                      ? controller.showingMessage?.html[0]
-                      : "NO MESSAGE BODY"
-                  : "NULL";
-
-              return HtmlWidget(
-                html ?? "NULL",
-                onTapUrl: controller.onTapUrl,
-                enableCaching: true,
-                buildAsync: true,
-                renderMode: RenderMode.listView,
-                rebuildTriggers: RebuildTriggers([]),
-                onLoadingBuilder: (_, __, v) => ProgressCircle(
-                  value: v,
-                ),
-                onErrorBuilder: (context, element, error) {
-                  Text(error);
-                  return null;
-                },
-              );
-            });
+            return widget.child;
           },
         ),
       ],

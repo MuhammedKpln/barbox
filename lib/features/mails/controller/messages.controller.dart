@@ -6,7 +6,6 @@ import 'package:spamify/features/mails/models/message.model.dart';
 import 'package:spamify/features/mails/models/single_message.model.dart';
 import 'package:spamify/features/mails/repositories/messages.repository.dart';
 import 'package:spamify/core/storage/messages.storage.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 part 'messages.controller.g.dart';
 
@@ -89,7 +88,7 @@ abstract class _MessagesControllerBase with Store {
   fetchMessage(Message message) async {
     isFetchingSingleMessage = true;
     final messageFromRepo =
-        await messagesRepository.fetchMessage(message.hydraMemberId);
+        await messagesRepository.fetchMessage(message.primaryId);
 
     showingMessage = messageFromRepo;
     isFetchingSingleMessage = false;
@@ -111,10 +110,10 @@ abstract class _MessagesControllerBase with Store {
   Future<void> deleteMessages() async {
     for (var message in selectedMessages) {
       await messagesRepository
-          .deleteMessage(message.hydraMemberId)
+          .deleteMessage(message.primaryId)
           .then((ok) async {
         if (ok) {
-          await messagesStorage.deleteMessage(message.hydraMemberId);
+          await messagesStorage.deleteMessage(message.primaryId);
 
           _messagesWithoutStream
               .removeWhere((element) => element.msgid == message.msgid);
@@ -123,16 +122,6 @@ abstract class _MessagesControllerBase with Store {
     }
 
     messages.sink.add(_messagesWithoutStream);
-  }
-
-  FutureOr<bool> onTapUrl(String url) async {
-    final uri = Uri.parse(url);
-
-    await canLaunchUrl(uri)
-        ? launchUrl(uri, mode: LaunchMode.externalApplication)
-        : false;
-
-    return true;
   }
 
   @action

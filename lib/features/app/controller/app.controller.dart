@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mobx/mobx.dart';
 import 'package:spamify/core/auth/controllers/auth.controller.dart';
+import 'package:spamify/core/services/notification.service.dart';
 import 'package:spamify/features/app/views/components/sidebarItem.component.dart';
 import 'package:spamify/core/services/router.service.dart';
 import 'package:spamify/core/storage/account.storage.dart';
@@ -15,15 +16,19 @@ part 'app.controller.g.dart';
 class AppViewController = _AppViewControllerBase with _$AppViewController;
 
 abstract class _AppViewControllerBase with Store {
-  _AppViewControllerBase(this.accountStorage, this.authController);
+  _AppViewControllerBase(
+      this.accountStorage, this.authController, this._notificationService);
 
   final AccountStorage accountStorage;
   final AuthController authController;
+  final NotificationService _notificationService;
 
   ReactionDisposer? autoRunDisposer;
 
   Future<void> init() async {
     await authController.init();
+    await _notificationService.init();
+    // await _notificationService.showNotification(title: "selam", body: "as");
 
     autoRunDisposer = autorun((_) {
       if (authController.authState.value == AuthState.loggedIn) {

@@ -16,8 +16,8 @@ class MessagesStorage {
         ..from = MessageFromDb(
             address: message.from.address, name: message.from.name)
         ..hasAttachments = message.hasAttachments
-        ..hydraMemberId = message.hydraMemberId
-        ..id = message.id
+        ..hydraMemberId = message.primaryId
+        ..id = message.typeId
         ..intro = message.intro
         ..intro = message.intro
         ..isDeleted = message.isDeleted

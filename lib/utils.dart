@@ -39,15 +39,16 @@ String generateRandomString(int len) {
 //   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
 //       FlutterLocalNotificationsPlugin();
 
-//   const MacOSInitializationSettings initializationSettingsMacOS =
-//       MacOSInitializationSettings(
+//   const DarwinInitializationSettings initializationSettingsMacOS =
+//       DarwinInitializationSettings(
 //           requestAlertPermission: true,
 //           requestBadgePermission: true,
 //           requestSoundPermission: true);
 //   const InitializationSettings initializationSettings =
 //       InitializationSettings(macOS: initializationSettingsMacOS);
-//   await flutterLocalNotificationsPlugin.initialize(initializationSettings,
-//       onSelectNotification: onSelectNotification);
+//   await flutterLocalNotificationsPlugin.initialize(
+//     initializationSettings,
+//   );
 // }
 
 // void onSelectNotification(String? payload) {}
