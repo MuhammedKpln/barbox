@@ -1,3 +1,4 @@
+import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:macos_ui/macos_ui.dart';
 
@@ -11,7 +12,6 @@ final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
     GlobalKey<ScaffoldMessengerState>();
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
   configureDependencies();
   initDb([LocalAccountSchema, MessagesDatabaseSchema])
       .then((_) => runApp(const MyApp()));
@@ -28,10 +28,8 @@ class MyApp extends StatelessWidget {
       themeMode: ThemeMode.system,
       theme: MacosThemeData.light(),
       darkTheme: MacosThemeData.dark(),
-      routerDelegate: router.routerDelegate,
-      routeInformationParser: router.routeInformationParser,
-      routeInformationProvider: router.routeInformationProvider,
-      // scrollBehavior: MyCustomScrollBehavior(),
+      routerDelegate: mainRouterDelegate,
+      routeInformationParser: BeamerParser(),
       debugShowCheckedModeBanner: false,
     );
   }

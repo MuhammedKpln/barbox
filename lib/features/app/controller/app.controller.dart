@@ -1,7 +1,7 @@
 import 'dart:async';
 
+import 'package:beamer/beamer.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:go_router/go_router.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mobx/mobx.dart';
 import 'package:spamify/core/auth/controllers/auth.controller.dart';
@@ -23,12 +23,15 @@ abstract class _AppViewControllerBase with Store {
   final AuthController authController;
   final NotificationService _notificationService;
 
+  @observable
+  int currentIndex = 0;
+
   ReactionDisposer? autoRunDisposer;
 
   Future<void> init() async {
     await authController.init();
     await _notificationService.init();
-    // await _notificationService.showNotification(title: "selam", body: "as");
+    // _notificationService.showNotification(title: "selam", body: "as");
 
     autoRunDisposer = autorun((_) {
       if (authController.authState.value == AuthState.loggedIn) {
@@ -40,35 +43,24 @@ abstract class _AppViewControllerBase with Store {
   @observable
   List<SidebarItemWithRouter> tabs = [
     SidebarItemWithRouter(
-        initialLocation: RouterMeta.fetchEmailAddress.toString(),
-        label: const Text("Get new email address"),
-        icon: CupertinoIcons.mail),
+      initialLocation: RouterMeta.fetchEmailAddress.path,
+      label: const Text("Get new email address"),
+      icon: CupertinoIcons.mail,
+    ),
   ];
 
   final List<SidebarItemWithRouter> _authenticationTabs = [
     SidebarItemWithRouter(
-      initialLocation: RouterMeta.inbox.toString(),
+      initialLocation: RouterMeta.inbox.path,
       label: Text(RouterMeta.inbox.displayTitle),
       icon: CupertinoIcons.tray,
     ),
   ];
 
-  int _locationToTabIndex(String location) {
-    final index =
-        tabs.indexWhere((t) => location.startsWith(t.initialLocation));
-    // if index not found (-1), return 0
-    return index < 0 ? 0 : index;
-  }
-
-  int currentIndex(BuildContext context) =>
-      _locationToTabIndex(GoRouter.of(context).location);
-
-  // callback used to navigate to the desired tab
+  @action
   void onItemTapped(BuildContext context, int tabIndex) {
-    if (tabIndex != currentIndex) {
-      // go to the initial location of the selected tab (by index)
-      context.go(tabs[tabIndex].initialLocation);
-    }
+    currentIndex = tabIndex;
+    context.beamToNamed(tabs[tabIndex].initialLocation);
   }
 
   Future<void> dispose() async {

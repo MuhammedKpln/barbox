@@ -1,7 +1,7 @@
+import 'package:beamer/beamer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:go_router/go_router.dart';
 import 'package:macos_ui/macos_ui.dart';
 import 'package:spamify/core/constants/theme.dart';
 import 'package:spamify/core/services/router.service.dart';
@@ -11,9 +11,7 @@ import 'package:spamify/features/mails/views/components/message.component.dart';
 import 'package:spamify/core/services/di.service.dart';
 
 class MailsView extends StatefulWidget {
-  const MailsView({super.key, required this.child});
-
-  final Widget child;
+  const MailsView({super.key});
 
   @override
   State<MailsView> createState() => _MailsViewState();
@@ -64,7 +62,7 @@ class _MailsViewState extends State<MailsView> {
                           return ListView.separated(
                               controller: scrollController,
                               itemBuilder: (context, index) {
-                                final message = data![index];
+                                final message = data[index];
 
                                 if (controller.deleteMode) {
                                   final checkboxValue = controller
@@ -108,9 +106,10 @@ class _MailsViewState extends State<MailsView> {
                                   from: message.from.name,
                                   description: message.subject,
                                   date: message.createdAt,
-                                  onPressed: () => context.goNamed(
-                                      RouterMeta.message.name,
-                                      params: {"msgId": message.primaryId}),
+                                  onPressed: () =>
+                                      mailsRouterDelegate.beamToNamed(
+                                          "/inbox/${message.primaryId}",
+                                          data: message),
                                 );
                               },
                               separatorBuilder: (context, index) =>
@@ -132,7 +131,10 @@ class _MailsViewState extends State<MailsView> {
         ),
         ContentArea(
           builder: (context, _) {
-            return widget.child;
+            return Beamer(
+              routerDelegate: mailsRouterDelegate,
+              key: mailsRouterKey,
+            );
           },
         ),
       ],
@@ -141,7 +143,7 @@ class _MailsViewState extends State<MailsView> {
 
   ToolBar _toolbar() {
     return ToolBar(
-      leading: IconButton(
+      leading: MacosIconButton(
         onPressed: _toggleSidebar,
         icon: const MacosIcon(CupertinoIcons.line_horizontal_3),
       ),

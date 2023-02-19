@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:beamer/beamer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -90,69 +91,66 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    return MacosScaffold(
-      toolBar: _toolBar(),
-      children: [
-        ContentArea(
-          builder: (context, _) {
-            return Center(
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Column(
-                      children: [
-                        Text(
-                          "Hello! ",
-                          style: MacosTheme.of(context).typography.largeTitle,
-                        ),
-                        Text(
-                          "Welcome to the email generator, here you can generate a new email address.",
-                          style: MacosTheme.of(context).typography.subheadline,
-                        ),
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SizedBox(
-                              width: 300,
-                              child: MacosTextField(
-                                controller: controller.textFieldController,
-                                readOnly: true,
-                                style: const TextStyle(
-                                  fontSize: 15,
-                                ),
+    return MacosScaffold(toolBar: _toolBar(), children: [
+      ContentArea(
+        builder: (context, scrollController) {
+          return Center(
+            child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Column(
+                    children: [
+                      Text(
+                        "Hello! ",
+                        style: MacosTheme.of(context).typography.largeTitle,
+                      ),
+                      Text(
+                        "Welcome to the email generator, here you can generate a new email address.",
+                        style: MacosTheme.of(context).typography.subheadline,
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            width: 300,
+                            child: MacosTextField(
+                              controller: controller.textFieldController,
+                              readOnly: true,
+                              style: const TextStyle(
+                                fontSize: 15,
                               ),
                             ),
-                            _copyButton()
-                          ],
-                        ),
-                        Observer(builder: (_) {
-                          return Container(
-                            margin: const EdgeInsets.only(top: 30),
-                            child: PushButton(
-                              buttonSize: ButtonSize.large,
-                              onPressed: () => controller.fetchNewAdress(),
-                              child: controller.isLoading
-                                  ? const ProgressCircle()
-                                  : const Text("Fetch new account"),
-                            ),
-                          );
-                        }),
-                      ],
-                    ),
-                  ],
-                ),
+                          ),
+                          _copyButton()
+                        ],
+                      ),
+                      Observer(builder: (_) {
+                        return Container(
+                          margin: const EdgeInsets.only(top: 30),
+                          child: PushButton(
+                            buttonSize: ButtonSize.large,
+                            onPressed: () => controller.fetchNewAdress(),
+                            child: controller.isLoading
+                                ? const ProgressCircle()
+                                : const Text("Fetch new account"),
+                          ),
+                        );
+                      }),
+                    ],
+                  ),
+                ],
               ),
-            );
-          },
-        )
-      ],
-    );
+            ),
+          );
+        },
+      )
+    ]);
   }
 
   Observer _copyButton() {
@@ -187,7 +185,7 @@ class _HomeViewState extends State<HomeView> {
           label: "",
           showLabel: false,
           icon: const MacosIcon(CupertinoIcons.settings),
-          onPressed: () => Navigator.of(context).pushNamed("/settings"),
+          onPressed: () => context.beamToNamed("/fetch-email-adress/settings"),
         ),
       ],
       title: const Text("Fetch new account"),

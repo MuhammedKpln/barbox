@@ -1,9 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:go_router/go_router.dart';
 import 'package:injectable/injectable.dart';
-import 'package:spamify/core/services/router.service.dart';
 
 @LazySingleton()
 class NotificationService {
@@ -23,7 +21,7 @@ class NotificationService {
       onDidReceiveNotificationResponse: (details) {
         print("received rrr");
         print(details);
-        rootNavigatorKey.currentContext?.go("/inbox/message");
+        // rootNavigatorKey.currentContext?.go("/inbox/message");
       },
       onDidReceiveBackgroundNotificationResponse: (details) {
         print("received");
