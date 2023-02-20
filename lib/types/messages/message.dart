@@ -19,7 +19,7 @@ class Message extends Equatable {
   final String msgid;
   final From from;
   final List<To> to;
-  final String subject;
+  final String? subject;
   final String? intro;
   final bool seen;
   final bool isDeleted;
@@ -84,8 +84,8 @@ class Message extends Equatable {
         'hasAttachments': hasAttachments,
         'size': size,
         'downloadUrl': downloadUrl,
-        'createdAt': createdAt,
-        'updatedAt': updatedAt,
+        'createdAt': createdAt.toString(),
+        'updatedAt': createdAt.toString(),
       };
 
   /// `dart:convert`

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:injectable/injectable.dart';
 import 'package:mobx/mobx.dart';
+import 'package:spamify/core/services/notification.service.dart';
 import 'package:spamify/features/mails/repositories/messages.repository.dart';
 import 'package:spamify/core/storage/messages.storage.dart';
 import 'package:spamify/types/messages/message.dart';
@@ -13,10 +14,12 @@ part 'messages.controller.g.dart';
 class MessagesController = _MessagesControllerBase with _$MessagesController;
 
 abstract class _MessagesControllerBase with Store {
-  _MessagesControllerBase(this.messagesRepository, this.messagesStorage);
+  _MessagesControllerBase(this._messagesRepository, this._messagesStorage,
+      this._notificationService);
 
-  MessagesRepository messagesRepository;
-  MessagesStorage messagesStorage;
+  final MessagesRepository _messagesRepository;
+  final MessagesStorage _messagesStorage;
+  final NotificationService _notificationService;
 
   @observable
   bool isLoading = true;
@@ -45,13 +48,20 @@ abstract class _MessagesControllerBase with Store {
 
   @action
   Future<void> fetchMessages() async {
-    final messagesFromRepo = await messagesRepository.fetchMessages();
+    final messagesFromRepo = await _messagesRepository.fetchMessages();
 
     if (messagesFromRepo.hydraTotalItems > 0) {
       final _messages = messagesFromRepo.hydraMember.toList();
-      final alreadyStored = await messagesStorage.containsMessage(_messages[0]);
+      final alreadyStored =
+          await _messagesStorage.containsMessage(_messages[0]);
 
-      if (!alreadyStored || !deleteMode) {
+      if (!alreadyStored) {
+        _notificationService.showNotification(
+          title: _messages[0].subject ?? "New mail arrived!",
+          body: _messages[0].intro ?? "",
+          payload: _messages[0].toJson(),
+        );
+
         _saveMessagesToDatabase(_messages);
         messages.sink.add(_messages);
         _messagesWithoutStream = _messages;
@@ -61,7 +71,7 @@ abstract class _MessagesControllerBase with Store {
 
   @action
   Future<void> fetchLocalMessages() async {
-    final messagesFromRepo = await messagesStorage.fetchMessages();
+    final messagesFromRepo = await _messagesStorage.fetchMessages();
 
     messages.sink.add(messagesFromRepo);
     _messagesWithoutStream = messagesFromRepo;
@@ -69,10 +79,10 @@ abstract class _MessagesControllerBase with Store {
 
   Future<void> _saveMessagesToDatabase(List<Message> messages) async {
     for (var message in messages) {
-      final contains = await messagesStorage.containsMessage(message);
+      final contains = await _messagesStorage.containsMessage(message);
 
       if (!contains) {
-        await messagesStorage.saveMessage(message);
+        await _messagesStorage.saveMessage(message);
       }
     }
   }
@@ -96,9 +106,9 @@ abstract class _MessagesControllerBase with Store {
   @action
   Future<void> deleteMessages() async {
     for (var message in selectedMessages) {
-      await messagesRepository.deleteMessage(message.id).then((ok) async {
+      await _messagesRepository.deleteMessage(message.id).then((ok) async {
         if (ok) {
-          await messagesStorage.deleteMessage(message.id);
+          await _messagesStorage.deleteMessage(message.id);
 
           _messagesWithoutStream
               .removeWhere((element) => element.msgid == message.msgid);

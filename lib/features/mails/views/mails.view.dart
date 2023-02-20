@@ -89,7 +89,8 @@ class _MailsViewState extends State<MailsView> {
                                         Expanded(
                                           child: MessageComponent(
                                             from: message.from.name!,
-                                            description: message.subject,
+                                            description:
+                                                message.subject ?? "Wewe",
                                             date: message.createdAt,
                                             onPressed: () => controller
                                                 .toggleMessageCheckbox(
@@ -103,7 +104,7 @@ class _MailsViewState extends State<MailsView> {
 
                                 return MessageComponent(
                                   from: message.from.name!,
-                                  description: message.subject,
+                                  description: message.subject ?? "sssd",
                                   date: message.createdAt,
                                   onPressed: () => mailsRouterDelegate
                                       .beamToNamed("/inbox/${message.id}",
