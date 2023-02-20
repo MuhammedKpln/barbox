@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:spamify/features/app/views/app.view.dart';
 import 'package:spamify/features/home/views/home.view.dart';
 import 'package:spamify/features/home/views/home.wrapper.dart';
-import 'package:spamify/features/mails/models/message.model.dart';
 import 'package:spamify/features/mails/views/mail.view.dart';
 import 'package:spamify/features/mails/views/mails.view.dart';
 import 'package:spamify/features/settings/views/settings.view.dart';
+import 'package:spamify/types/messages/message.dart';
 
 enum RouterMeta {
   fetchEmailAddress("/fetch-email-adress", "Fetch new email address"),

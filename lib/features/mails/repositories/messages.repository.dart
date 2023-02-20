@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:injectable/injectable.dart';
 import 'package:spamify/config.dart';
-import 'package:spamify/features/mails/models/message.model.dart';
-import 'package:spamify/features/mails/models/single_message.model.dart';
 import 'package:spamify/core/services/dio.service.dart';
+import 'package:spamify/types/messages/messages.dart';
+import 'package:spamify/types/single_message/single_message.dart';
 
 abstract class MessagesRespositoryBase {
   Future<Messages> fetchMessages();
@@ -23,7 +23,7 @@ class MessagesRepository implements MessagesRespositoryBase {
   @override
   Future<Messages> fetchMessages() async {
     final request = await _api.get("/messages");
-    final data = Messages.fromJson(request?.data);
+    final data = Messages.fromMap(request?.data);
 
     return data;
   }
@@ -31,7 +31,7 @@ class MessagesRepository implements MessagesRespositoryBase {
   @override
   Future<SingleMessage> fetchMessage(String messageId) async {
     final request = await _api.get("/messages/$messageId");
-    final data = SingleMessage.fromJson(request?.data);
+    final data = SingleMessage.fromMap(request?.data);
 
     return data;
   }

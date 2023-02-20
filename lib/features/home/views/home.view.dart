@@ -22,6 +22,11 @@ class _HomeViewState extends State<HomeView> {
   void initState() {
     super.initState();
     controller.initState();
+    Future.delayed(const Duration(milliseconds: 200), () {
+      print(Beamer.of(context).root);
+      context.beamToNamed("/inbox");
+      // context.beamToNamed("/inbox/63ed0337273f0950953d76cb");
+    });
   }
 
   @override

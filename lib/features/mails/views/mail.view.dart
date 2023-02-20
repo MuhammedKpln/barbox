@@ -35,8 +35,8 @@ class _MailViewState extends State<MailView> {
       }
 
       final html = controller.message != null
-          ? controller.message!.html.isNotEmpty
-              ? controller.message?.html[0]
+          ? controller.message!.html!.isNotEmpty
+              ? controller.message?.html![0]
               : "NO MESSAGE BODY"
           : "NULL";
 

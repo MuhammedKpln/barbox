@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:injectable/injectable.dart';
 import 'package:mobx/mobx.dart';
 import 'package:spamify/core/storage/messages.storage.dart';
-import 'package:spamify/features/mails/models/single_message.model.dart';
 import 'package:spamify/features/mails/repositories/messages.repository.dart';
+import 'package:spamify/types/single_message/single_message.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 part 'message.controller.g.dart';

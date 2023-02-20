@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:injectable/injectable.dart';
 import 'package:mobx/mobx.dart';
-import 'package:spamify/features/mails/models/message.model.dart';
-import 'package:spamify/features/mails/models/single_message.model.dart';
 import 'package:spamify/features/mails/repositories/messages.repository.dart';
 import 'package:spamify/core/storage/messages.storage.dart';
+import 'package:spamify/types/messages/message.dart';
+import 'package:spamify/types/single_message/single_message.dart';
 
 part 'messages.controller.g.dart';
 
@@ -63,11 +63,8 @@ abstract class _MessagesControllerBase with Store {
   Future<void> fetchLocalMessages() async {
     final messagesFromRepo = await messagesStorage.fetchMessages();
 
-    final mappedList =
-        messagesFromRepo.map((e) => Message.fromJson(e.toMap())).toList();
-
-    messages.sink.add(mappedList);
-    _messagesWithoutStream = mappedList;
+    messages.sink.add(messagesFromRepo);
+    _messagesWithoutStream = messagesFromRepo;
   }
 
   Future<void> _saveMessagesToDatabase(List<Message> messages) async {
@@ -85,16 +82,6 @@ abstract class _MessagesControllerBase with Store {
   }
 
   @action
-  fetchMessage(Message message) async {
-    isFetchingSingleMessage = true;
-    final messageFromRepo =
-        await messagesRepository.fetchMessage(message.primaryId);
-
-    showingMessage = messageFromRepo;
-    isFetchingSingleMessage = false;
-  }
-
-  @action
   void toggleMessageCheckbox(Message message) {
     final contains = selectedMessages.contains(message);
 
@@ -109,11 +96,9 @@ abstract class _MessagesControllerBase with Store {
   @action
   Future<void> deleteMessages() async {
     for (var message in selectedMessages) {
-      await messagesRepository
-          .deleteMessage(message.primaryId)
-          .then((ok) async {
+      await messagesRepository.deleteMessage(message.id).then((ok) async {
         if (ok) {
-          await messagesStorage.deleteMessage(message.primaryId);
+          await messagesStorage.deleteMessage(message.id);
 
           _messagesWithoutStream
               .removeWhere((element) => element.msgid == message.msgid);

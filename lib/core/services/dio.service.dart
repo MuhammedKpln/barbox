@@ -9,12 +9,12 @@ class DioService {
   late Dio _dio;
   AuthInterceptor authInterceptor;
   BaseOptions get _baseOptions => BaseOptions(
-          baseUrl: 'https://api.mail.tm',
-          connectTimeout: 5000,
-          receiveTimeout: 3000,
-          headers: {
-            "Content-Type": "application/json",
-          });
+        baseUrl: 'https://api.mail.tm',
+        connectTimeout: 5000,
+        receiveTimeout: 3000,
+        contentType: "application/json",
+        responseType: ResponseType.json,
+      );
 
   DioService(this.authInterceptor) {
     _dio = Dio(_baseOptions);

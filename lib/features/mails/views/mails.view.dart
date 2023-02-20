@@ -6,9 +6,9 @@ import 'package:macos_ui/macos_ui.dart';
 import 'package:spamify/core/constants/theme.dart';
 import 'package:spamify/core/services/router.service.dart';
 import 'package:spamify/features/mails/controller/messages.controller.dart';
-import 'package:spamify/features/mails/models/message.model.dart';
 import 'package:spamify/features/mails/views/components/message.component.dart';
 import 'package:spamify/core/services/di.service.dart';
+import 'package:spamify/types/messages/message.dart';
 
 class MailsView extends StatefulWidget {
   const MailsView({super.key});
@@ -68,8 +68,7 @@ class _MailsViewState extends State<MailsView> {
                                   final checkboxValue = controller
                                           .selectedMessages
                                           .where((element) =>
-                                              element.primaryId ==
-                                              message.primaryId)
+                                              element.id == message.id)
                                           .toList()
                                           .isNotEmpty
                                       ? true
@@ -89,7 +88,7 @@ class _MailsViewState extends State<MailsView> {
                                         ),
                                         Expanded(
                                           child: MessageComponent(
-                                            from: message.from.name,
+                                            from: message.from.name!,
                                             description: message.subject,
                                             date: message.createdAt,
                                             onPressed: () => controller
@@ -103,12 +102,11 @@ class _MailsViewState extends State<MailsView> {
                                 }
 
                                 return MessageComponent(
-                                  from: message.from.name,
+                                  from: message.from.name!,
                                   description: message.subject,
                                   date: message.createdAt,
-                                  onPressed: () =>
-                                      mailsRouterDelegate.beamToNamed(
-                                          "/inbox/${message.primaryId}",
+                                  onPressed: () => mailsRouterDelegate
+                                      .beamToNamed("/inbox/${message.id}",
                                           data: message),
                                 );
                               },

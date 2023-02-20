@@ -1,51 +1,25 @@
 import 'package:injectable/injectable.dart';
 import 'package:isar/isar.dart';
 import 'package:spamify/core/storage/isar/base.db.dart';
-import 'package:spamify/core/storage/isar/messages.db.dart';
-import 'package:spamify/features/mails/models/message.model.dart';
+import 'package:spamify/types/messages/message.dart';
 
 @LazySingleton()
 class MessagesStorage {
   Future<void> saveMessage(Message message) async {
     await isarInstance.writeTxn(() async {
-      final entry = MessagesDatabase()
-        ..accountId = message.accountId
-        ..context = message.context
-        ..createdAt = message.createdAt
-        ..downloadUrl = message.downloadUrl
-        ..from = MessageFromDb(
-            address: message.from.address, name: message.from.name)
-        ..hasAttachments = message.hasAttachments
-        ..hydraMemberId = message.primaryId
-        ..id = message.typeId
-        ..intro = message.intro
-        ..intro = message.intro
-        ..isDeleted = message.isDeleted
-        ..msgid = message.msgid
-        ..seen = message.seen
-        ..size = message.size
-        ..subject = message.subject
-        ..to = message.to!
-            .map((e) => MessageFromDb(address: e.address, name: e.name))
-            .toList()
-        ..type = message.type
-        ..updatedAt = message.updatedAt;
-
-      await isarInstance.messagesDatabases.put(entry);
+      await isarInstance.messages.put(message);
     });
   }
 
-  Future<void> saveMessages(List<MessagesDatabase> message) async {
+  Future<void> saveMessages(List<Message> message) async {
     await isarInstance.writeTxn(() async {
-      await isarInstance.messagesDatabases.putAll(message);
+      await isarInstance.messages.putAll(message);
     });
   }
 
   Future<bool> containsMessage(Message message) async {
-    final entries = await isarInstance.messagesDatabases
-        .where()
-        .msgidEqualTo(message.msgid)
-        .count();
+    final entries =
+        await isarInstance.messages.where().idEqualTo(message.id).count();
 
     if (entries > 0) {
       return true;
@@ -54,22 +28,19 @@ class MessagesStorage {
     return false;
   }
 
-  Future<List<MessagesDatabase>> fetchMessages() async {
-    return isarInstance.messagesDatabases.where().findAll();
+  Future<List<Message>> fetchMessages() async {
+    return isarInstance.messages.where().findAll();
   }
 
   Future<void> deleteMessage(String messageId) async {
     return isarInstance.writeTxn(() async {
-      await isarInstance.messagesDatabases
-          .filter()
-          .hydraMemberIdEqualTo(messageId)
-          .deleteAll();
+      await isarInstance.messages.filter().idEqualTo(messageId).deleteAll();
     });
   }
 
   Future<void> clear() async {
     return isarInstance.writeTxn(() async {
-      await isarInstance.messagesDatabases.clear();
+      await isarInstance.messages.clear();
     });
   }
 }

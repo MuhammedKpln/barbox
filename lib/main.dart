@@ -6,14 +6,14 @@ import 'package:spamify/core/services/di.service.dart';
 import 'package:spamify/core/services/router.service.dart';
 import 'package:spamify/core/storage/isar/base.db.dart';
 import 'package:spamify/core/storage/isar/local_account.db.dart';
-import 'package:spamify/core/storage/isar/messages.db.dart';
+import 'package:spamify/types/messages/message.dart';
 
 final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
     GlobalKey<ScaffoldMessengerState>();
 
 void main() async {
   configureDependencies();
-  initDb([LocalAccountSchema, MessagesDatabaseSchema])
+  await initDb([LocalAccountSchema, MessageSchema])
       .then((_) => runApp(const MyApp()));
 }
 
