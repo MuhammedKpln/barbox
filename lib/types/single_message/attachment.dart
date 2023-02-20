@@ -62,6 +62,7 @@ class Attachment extends Equatable {
   String toJson() => json.encode(toMap());
 
   @override
+  @ignore
   bool get stringify => true;
 
   @override
