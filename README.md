@@ -1,4 +1,4 @@
-# Spamify ALPHA
+# Spamify BETA
 
 
 ## Email client for spams at your mac menubar!
