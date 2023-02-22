@@ -7,7 +7,7 @@ import 'package:mobx/mobx.dart';
 import 'package:spamify/core/auth/controllers/auth.controller.dart';
 import 'package:spamify/core/services/notification.service.dart';
 import 'package:spamify/features/app/views/components/sidebarItem.component.dart';
-import 'package:spamify/core/services/router.service.dart';
+import 'package:spamify/core/services/router/router.service.dart';
 import 'package:spamify/core/storage/account.storage.dart';
 
 part 'app.controller.g.dart';

@@ -1,5 +1,7 @@
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
+import 'package:spamify/core/services/di.service.dart';
+import 'package:spamify/core/services/router/router.controller.dart';
 import 'package:spamify/features/app/views/app.view.dart';
 import 'package:spamify/features/home/views/home.view.dart';
 import 'package:spamify/features/home/views/home.wrapper.dart';
@@ -53,7 +55,13 @@ final homeRouterDelegate = BeamerDelegate(
 
 final mailsRouterKey = GlobalKey<BeamerState>();
 final mailsRouterDelegate = BeamerDelegate(
+    routeListener: (routeInformation, _) {
+      final controller = getIt<RouterServiceController>();
+
+      controller.updateRoute(routeInformation);
+    },
     initialPath: RouterMeta.inbox.path,
+    transitionDelegate: const NoAnimationTransitionDelegate(),
     locationBuilder: RoutesLocationBuilder(routes: {
       RouterMeta.inbox.path: (p0, p1, p2) => Container(),
       RouterMeta.message.path: (context, state, data) {

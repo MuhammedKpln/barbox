@@ -1,9 +1,7 @@
 import 'package:beamer/beamer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:macos_ui/macos_ui.dart';
-import 'package:spamify/core/services/router.service.dart';
-import 'package:spamify/features/home/views/home.view.dart';
-import 'package:spamify/features/settings/views/settings.view.dart';
+import 'package:spamify/core/services/router/router.service.dart';
 
 class HomeWrapperView extends StatelessWidget {
   const HomeWrapperView({super.key});

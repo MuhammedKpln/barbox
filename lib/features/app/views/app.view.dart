@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:macos_ui/macos_ui.dart';
 import 'package:spamify/core/auth/controllers/auth.controller.dart';
-import 'package:spamify/core/services/router.service.dart';
+import 'package:spamify/core/services/router/router.service.dart';
 import 'package:spamify/features/app/controller/app.controller.dart';
 import 'package:spamify/main.dart';
 import 'package:spamify/core/services/di.service.dart';

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:macos_ui/macos_ui.dart';
 
 import 'package:spamify/core/services/di.service.dart';
-import 'package:spamify/core/services/router.service.dart';
+import 'package:spamify/core/services/router/router.service.dart';
 import 'package:spamify/core/storage/isar/base.db.dart';
 import 'package:spamify/core/storage/isar/local_account.db.dart';
 import 'package:spamify/types/messages/message.dart';

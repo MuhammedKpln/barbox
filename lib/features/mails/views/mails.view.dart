@@ -1,10 +1,13 @@
+import 'dart:async';
+
 import 'package:beamer/beamer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:macos_ui/macos_ui.dart';
 import 'package:spamify/core/constants/theme.dart';
-import 'package:spamify/core/services/router.service.dart';
+import 'package:spamify/core/services/router/router.controller.dart';
+import 'package:spamify/core/services/router/router.service.dart';
 import 'package:spamify/features/mails/controller/messages.controller.dart';
 import 'package:spamify/features/mails/views/components/message.component.dart';
 import 'package:spamify/core/services/di.service.dart';
@@ -19,6 +22,7 @@ class MailsView extends StatefulWidget {
 
 class _MailsViewState extends State<MailsView> {
   final controller = getIt<MessagesController>();
+  final _routerService = getIt<RouterServiceController>();
 
   @override
   void initState() {
@@ -59,10 +63,15 @@ class _MailsViewState extends State<MailsView> {
                           print(controller.deleteMode);
                           print(controller.selectedMessages);
 
+                          final currentRouteLocation =
+                              _routerService.currentRoute?.location;
+
                           return ListView.separated(
                               controller: scrollController,
                               itemBuilder: (context, index) {
                                 final message = data[index];
+                                final isSelected = currentRouteLocation ==
+                                    "/inbox/${message.id}";
 
                                 if (controller.deleteMode) {
                                   final checkboxValue = controller
@@ -95,6 +104,7 @@ class _MailsViewState extends State<MailsView> {
                                             onPressed: () => controller
                                                 .toggleMessageCheckbox(
                                                     data[index]),
+                                            selected: false,
                                           ),
                                         )
                                       ],
@@ -109,6 +119,7 @@ class _MailsViewState extends State<MailsView> {
                                   onPressed: () => mailsRouterDelegate
                                       .beamToNamed("/inbox/${message.id}",
                                           data: message),
+                                  selected: isSelected,
                                 );
                               },
                               separatorBuilder: (context, index) =>
