@@ -4,26 +4,27 @@
 //
 //  Created by Ken Lee on 11/3/2022.
 //
-
 import AppKit
 
 class StatusBarController {
     private var statusBar: NSStatusBar
     private var statusItem: NSStatusItem
     private var popover: NSPopover
-
+    
     init(_ popover: NSPopover) {
         self.popover = popover
         statusBar = NSStatusBar.init()
-        statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
+        statusItem = statusBar.statusItem(withLength: 28.0)
+        
         if let statusBarButton = statusItem.button {
-            statusBarButton.image = NSImage(imageLiteralResourceName: "StatusBarIcon")
-            statusBarButton.image?.size = NSSize(width: 18, height: 18)
+            statusBarButton.image = #imageLiteral(resourceName: "AppIcon") //change this to your desired image
+            statusBarButton.image?.size = NSSize(width: 18.0, height: 18.0)
+            statusBarButton.image?.isTemplate = true
             statusBarButton.action = #selector(togglePopover(sender:))
             statusBarButton.target = self
         }
     }
-
+    
     @objc func togglePopover(sender: AnyObject) {
         if(popover.isShown) {
             hidePopover(sender)

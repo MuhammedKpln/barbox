@@ -1,9 +1,15 @@
-class LoginResponse {
-  String token;
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-  LoginResponse({required this.token});
+part 'login.freezed.dart';
+part 'login.g.dart';
 
-  factory LoginResponse.fromJson(Map<String, dynamic> json) => LoginResponse(
-        token: json["token"] as String,
-      );
+@freezed
+class LoginResponse with _$LoginResponse {
+  factory LoginResponse({
+    required String token,
+    required String id,
+  }) = _LoginResponse;
+
+  factory LoginResponse.fromJson(Map<String, dynamic> json) =>
+      _$LoginResponseFromJson(json);
 }
