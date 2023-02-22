@@ -36,34 +36,36 @@ class _AppState extends State<App> {
   Widget build(BuildContext context) {
     return ScaffoldMessenger(
       key: scaffoldMessengerKey,
-      child: MacosScaffold(
-        children: [
-          ContentArea(
-            builder: (context, scrollController) {
-              return MacosWindow(
-                sidebar: Sidebar(
-                    minWidth: 210,
-                    windowBreakpoint: 300,
-                    isResizable: true,
-                    bottom: _bottomRenderer(),
-                    builder: (context, _) {
-                      return Observer(builder: (_) {
-                        return SidebarItems(
-                          items: controller.tabs,
-                          currentIndex: controller.currentIndex,
-                          onChanged: (index) =>
-                              controller.onItemTapped(context, index),
-                        );
-                      });
-                    }),
-                child: Beamer(
-                  routerDelegate: appRouterDelegate,
-                  key: appRouterKey,
-                ),
-              );
-            },
-          )
-        ],
+      child: Scaffold(
+        body: MacosScaffold(
+          children: [
+            ContentArea(
+              builder: (context, scrollController) {
+                return MacosWindow(
+                  sidebar: Sidebar(
+                      minWidth: 210,
+                      windowBreakpoint: 300,
+                      isResizable: true,
+                      bottom: _bottomRenderer(),
+                      builder: (context, _) {
+                        return Observer(builder: (_) {
+                          return SidebarItems(
+                            items: controller.tabs,
+                            currentIndex: controller.currentIndex,
+                            onChanged: (index) =>
+                                controller.onItemTapped(context, index),
+                          );
+                        });
+                      }),
+                  child: Beamer(
+                    routerDelegate: appRouterDelegate,
+                    key: appRouterKey,
+                  ),
+                );
+              },
+            )
+          ],
+        ),
       ),
     );
   }
