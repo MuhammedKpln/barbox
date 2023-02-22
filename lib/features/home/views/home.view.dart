@@ -22,6 +22,7 @@ class _HomeViewState extends State<HomeView> {
   void initState() {
     super.initState();
     controller.initState();
+    showWelcomeSheet();
   }
 
   @override
