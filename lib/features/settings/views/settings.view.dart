@@ -5,6 +5,7 @@ import 'package:spamify/core/auth/controllers/auth.controller.dart';
 import 'package:spamify/core/constants/theme.dart';
 import 'package:spamify/features/settings/controllers/settings.controller.dart';
 import 'package:spamify/core/services/di.service.dart';
+import 'package:spamify/features/settings/views/components/checkForUpdateSheet.component.dart';
 
 class SettingsView extends StatefulWidget {
   const SettingsView({super.key});
@@ -21,6 +22,20 @@ class _SettingsViewState extends State<SettingsView> {
   void initState() {
     super.initState();
     controller.initState();
+
+    controller.updateAvailable.observe((value) async {
+      if (value.newValue != null) {
+        if (value.newValue!) {
+          await showMacosSheet(
+            barrierDismissible: true,
+            context: context,
+            builder: (context) {
+              return const CheckForUpdateSheet();
+            },
+          );
+        }
+      }
+    });
   }
 
   @override
@@ -57,6 +72,16 @@ class _SettingsViewState extends State<SettingsView> {
                         child: const Text("Logout"),
                         buttonSize: ButtonSize.large,
                         onPressed: controller.logout,
+                      ),
+                      Padding(
+                        padding:
+                            EdgeInsets.only(top: ThemePadding.medium.padding),
+                        child: PushButton(
+                          child: const Text("Check for updates"),
+                          buttonSize: ButtonSize.large,
+                          isSecondary: true,
+                          onPressed: controller.checkForUpdates,
+                        ),
                       ),
                       Padding(
                         padding:

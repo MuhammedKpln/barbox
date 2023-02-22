@@ -153,24 +153,21 @@ class _HomeViewState extends State<HomeView> {
     ]);
   }
 
-  Observer _copyButton() {
-    return Observer(builder: (_) {
-      return PushButton(
-        buttonSize: ButtonSize.small,
-        color: Colors.transparent,
-        onPressed: () => controller.copyEmailAddress(),
-        child: Observer(builder: (_) {
-          return AnimatedCrossFade(
-              firstChild: const MacosIcon(CupertinoIcons.doc_on_clipboard),
-              secondChild:
-                  const MacosIcon(CupertinoIcons.doc_on_clipboard_fill),
-              crossFadeState: controller.copied
-                  ? CrossFadeState.showSecond
-                  : CrossFadeState.showFirst,
-              duration: const Duration(milliseconds: 700));
-        }),
-      );
-    });
+  Widget _copyButton() {
+    return PushButton(
+      buttonSize: ButtonSize.small,
+      color: Colors.transparent,
+      onPressed: () => controller.copyEmailAddress(),
+      child: Observer(builder: (_) {
+        return AnimatedCrossFade(
+            firstChild: const MacosIcon(CupertinoIcons.doc_on_clipboard),
+            secondChild: const MacosIcon(CupertinoIcons.doc_on_clipboard_fill),
+            crossFadeState: controller.copied
+                ? CrossFadeState.showSecond
+                : CrossFadeState.showFirst,
+            duration: const Duration(milliseconds: 700));
+      }),
+    );
   }
 
   ToolBar _toolBar() {

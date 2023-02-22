@@ -70,35 +70,31 @@ class _AppState extends State<App> {
     );
   }
 
-  Column _bottomRenderer() {
-    return Column(children: [
-      // CheckForUpdates(
-      //   onPressed: checkForUpdates,
-      // ),
+  Widget _bottomRenderer() {
+    return Observer(builder: (_) {
+      if (controller.authController.authState.value != AuthState.loggedIn) {
+        return const SizedBox.shrink();
+      }
 
-      Observer(builder: (_) {
-        if (controller.authController.authState.value != AuthState.loggedIn) {
-          return const SizedBox.shrink();
-        }
+      return MacosListTile(
+        onClick: () {
+          context.beamToNamed(
+            RouterMeta.fetchEmailAddress.path,
+          );
+          Future.delayed(
+              const Duration(milliseconds: 200),
+              () => homeRouterDelegate.beamToNamed(
+                    RouterMeta.settings.path,
+                  ));
+        },
+        leading: const Icon(CupertinoIcons.person_circle),
+        title: Text(
+          controller.authController.account.value?.address ?? "",
 
-        return MacosListTile(
-          onClick: () {
-            context.beamToNamed(
-              RouterMeta.fetchEmailAddress.path,
-            );
-            Future.delayed(
-                const Duration(milliseconds: 200),
-                () => homeRouterDelegate.beamToNamed(
-                      RouterMeta.settings.path,
-                    ));
-          },
-          leading: const Icon(CupertinoIcons.person_circle),
-          title: Text(
-            controller.authController.account.value?.address ?? "",
-            style: MacosTheme.of(context).typography.headline,
-          ),
-        );
-      })
-    ]);
+          /// Using the MacosTheme to get the typography and then the headline style.
+          style: MacosTheme.of(context).typography.headline,
+        ),
+      );
+    });
   }
 }
