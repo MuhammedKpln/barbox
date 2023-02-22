@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:macos_ui/macos_ui.dart';
-import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:spamify/core/services/di.service.dart';
 import 'package:spamify/features/mails/controller/message.controller.dart';
 
@@ -35,8 +35,8 @@ class _MailViewState extends State<MailView> {
       }
 
       final html = controller.message != null
-          ? controller.message!.html!.isNotEmpty
-              ? controller.message?.html![0]
+          ? controller.message!.html.isNotEmpty
+              ? controller.message?.html[0]
               : "NO MESSAGE BODY"
           : "NULL";
 
