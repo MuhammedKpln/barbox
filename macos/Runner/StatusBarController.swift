@@ -21,7 +21,7 @@ class StatusBarController {
             statusBarButton.image?.size = NSSize(width: 13.0, height: 13.0)
             statusBarButton.image?.isTemplate = true
             statusBarButton.action = #selector(togglePopover(sender:))
-            statusBarButton.sendAction(on: [.rightMouseUp])
+            statusBarButton.sendAction(on: [.rightMouseUp, .leftMouseUp])
             statusBarButton.target = self
         }
     }
