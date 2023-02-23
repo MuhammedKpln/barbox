@@ -14,18 +14,25 @@ class StatusBarController {
     init(_ popover: NSPopover) {
         self.popover = popover
         statusBar = NSStatusBar.init()
-        statusItem = statusBar.statusItem(withLength: 28.0)
+        statusItem = statusBar.statusItem(withLength: NSStatusItem.variableLength)
         
         if let statusBarButton = statusItem.button {
-            statusBarButton.image = #imageLiteral(resourceName: "AppIcon") //change this to your desired image
-            statusBarButton.image?.size = NSSize(width: 18.0, height: 18.0)
+            statusBarButton.image = NSImage(imageLiteralResourceName: "StatusBarIcon")
+            statusBarButton.image?.size = NSSize(width: 13.0, height: 13.0)
             statusBarButton.image?.isTemplate = true
             statusBarButton.action = #selector(togglePopover(sender:))
+            statusBarButton.sendAction(on: [.rightMouseUp])
             statusBarButton.target = self
         }
     }
     
     @objc func togglePopover(sender: AnyObject) {
+        let event = NSApp.currentEvent!
+
+        if event.type == NSEvent.EventType.rightMouseUp {
+            NSApplication.shared.terminate(self)
+        }
+
         if(popover.isShown) {
             hidePopover(sender)
         }
@@ -33,13 +40,13 @@ class StatusBarController {
             showPopover(sender)
         }
     }
-    
+
     func showPopover(_ sender: AnyObject) {
         if let statusBarButton = statusItem.button {
             popover.show(relativeTo: statusBarButton.bounds, of: statusBarButton, preferredEdge: NSRectEdge.maxY)
         }
     }
-    
+
     func hidePopover(_ sender: AnyObject) {
         popover.performClose(sender)
     }
