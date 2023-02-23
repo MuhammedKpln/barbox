@@ -1,6 +1,7 @@
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:spamify/core/services/di.service.dart';
+import 'package:spamify/core/services/router/guards/auth.guard.dart';
 import 'package:spamify/core/services/router/router.controller.dart';
 import 'package:spamify/features/app/views/app.view.dart';
 import 'package:spamify/features/home/views/home.view.dart';
@@ -45,6 +46,9 @@ final appRouterDelegate = BeamerDelegate(
 
 final homeRouterKey = GlobalKey<BeamerState>();
 final homeRouterDelegate = BeamerDelegate(
+    guards: [
+      AuthGuard(),
+    ],
     initialPath: RouterMeta.fetchEmailAddress.path,
     locationBuilder: RoutesLocationBuilder(
       routes: {

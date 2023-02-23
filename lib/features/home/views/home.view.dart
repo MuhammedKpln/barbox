@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:macos_ui/macos_ui.dart';
+import 'package:spamify/core/auth/controllers/auth.controller.dart';
 import 'package:spamify/features/home/controllers/home.controller.dart';
 import 'package:spamify/core/services/di.service.dart';
 
@@ -17,6 +18,7 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   final HomeViewController controller = getIt<HomeViewController>();
+  final AuthController authController = getIt<AuthController>();
 
   @override
   void initState() {
@@ -120,13 +122,19 @@ class _HomeViewState extends State<HomeView> {
                         children: [
                           SizedBox(
                             width: 300,
-                            child: MacosTextField(
-                              controller: controller.textFieldController,
-                              readOnly: true,
-                              style: const TextStyle(
-                                fontSize: 15,
-                              ),
-                            ),
+                            child: Observer(builder: (_) {
+                              if (!authController.isLoggedIn) {
+                                return const SizedBox.shrink();
+                              }
+
+                              return MacosTextField(
+                                controller: controller.textFieldController,
+                                readOnly: true,
+                                style: const TextStyle(
+                                  fontSize: 15,
+                                ),
+                              );
+                            }),
                           ),
                           _copyButton()
                         ],
@@ -155,20 +163,27 @@ class _HomeViewState extends State<HomeView> {
   }
 
   Widget _copyButton() {
-    return PushButton(
-      buttonSize: ButtonSize.small,
-      color: Colors.transparent,
-      onPressed: () => controller.copyEmailAddress(),
-      child: Observer(builder: (_) {
-        return AnimatedCrossFade(
-            firstChild: const MacosIcon(CupertinoIcons.doc_on_clipboard),
-            secondChild: const MacosIcon(CupertinoIcons.doc_on_clipboard_fill),
-            crossFadeState: controller.copied
-                ? CrossFadeState.showSecond
-                : CrossFadeState.showFirst,
-            duration: const Duration(milliseconds: 700));
-      }),
-    );
+    return Observer(builder: (context) {
+      if (!authController.isLoggedIn) {
+        return const SizedBox.shrink();
+      }
+
+      return PushButton(
+        buttonSize: ButtonSize.small,
+        color: Colors.transparent,
+        onPressed: () => controller.copyEmailAddress(),
+        child: Observer(builder: (_) {
+          return AnimatedCrossFade(
+              firstChild: const MacosIcon(CupertinoIcons.doc_on_clipboard),
+              secondChild:
+                  const MacosIcon(CupertinoIcons.doc_on_clipboard_fill),
+              crossFadeState: controller.copied
+                  ? CrossFadeState.showSecond
+                  : CrossFadeState.showFirst,
+              duration: const Duration(milliseconds: 700));
+        }),
+      );
+    });
   }
 
   ToolBar _toolBar() {
@@ -179,11 +194,27 @@ class _HomeViewState extends State<HomeView> {
           color: MacosTheme.of(context).pushButtonTheme.disabledColor,
           onPressed: () => MacosWindowScope.of(context).toggleSidebar()),
       actions: [
-        ToolBarIconButton(
-          label: "",
-          showLabel: false,
-          icon: const MacosIcon(CupertinoIcons.settings),
-          onPressed: () => context.beamToNamed("/fetch-email-adress/settings"),
+        CustomToolbarItem(
+          inToolbarBuilder: (context) {
+            return Observer(
+              builder: (context) {
+                if (authController.authState.value == AuthState.none) {
+                  return const SizedBox.shrink();
+                }
+
+                return ToolBarIconButton(
+                  label: "",
+                  showLabel: false,
+                  tooltipMessage: "Settings",
+                  icon: const MacosIcon(
+                    CupertinoIcons.settings,
+                  ),
+                  onPressed: () =>
+                      context.beamToNamed("/fetch-email-adress/settings"),
+                ).build(context, ToolbarItemDisplayMode.inToolbar);
+              },
+            );
+          },
         ),
       ],
       title: const Text("Fetch new account"),

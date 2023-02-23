@@ -36,10 +36,8 @@ abstract class _HomeViewControllerBase with Store {
       if (value.newValue == AuthState.loggedIn) {
         textFieldController.text = authController.account.value?.address ?? "";
       }
-    });
-    authController.account.observe((value) {
-      if (value.newValue != null) {
-        textFieldController.text = authController.account.value?.address ?? "";
+      if (value.newValue == AuthState.none) {
+        textFieldController.text = "";
       }
     });
   }
@@ -47,7 +45,6 @@ abstract class _HomeViewControllerBase with Store {
   @action
   Future<void> fetchNewAdress() async {
     isLoading = true;
-    // try {
     final password = generateRandomString(10);
 
     final domains = await accountRepository.fetchDomains();
@@ -59,25 +56,11 @@ abstract class _HomeViewControllerBase with Store {
         address: _account.address, password: password, token: token.token);
 
     await accountStorage.saveAccount(authController.account.value!);
+    authController.authState.value = AuthState.loggedIn;
 
     textFieldController.text = authController.account.value?.address ?? "";
 
     isLoading = false;
-    // } catch (e) {
-    //   print(e);
-    // }
-  }
-
-  @action
-  Future<void> login(String address, String password) async {
-    isLoading = true;
-    try {
-      final _account = await accountRepository.login(address, password);
-      final account = LocalAccount(
-          address: address, password: password, token: _account.token);
-    } catch (e) {
-      rethrow;
-    }
   }
 
   @action

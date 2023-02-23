@@ -37,11 +37,22 @@ abstract class _AppViewControllerBase with Store {
       if (authController.authState.value == AuthState.loggedIn) {
         tabs = [...tabs, ..._authenticationTabs];
       }
+      if (authController.authState.value == AuthState.none) {
+        tabs = [..._rawTabs];
+      }
     });
   }
 
   @observable
   List<SidebarItemWithRouter> tabs = [
+    SidebarItemWithRouter(
+      initialLocation: RouterMeta.fetchEmailAddress.path,
+      label: const Text("Get new email address"),
+      icon: CupertinoIcons.mail,
+    ),
+  ];
+
+  final List<SidebarItemWithRouter> _rawTabs = [
     SidebarItemWithRouter(
       initialLocation: RouterMeta.fetchEmailAddress.path,
       label: const Text("Get new email address"),

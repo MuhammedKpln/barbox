@@ -6,6 +6,7 @@ import 'package:spamify/config.dart';
 import 'package:spamify/core/auth/controllers/auth.controller.dart';
 import 'package:spamify/core/constants/theme.dart';
 import 'package:spamify/core/exstensions/toast.extension.dart';
+import 'package:spamify/core/services/router/router.service.dart';
 import 'package:spamify/core/storage/account.storage.dart';
 import 'package:spamify/core/storage/messages.storage.dart';
 import 'package:spamify/features/settings/models/update.model.dart';
@@ -40,6 +41,14 @@ abstract class _SettingsViewControllerBase with Store {
   Future<void> initState() async {
     await _getVersion();
     await checkForUpdates();
+
+    authController.authState.observe((value) {
+      if (value.newValue != null) {
+        if (value.newValue == AuthState.none) {
+          appRouterDelegate.beamToNamed(RouterMeta.fetchEmailAddress.path);
+        }
+      }
+    });
   }
 
   Future<void> _getVersion() async {
@@ -82,7 +91,7 @@ abstract class _SettingsViewControllerBase with Store {
         print("Update available");
         break;
       case 0:
-        print("No update available");
+        _toast.showToast("Update not found.");
         break;
       case 1:
         print("Higher version available");

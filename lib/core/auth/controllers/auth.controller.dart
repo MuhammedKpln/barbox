@@ -11,9 +11,9 @@ enum AuthState { loggedIn, none }
 class AuthController = _AuthControllerBase with _$AuthController;
 
 abstract class _AuthControllerBase with Store {
-  _AuthControllerBase(this.accountStorage, this.messagesStorage);
-  final AccountStorage accountStorage;
-  final MessagesStorage messagesStorage;
+  _AuthControllerBase(this._accountStorage, this._messagesStorage);
+  final AccountStorage _accountStorage;
+  final MessagesStorage _messagesStorage;
 
   @observable
   Observable<AuthState> authState = Observable(AuthState.none);
@@ -21,20 +21,23 @@ abstract class _AuthControllerBase with Store {
   @observable
   Observable<LocalAccount?> account = Observable(null);
 
+  @computed
+  bool get isLoggedIn => authState.value == AuthState.loggedIn;
+
   @action
   Future<void> init() async {
-    final isLoggedIn = await accountStorage.isLoggedIn();
+    final isLoggedIn = await _accountStorage.isLoggedIn();
 
     if (isLoggedIn) {
       authState.value = AuthState.loggedIn;
-      account.value = await accountStorage.getAccount();
+      account.value = await _accountStorage.getAccount();
     }
   }
 
   @action
   Future<void> logout() async {
-    await accountStorage.removeAccount();
-    await messagesStorage.clear();
+    await _accountStorage.removeAccount();
+    await _messagesStorage.clear();
 
     account.value = null;
     authState.value = AuthState.none;
