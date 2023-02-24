@@ -8,6 +8,7 @@ import 'package:macos_ui/macos_ui.dart';
 import 'package:spamify/core/auth/controllers/auth.controller.dart';
 import 'package:spamify/features/home/controllers/home.controller.dart';
 import 'package:spamify/core/services/di.service.dart';
+import 'package:spamify/features/home/views/components/welcomeSheet.component.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -24,7 +25,16 @@ class _HomeViewState extends State<HomeView> {
   void initState() {
     super.initState();
     controller.initState();
-    showWelcomeSheet();
+
+    controller.shouldShowWelcomeSheet.observe((value) {
+      if (value.newValue != null) {
+        if (value.newValue == true) {
+          showWelcomeSheet();
+
+          return;
+        }
+      }
+    });
   }
 
   @override
@@ -33,63 +43,9 @@ class _HomeViewState extends State<HomeView> {
     super.dispose();
   }
 
-  Timer showWelcomeSheet() {
-    return Timer(const Duration(milliseconds: 200), () {
-      showMacosSheet(
-          context: context,
-          useRootNavigator: true,
-          builder: (_) => _welcomeSheet(_));
-    });
-  }
-
-  MacosSheet _welcomeSheet(BuildContext _) {
-    return MacosSheet(
-        child: Padding(
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          ListView(
-            shrinkWrap: true,
-            children: [
-              Container(
-                margin: const EdgeInsets.only(bottom: 50),
-                child: Column(
-                  children: [
-                    Text("Spamify",
-                        style: MacosTheme.of(_).typography.largeTitle),
-                    Text("Make it simpler & accessible for spam emails",
-                        style: MacosTheme.of(_).typography.subheadline),
-                  ],
-                ),
-              ),
-              Container(
-                margin: const EdgeInsets.only(bottom: 20),
-                child: const MacosListTile(
-                  title: Text("Generate random email adresses"),
-                  subtitle: Text("Dispose it in any moment"),
-                  leading: MacosIcon(CupertinoIcons.mail_solid),
-                ),
-              ),
-              const MacosListTile(
-                title: Text("Use it as primary spam mail address! "),
-                subtitle: SizedBox(
-                  width: 300,
-                  child: Text(
-                      "Your mail address will not be disappeared if you choose not to generate new one!"),
-                ),
-                leading: MacosIcon(CupertinoIcons.tray),
-              )
-            ],
-          ),
-          PushButton(
-            onPressed: () => Navigator.pop(_),
-            child: const Text("Dissmis"),
-            buttonSize: ButtonSize.large,
-          )
-        ],
-      ),
-    ));
+  Future<void> showWelcomeSheet() async {
+    await showMacosSheet(
+        context: context, builder: (_) => const HomeWelcomeSheet());
   }
 
   @override

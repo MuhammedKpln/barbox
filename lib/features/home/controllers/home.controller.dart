@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mobx/mobx.dart';
 import 'package:spamify/core/auth/controllers/auth.controller.dart';
+import 'package:spamify/core/storage/app.storage.dart';
 import 'package:spamify/core/storage/isar/local_account.db.dart';
 import 'package:spamify/features/home/repositories/account.repository.dart';
 import 'package:spamify/core/services/dio.service.dart';
@@ -15,13 +16,14 @@ part 'home.controller.g.dart';
 class HomeViewController = _HomeViewControllerBase with _$HomeViewController;
 
 abstract class _HomeViewControllerBase with Store {
-  final AccountRepository accountRepository;
-  final AccountStorage accountStorage;
-  final DioService dioService;
-  final AuthController authController;
+  final AccountRepository _accountRepository;
+  final AccountStorage _accountStorage;
+  final DioService _dioService;
+  final AuthController _authController;
+  final AppStorage _appStorage;
 
-  _HomeViewControllerBase(this.accountRepository, this.accountStorage,
-      this.dioService, this.authController);
+  _HomeViewControllerBase(this._accountRepository, this._accountStorage,
+      this._dioService, this._authController, this._appStorage);
 
   @observable
   bool isLoading = false;
@@ -29,12 +31,24 @@ abstract class _HomeViewControllerBase with Store {
   @observable
   bool copied = false;
 
+  @observable
+  Observable<bool> shouldShowWelcomeSheet = Observable(false);
+
   final TextEditingController textFieldController = TextEditingController();
 
+  @action
   Future<void> initState() async {
-    authController.authState.observe((value) {
+    final didShowWelcomeSheet = await _appStorage.getDidShowWelcomeSheet();
+
+    if (didShowWelcomeSheet == null) {
+      shouldShowWelcomeSheet.value = true;
+    } else if (didShowWelcomeSheet == false) {
+      shouldShowWelcomeSheet.value = true;
+    }
+
+    _authController.authState.observe((value) {
       if (value.newValue == AuthState.loggedIn) {
-        textFieldController.text = authController.account.value?.address ?? "";
+        textFieldController.text = _authController.account.value?.address ?? "";
       }
       if (value.newValue == AuthState.none) {
         textFieldController.text = "";
@@ -47,18 +61,18 @@ abstract class _HomeViewControllerBase with Store {
     isLoading = true;
     final password = generateRandomString(10);
 
-    final domains = await accountRepository.fetchDomains();
-    final _account = await accountRepository.createAccount(
+    final domains = await _accountRepository.fetchDomains();
+    final _account = await _accountRepository.createAccount(
         domains.hydraMember[0].domain, password);
 
-    final token = await accountRepository.login(_account.address, password);
-    authController.account.value = LocalAccount(
+    final token = await _accountRepository.login(_account.address, password);
+    _authController.account.value = LocalAccount(
         address: _account.address, password: password, token: token.token);
 
-    await accountStorage.saveAccount(authController.account.value!);
-    authController.authState.value = AuthState.loggedIn;
+    await _accountStorage.saveAccount(_authController.account.value!);
+    _authController.authState.value = AuthState.loggedIn;
 
-    textFieldController.text = authController.account.value?.address ?? "";
+    textFieldController.text = _authController.account.value?.address ?? "";
 
     isLoading = false;
   }
@@ -68,10 +82,17 @@ abstract class _HomeViewControllerBase with Store {
     copied = true;
 
     Clipboard.setData(
-            ClipboardData(text: authController.account.value?.address))
+            ClipboardData(text: _authController.account.value?.address))
         .then((value) {
       Future.delayed(const Duration(milliseconds: 500), () => copied = false);
     });
+  }
+
+  @action
+  Future<void> closeHomeSheet(BuildContext context) async {
+    await _appStorage.setDidShowWelcomeSheet(true);
+
+    Navigator.of(context).pop();
   }
 
   dispose() {}

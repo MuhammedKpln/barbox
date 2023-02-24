@@ -18,6 +18,9 @@ PODS:
   - path_provider_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
+  - shared_preferences_foundation (0.0.1):
+    - Flutter
+    - FlutterMacOS
   - sqflite (0.0.2):
     - FlutterMacOS
     - FMDB (>= 2.7.5)
@@ -35,6 +38,7 @@ DEPENDENCIES:
   - macos_ui (from `Flutter/ephemeral/.symlinks/plugins/macos_ui/macos`)
   - package_info_plus (from `Flutter/ephemeral/.symlinks/plugins/package_info_plus/macos`)
   - path_provider_foundation (from `Flutter/ephemeral/.symlinks/plugins/path_provider_foundation/macos`)
+  - shared_preferences_foundation (from `Flutter/ephemeral/.symlinks/plugins/shared_preferences_foundation/macos`)
   - sqflite (from `Flutter/ephemeral/.symlinks/plugins/sqflite/macos`)
   - url_launcher_macos (from `Flutter/ephemeral/.symlinks/plugins/url_launcher_macos/macos`)
   - wakelock_macos (from `Flutter/ephemeral/.symlinks/plugins/wakelock_macos/macos`)
@@ -60,6 +64,8 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral/.symlinks/plugins/package_info_plus/macos
   path_provider_foundation:
     :path: Flutter/ephemeral/.symlinks/plugins/path_provider_foundation/macos
+  shared_preferences_foundation:
+    :path: Flutter/ephemeral/.symlinks/plugins/shared_preferences_foundation/macos
   sqflite:
     :path: Flutter/ephemeral/.symlinks/plugins/sqflite/macos
   url_launcher_macos:
@@ -77,6 +83,7 @@ SPEC CHECKSUMS:
   macos_ui: 125c911559d646194386d84c017ad6819122e2db
   package_info_plus: 02d7a575e80f194102bef286361c6c326e4c29ce
   path_provider_foundation: 37748e03f12783f9de2cb2c4eadfaa25fe6d4852
+  shared_preferences_foundation: 986fc17f3d3251412d18b0265f9c64113a8c2472
   sqflite: a5789cceda41d54d23f31d6de539d65bb14100ea
   url_launcher_macos: c04e4fa86382d4f94f6b38f14625708be3ae52e2
   wakelock_macos: bc3f2a9bd8d2e6c89fee1e1822e7ddac3bd004a9

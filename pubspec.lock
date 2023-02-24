@@ -289,14 +289,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.1.4"
-  file_picker:
-    dependency: "direct main"
-    description:
-      name: file_picker
-      sha256: d090ae03df98b0247b82e5928f44d1b959867049d18d73635e2e0bc3f49542b9
-      url: "https://pub.dev"
-    source: hosted
-    version: "5.2.5"
   fixnum:
     dependency: transitive
     description:
@@ -366,14 +358,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.6+5"
-  flutter_plugin_android_lifecycle:
-    dependency: transitive
-    description:
-      name: flutter_plugin_android_lifecycle
-      sha256: "60fc7b78455b94e6de2333d2f95196d32cf5c22f4b0b0520a628804cb463503b"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.7"
   flutter_svg:
     dependency: "direct main"
     description:
@@ -521,7 +505,7 @@ packages:
     source: hosted
     version: "0.15.1"
   http:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: http
       sha256: "6aa2946395183537c8b880962d935877325d6a09a2867c3970c05c0fed6ac482"
@@ -785,7 +769,7 @@ packages:
     source: hosted
     version: "1.0.1"
   path_provider:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: path_provider
       sha256: dcea5feb97d8abf90cab9e9030b497fb7c3cbf26b7a1fe9e3ef7dcb0a1ddec95
@@ -920,6 +904,62 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.27.7"
+  shared_preferences:
+    dependency: "direct main"
+    description:
+      name: shared_preferences
+      sha256: ee6257848f822b8481691f20c3e6d2bfee2e9eccb2a3d249907fcfb198c55b41
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.18"
+  shared_preferences_android:
+    dependency: transitive
+    description:
+      name: shared_preferences_android
+      sha256: a51a4f9375097f94df1c6e0a49c0374440d31ab026b59d58a7e7660675879db4
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.16"
+  shared_preferences_foundation:
+    dependency: transitive
+    description:
+      name: shared_preferences_foundation
+      sha256: "6b84fdf06b32bb336f972d373cd38b63734f3461ba56ac2ba01b56d052796259"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.4"
+  shared_preferences_linux:
+    dependency: transitive
+    description:
+      name: shared_preferences_linux
+      sha256: d7fb71e6e20cd3dfffcc823a28da3539b392e53ed5fc5c2b90b55fdaa8a7e8fa
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.4"
+  shared_preferences_platform_interface:
+    dependency: transitive
+    description:
+      name: shared_preferences_platform_interface
+      sha256: "824bfd02713e37603b2bdade0842e47d56e7db32b1dcdd1cae533fb88e2913fc"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.1"
+  shared_preferences_web:
+    dependency: transitive
+    description:
+      name: shared_preferences_web
+      sha256: "6737b757e49ba93de2a233df229d0b6a87728cea1684da828cbc718b65dcf9d7"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.5"
+  shared_preferences_windows:
+    dependency: transitive
+    description:
+      name: shared_preferences_windows
+      sha256: bd014168e8484837c39ef21065b78f305810ceabc1d4f90be6e3b392ce81b46d
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.4"
   shelf:
     dependency: transitive
     description:
