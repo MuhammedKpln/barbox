@@ -4,7 +4,6 @@ import 'package:injectable/injectable.dart';
 import 'package:mobx/mobx.dart';
 import 'package:spamify/core/auth/controllers/auth.controller.dart';
 import 'package:spamify/core/storage/app.storage.dart';
-import 'package:spamify/core/storage/isar/local_account.db.dart';
 import 'package:spamify/features/home/repositories/account.repository.dart';
 import 'package:spamify/core/services/dio.service.dart';
 import 'package:spamify/core/storage/account.storage.dart';
@@ -66,16 +65,11 @@ abstract class _HomeViewControllerBase with Store {
         domains.hydraMember[0].domain, password);
 
     final token = await _accountRepository.login(_account.address, password);
-    _authController.account.value = LocalAccount(
-        address: _account.address,
-        password: password,
-        token: token.token,
-        accountId: _account.id);
 
-    await _accountStorage.saveAccount(_authController.account.value!);
-    _authController.authState.value = AuthState.loggedIn;
+    await _authController.login(
+        acc: _account, password: password, token: token.token);
 
-    textFieldController.text = _authController.account.value?.address ?? "";
+    textFieldController.text = _account.address;
 
     isLoading = false;
   }

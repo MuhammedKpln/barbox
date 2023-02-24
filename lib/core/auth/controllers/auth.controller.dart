@@ -3,6 +3,7 @@ import 'package:mobx/mobx.dart';
 import 'package:spamify/core/storage/account.storage.dart';
 import 'package:spamify/core/storage/isar/local_account.db.dart';
 import 'package:spamify/core/storage/messages.storage.dart';
+import 'package:spamify/types/account.dart';
 part 'auth.controller.g.dart';
 
 enum AuthState { loggedIn, none }
@@ -41,5 +42,29 @@ abstract class _AuthControllerBase with Store {
 
     account.value = null;
     authState.value = AuthState.none;
+  }
+
+  @action
+  Future<void> login(
+      {required AccountModel acc,
+      required String password,
+      required String token}) async {
+    await _cleanUpIfAccountAlreadyExists();
+
+    account.value = LocalAccount(
+      address: acc.address,
+      password: password,
+      token: token,
+      accountId: acc.id,
+    );
+
+    await _accountStorage.saveAccount(account.value!);
+    authState.value = AuthState.loggedIn;
+  }
+
+  Future<void> _cleanUpIfAccountAlreadyExists() async {
+    if (isLoggedIn) {
+      await logout();
+    }
   }
 }
