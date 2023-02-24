@@ -29,8 +29,8 @@ abstract class _AuthControllerBase with Store {
     final isLoggedIn = await _accountStorage.isLoggedIn();
 
     if (isLoggedIn) {
-      authState.value = AuthState.loggedIn;
       account.value = await _accountStorage.getAccount();
+      authState.value = AuthState.loggedIn;
     }
   }
 
