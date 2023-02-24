@@ -31,7 +31,6 @@ abstract class _AppViewControllerBase with Store {
   Future<void> init() async {
     await authController.init();
     await _notificationService.init();
-    // _notificationService.showNotification(title: "selam", body: "as");
 
     autoRunDisposer = autorun((_) {
       if (authController.authState.value == AuthState.loggedIn) {
