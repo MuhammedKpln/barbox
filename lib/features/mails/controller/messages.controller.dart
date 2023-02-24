@@ -1,8 +1,10 @@
 import 'dart:async';
 
+import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mobx/mobx.dart';
 import 'package:spamify/core/services/notification.service.dart';
+import 'package:spamify/core/storage/account.storage.dart';
 import 'package:spamify/features/mails/repositories/messages.repository.dart';
 import 'package:spamify/core/storage/messages.storage.dart';
 import 'package:spamify/types/messages/message.dart';
@@ -10,16 +12,17 @@ import 'package:spamify/types/single_message/single_message.dart';
 
 part 'messages.controller.g.dart';
 
-@LazySingleton()
+@LazySingleton(dispose: disposeMessagesViewController)
 class MessagesController = _MessagesControllerBase with _$MessagesController;
 
 abstract class _MessagesControllerBase with Store {
   _MessagesControllerBase(this._messagesRepository, this._messagesStorage,
-      this._notificationService);
+      this._notificationService, this._accountStorage);
 
   final MessagesRepository _messagesRepository;
   final MessagesStorage _messagesStorage;
   final NotificationService _notificationService;
+  final AccountStorage _accountStorage;
 
   @observable
   bool isLoading = true;
@@ -40,10 +43,37 @@ abstract class _MessagesControllerBase with Store {
   @observable
   bool deleteMode = false;
 
+  final _cancelToken = CancelToken();
+
+  StreamSubscription? _newMessagesStream;
+
   @action
   init() async {
-    fetchLocalMessages();
-    fetchMessagesPeriodically();
+    await fetchLocalMessages();
+    await fetchMessages();
+    await listenToNewMessages();
+  }
+
+  Future<void> listenToNewMessages() async {
+    final _messages = _messagesWithoutStream;
+    final account = await _accountStorage.getAccount();
+    final String accountId = account!.accountId!;
+
+    final stream =
+        await _messagesRepository.listenToNewMessages(_cancelToken, accountId);
+
+    _newMessagesStream = stream.listen((message) {
+      _notificationService.showNotification(
+        title: message.subject ?? "New mail arrived!",
+        body: message.intro ?? "",
+        payload: message.toJson(),
+      );
+
+      _saveMessageToDatabase(message);
+      _messages.insert(0, message);
+      messages.sink.add(_messages);
+      _messagesWithoutStream = _messages;
+    });
   }
 
   @action
@@ -87,8 +117,8 @@ abstract class _MessagesControllerBase with Store {
     }
   }
 
-  fetchMessagesPeriodically() {
-    Timer.periodic(const Duration(seconds: 5), (_) => fetchMessages());
+  Future<void> _saveMessageToDatabase(Message message) async {
+    await _messagesStorage.saveMessage(message);
   }
 
   @action
@@ -127,4 +157,13 @@ abstract class _MessagesControllerBase with Store {
       selectedMessages.clear();
     }
   }
+
+  dispose() {
+    _cancelToken.cancel();
+    _newMessagesStream?.cancel();
+  }
+}
+
+disposeMessagesViewController(MessagesController instance) {
+  instance.dispose();
 }

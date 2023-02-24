@@ -67,7 +67,10 @@ abstract class _HomeViewControllerBase with Store {
 
     final token = await _accountRepository.login(_account.address, password);
     _authController.account.value = LocalAccount(
-        address: _account.address, password: password, token: token.token);
+        address: _account.address,
+        password: password,
+        token: token.token,
+        accountId: _account.id);
 
     await _accountStorage.saveAccount(_authController.account.value!);
     _authController.authState.value = AuthState.loggedIn;

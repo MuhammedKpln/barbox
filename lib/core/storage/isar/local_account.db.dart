@@ -4,7 +4,7 @@ part 'local_account.db.g.dart';
 
 @collection
 class LocalAccount {
-  LocalAccount({this.address, this.password, this.token});
+  LocalAccount({this.address, this.password, this.token, this.accountId});
 
   Id id = Isar.autoIncrement;
 
@@ -13,4 +13,6 @@ class LocalAccount {
   String? password;
 
   String? token;
+
+  String? accountId;
 }

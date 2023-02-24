@@ -32,6 +32,12 @@ class _MailsViewState extends State<MailsView> {
     controller.init();
   }
 
+  @override
+  void dispose() {
+    getIt.resetLazySingleton<MessagesController>();
+    super.dispose();
+  }
+
   _toggleSidebar() {
     Future.delayed(const Duration(milliseconds: 200),
         () => MacosWindowScope.of(context).toggleSidebar());

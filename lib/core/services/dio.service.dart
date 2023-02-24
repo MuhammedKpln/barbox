@@ -55,4 +55,27 @@ class DioService {
     }
     return null;
   }
+
+  Future<Response<dynamic>?> stream(
+      {required String path,
+      required CancelToken cancelToken,
+      Map<String, dynamic>? queryParams}) async {
+    final _dio = Dio();
+    _dio.interceptors.add(authInterceptor);
+
+    Response<ResponseBody> response = await _dio.get<ResponseBody>(
+      path,
+      options: Options(
+        headers: {
+          "Accept": "text/event-stream",
+          "Cache-Control": "no-cache",
+        },
+        responseType: ResponseType.stream,
+      ),
+      queryParameters: queryParams,
+      cancelToken: cancelToken,
+    );
+
+    return response;
+  }
 }
