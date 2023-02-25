@@ -62,6 +62,7 @@ class _MailsViewState extends State<MailsView> {
                         child: ProgressCircle(value: null),
                       );
                     case ConnectionState.active:
+                      snapshot.data?.sort((a, b) => a.seen ? 1 : 0);
                       final data = snapshot.data;
 
                       return Observer(
