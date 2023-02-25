@@ -67,7 +67,7 @@ class _MailsViewState extends State<MailsView> {
 
                       return Observer(
                         builder: (context) {
-                          print(controller.deleteMode);
+                          print(controller.selectMode);
                           print(controller.selectedMessages);
 
                           final currentRouteLocation =
@@ -80,7 +80,7 @@ class _MailsViewState extends State<MailsView> {
                                 final isSelected = currentRouteLocation ==
                                     "/inbox/${message.id}";
 
-                                if (controller.deleteMode) {
+                                if (controller.selectMode) {
                                   final checkboxValue = controller
                                           .selectedMessages
                                           .where((element) =>
@@ -172,7 +172,7 @@ class _MailsViewState extends State<MailsView> {
           icon: const MacosIcon(
             CupertinoIcons.checkmark_alt_circle,
           ),
-          onPressed: controller.toggleDeleteMode,
+          onPressed: controller.toggleSelectMode(),
         ),
         ToolBarIconButton(
           label: "Refresh",

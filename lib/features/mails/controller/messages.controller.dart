@@ -41,13 +41,13 @@ abstract class _MessagesControllerBase with Store {
   ObservableList<Message> selectedMessages = ObservableList.of([]);
 
   @observable
-  bool deleteMode = false;
+  bool selectMode = false;
 
   final _cancelToken = CancelToken();
 
   StreamSubscription? _newMessagesStream;
 
-  ReactionDisposer? _deleteModeWatcher;
+  ReactionDisposer? _selectModeWatcher;
 
   @action
   init() async {
@@ -55,8 +55,8 @@ abstract class _MessagesControllerBase with Store {
     await fetchMessages();
     await listenToNewMessages();
 
-    _deleteModeWatcher = autorun((_) {
-      if (!deleteMode) {
+    _selectModeWatcher = autorun((_) {
+      if (!selectMode) {
         selectedMessages.clear();
       }
     });
@@ -184,14 +184,14 @@ abstract class _MessagesControllerBase with Store {
       await _messagesStorage.updateMessageSeen(message.id, isSeen);
     }
 
-    deleteMode = false;
+    selectMode = false;
   }
 
   @action
-  toggleDeleteMode() {
-    deleteMode = !deleteMode;
+  toggleSelectMode() {
+    selectMode = !selectMode;
 
-    if (!deleteMode) {
+    if (!selectMode) {
       selectedMessages.clear();
     }
   }
@@ -199,7 +199,7 @@ abstract class _MessagesControllerBase with Store {
   dispose() {
     _cancelToken.cancel();
     _newMessagesStream?.cancel();
-    _deleteModeWatcher?.call();
+    _selectModeWatcher?.call();
   }
 }
 
