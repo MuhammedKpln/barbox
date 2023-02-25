@@ -77,7 +77,7 @@ abstract class _SettingsViewControllerBase with Store {
   }
 
   @action
-  Future<void> checkForUpdates() async {
+  Future<void> checkForUpdates({bool? toggledFromUi}) async {
     final remoteUpdate = await updateRepository.fetchUpdate();
 
     final remoteVersion = Version.parse(remoteUpdate.version);
@@ -91,7 +91,9 @@ abstract class _SettingsViewControllerBase with Store {
         print("Update available");
         break;
       case 0:
-        _toast.showToast("Update not found.");
+        if (toggledFromUi != null) {
+          _toast.showToast("Update not found.");
+        }
         break;
       case 1:
         print("Higher version available");

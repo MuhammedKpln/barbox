@@ -80,7 +80,8 @@ class _SettingsViewState extends State<SettingsView> {
                           child: const Text("Check for updates"),
                           buttonSize: ButtonSize.large,
                           isSecondary: true,
-                          onPressed: controller.checkForUpdates,
+                          onPressed: () =>
+                              controller.checkForUpdates(toggledFromUi: true),
                         ),
                       ),
                       Padding(
