@@ -172,7 +172,7 @@ class _MailsViewState extends State<MailsView> {
           icon: const MacosIcon(
             CupertinoIcons.checkmark_alt_circle,
           ),
-          onPressed: controller.toggleSelectMode(),
+          onPressed: controller.toggleSelectMode,
         ),
         ToolBarIconButton(
           label: "Refresh",
