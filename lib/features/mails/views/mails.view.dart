@@ -204,6 +204,35 @@ class _MailsViewState extends State<MailsView> {
             );
           },
         ),
+        CustomToolbarItem(
+          inToolbarBuilder: (context) {
+            return Observer(
+              builder: (context) {
+                if (controller.selectedMessages.isEmpty) {
+                  return const SizedBox.shrink();
+                }
+
+                final isMarkedUnseenMessage = controller.selectedMessages
+                    .where((element) => element.seen == true)
+                    .isEmpty;
+
+                if (isMarkedUnseenMessage) {
+                  return ToolBarIconButton(
+                    label: "Mark as unseen",
+                    showLabel: true,
+                    tooltipMessage: "Mark as unseen",
+                    icon: const MacosIcon(
+                      CupertinoIcons.check_mark_circled_solid,
+                    ),
+                    onPressed: controller.bulkMarkAsSeen,
+                  ).build(context, ToolbarItemDisplayMode.inToolbar);
+                }
+
+                return const SizedBox.shrink();
+              },
+            );
+          },
+        ),
       ],
       title: const Text("Inbox"),
     );

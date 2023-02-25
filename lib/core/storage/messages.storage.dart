@@ -45,9 +45,9 @@ class MessagesStorage {
     return isarInstance.messages.where().findAll();
   }
 
-  Future<void> deleteMessage(String messageId) async {
+  Future<void> deleteMessage(int isarId) async {
     return isarInstance.writeTxn(() async {
-      await isarInstance.messages.filter().idEqualTo(messageId).deleteAll();
+      await isarInstance.messages.delete(isarId);
     });
   }
 

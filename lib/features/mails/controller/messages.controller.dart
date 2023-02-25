@@ -47,11 +47,19 @@ abstract class _MessagesControllerBase with Store {
 
   StreamSubscription? _newMessagesStream;
 
+  ReactionDisposer? _deleteModeWatcher;
+
   @action
   init() async {
     await fetchLocalMessages();
     await fetchMessages();
     await listenToNewMessages();
+
+    _deleteModeWatcher = autorun((_) {
+      if (!deleteMode) {
+        selectedMessages.clear();
+      }
+    });
   }
 
   Future<void> listenToNewMessages() async {
@@ -69,6 +77,15 @@ abstract class _MessagesControllerBase with Store {
 
       // Message already exists, update it.
       if (isAlreadyExists) {
+        // Deleted.
+        if (message.isDeleted) {
+          _messagesWithoutStream
+              .removeWhere((element) => element.id == message.id);
+          messages.sink.add(_messages);
+
+          return;
+        }
+
         final index =
             _messagesWithoutStream.indexWhere((msg) => msg.id == message.id);
         _messagesWithoutStream[index] = message;
@@ -151,15 +168,23 @@ abstract class _MessagesControllerBase with Store {
     for (var message in selectedMessages) {
       await _messagesRepository.deleteMessage(message.id).then((ok) async {
         if (ok) {
-          await _messagesStorage.deleteMessage(message.id);
-
-          _messagesWithoutStream
-              .removeWhere((element) => element.msgid == message.msgid);
+          await _messagesStorage.deleteMessage(message.isarId);
         }
       });
     }
 
     messages.sink.add(_messagesWithoutStream);
+  }
+
+  @action
+  Future<void> bulkMarkAsSeen() async {
+    for (var message in selectedMessages) {
+      final isSeen = await _messagesRepository.markAsSeen(message.id, true);
+
+      await _messagesStorage.updateMessageSeen(message.id, isSeen);
+    }
+
+    deleteMode = false;
   }
 
   @action
@@ -174,6 +199,7 @@ abstract class _MessagesControllerBase with Store {
   dispose() {
     _cancelToken.cancel();
     _newMessagesStream?.cancel();
+    _deleteModeWatcher?.call();
   }
 }
 
