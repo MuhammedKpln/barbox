@@ -17,6 +17,19 @@ class MessagesStorage {
     });
   }
 
+  //Isar's put() method will either insert or update the object depending on
+  //whether it already exists in the collection.
+  Future<void> updateMessageSeen(String msgId, bool seen) async {
+    await isarInstance.writeTxn(() async {
+      Message? message = await isarInstance.messages.getById(msgId);
+
+      if (message != null) {
+        message = message.copyWith(seen: seen);
+        await isarInstance.messages.putById(message);
+      }
+    });
+  }
+
   Future<bool> containsMessage(Message message) async {
     final entries =
         await isarInstance.messages.where().idEqualTo(message.id).count();

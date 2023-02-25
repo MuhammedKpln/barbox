@@ -63,6 +63,19 @@ abstract class _MessagesControllerBase with Store {
         await _messagesRepository.listenToNewMessages(_cancelToken, accountId);
 
     _newMessagesStream = stream.listen((message) {
+      final isAlreadyExists =
+          _messagesWithoutStream.indexWhere((msg) => msg.id == message.id) !=
+              -1;
+
+      // Message already exists, update it.
+      if (isAlreadyExists) {
+        final index =
+            _messagesWithoutStream.indexWhere((msg) => msg.id == message.id);
+        _messagesWithoutStream[index] = message;
+        messages.sink.add(_messages);
+        return;
+      }
+
       _notificationService.showNotification(
         title: message.subject ?? "New mail arrived!",
         body: message.intro ?? "",

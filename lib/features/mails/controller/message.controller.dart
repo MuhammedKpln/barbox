@@ -26,6 +26,13 @@ abstract class _MessageControllerBase with Store {
 
   Future<void> init({required String msgId}) async {
     await _fetchMessage(msgId);
+    await _markAsSeen(msgId);
+  }
+
+  Future<void> _markAsSeen(String msgId) async {
+    final isSeen = await messagesRepository.markAsSeen(msgId, true);
+
+    await messagesStorage.updateMessageSeen(message!.id, isSeen);
   }
 
   FutureOr<bool> onTapUrl(String url) async {
@@ -41,7 +48,6 @@ abstract class _MessageControllerBase with Store {
   @action
   _fetchMessage(String msgId) async {
     final messageFromRepo = await messagesRepository.fetchMessage(msgId);
-
     message = messageFromRepo;
     isLoading = false;
   }

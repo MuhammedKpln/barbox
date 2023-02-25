@@ -15,6 +15,9 @@ abstract class MessagesRespositoryBase {
   Future<Messages> fetchMessages();
   Future<SingleMessage> fetchMessage(String messageId);
   Future<bool> deleteMessage(String messageId);
+  Future<bool> markAsSeen(String messageId, bool seen);
+  Future<Stream<Message>> listenToNewMessages(
+      CancelToken cancelToken, String accountId);
 }
 
 @LazySingleton()
@@ -47,6 +50,15 @@ class MessagesRepository implements MessagesRespositoryBase {
     return request?.statusCode == HttpStatus.noContent ? true : false;
   }
 
+  @override
+  Future<bool> markAsSeen(String messageId, bool seen) async {
+    final request =
+        await _api.patch("/messages/$messageId", data: {"seen": seen});
+
+    return request?.data?["seen"] as bool;
+  }
+
+  @override
   Future<Stream<Message>> listenToNewMessages(
       CancelToken cancelToken, String accountId) async {
     final response = await _api.stream(

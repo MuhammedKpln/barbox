@@ -56,6 +56,21 @@ class DioService {
     return null;
   }
 
+  Future<Response<dynamic>?> patch(String path,
+      {Map<String, dynamic>? data}) async {
+    try {
+      final request = await _dio.patch(path,
+          options: Options(contentType: "application/ld+json"), data: data);
+
+      if (request.statusCode == HttpStatus.ok) {
+        return request;
+      }
+    } on DioError catch (e) {
+      throw Exception("Could not send PATCH request: $path, $e");
+    }
+    return null;
+  }
+
   Future<Response<dynamic>?> stream(
       {required String path,
       required CancelToken cancelToken,

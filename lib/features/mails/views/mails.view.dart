@@ -103,15 +103,15 @@ class _MailsViewState extends State<MailsView> {
                                         ),
                                         Expanded(
                                           child: MessageComponent(
-                                            from: message.from.name!,
-                                            description:
-                                                message.subject ?? "Wewe",
-                                            date: message.createdAt,
-                                            onPressed: () => controller
-                                                .toggleMessageCheckbox(
-                                                    data[index]),
-                                            selected: false,
-                                          ),
+                                              from: message.from.name!,
+                                              description:
+                                                  message.subject ?? "Wewe",
+                                              date: message.createdAt,
+                                              onPressed: () => controller
+                                                  .toggleMessageCheckbox(
+                                                      data[index]),
+                                              selected: false,
+                                              seen: message.seen),
                                         )
                                       ],
                                     ),
@@ -119,14 +119,14 @@ class _MailsViewState extends State<MailsView> {
                                 }
 
                                 return MessageComponent(
-                                  from: message.from.name!,
-                                  description: message.subject ?? "sssd",
-                                  date: message.createdAt,
-                                  onPressed: () => mailsRouterDelegate
-                                      .beamToNamed("/inbox/${message.id}",
-                                          data: message),
-                                  selected: isSelected,
-                                );
+                                    from: message.from.name!,
+                                    description: message.subject ?? "sssd",
+                                    date: message.createdAt,
+                                    onPressed: () => mailsRouterDelegate
+                                        .beamToNamed("/inbox/${message.id}",
+                                            data: message),
+                                    selected: isSelected,
+                                    seen: message.seen);
                               },
                               separatorBuilder: (context, index) =>
                                   const Divider(),
