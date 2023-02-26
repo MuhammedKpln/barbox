@@ -65,6 +65,10 @@ class _MailsViewState extends State<MailsView> {
                       snapshot.data?.sort((a, b) => a.seen ? 1 : 0);
                       final data = snapshot.data;
 
+                      if (data!.isEmpty) {
+                        return const Center(child: Text("No new messages"));
+                      }
+
                       return Observer(
                         builder: (context) {
                           print(controller.selectMode);
@@ -131,7 +135,7 @@ class _MailsViewState extends State<MailsView> {
                               },
                               separatorBuilder: (context, index) =>
                                   const Divider(),
-                              itemCount: data!.length);
+                              itemCount: data.length);
                         },
                       );
 

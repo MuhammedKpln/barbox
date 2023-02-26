@@ -67,7 +67,8 @@ final mailsRouterDelegate = BeamerDelegate(
     initialPath: RouterMeta.inbox.path,
     transitionDelegate: const NoAnimationTransitionDelegate(),
     locationBuilder: RoutesLocationBuilder(routes: {
-      RouterMeta.inbox.path: (p0, p1, p2) => Container(),
+      RouterMeta.inbox.path: (p0, p1, p2) =>
+          const Center(child: Text("No Message Selected")),
       RouterMeta.message.path: (context, state, data) {
         final msgId = state.pathParameters['msgId']!;
         final message = data as Message;
