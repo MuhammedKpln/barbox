@@ -38,14 +38,13 @@ abstract class _HomeViewControllerBase with Store {
   @action
   Future<void> initState() async {
     final didShowWelcomeSheet = await _appStorage.getDidShowWelcomeSheet();
-
     if (didShowWelcomeSheet == null) {
       shouldShowWelcomeSheet.value = true;
     } else if (didShowWelcomeSheet == false) {
       shouldShowWelcomeSheet.value = true;
     }
 
-    _authController.authState.observe((value) {
+    _authController.authState.observe((value) async {
       if (value.newValue == AuthState.loggedIn) {
         textFieldController.text = _authController.account.value?.address ?? "";
       }
@@ -88,7 +87,7 @@ abstract class _HomeViewControllerBase with Store {
   @action
   Future<void> closeHomeSheet(BuildContext context) async {
     await _appStorage.setDidShowWelcomeSheet(true);
-
+    await fetchNewAdress();
     Navigator.of(context).pop();
   }
 
