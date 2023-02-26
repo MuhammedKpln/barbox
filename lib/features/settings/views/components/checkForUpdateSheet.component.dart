@@ -24,7 +24,7 @@ class CheckForUpdateSheet extends StatelessWidget {
           Column(
             children: [
               Image.asset(
-                "assets/Spamify.png",
+                "assets/BarBox.png",
                 width: 56,
               ),
               Text(

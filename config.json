@@ -1,6 +1,6 @@
 {
-  "title": "Spamify",
-  "icon": "Spamify.icns",
+  "title": "BarBox",
+  "icon": "BarBox.icns",
   "window": {
     "size": {
       "width": 600,
@@ -17,7 +17,7 @@
       "x": 200,
       "y": 100,
       "type": "file",
-      "path": "./build/macos/Build/Products/Release/Spamify.app"
+      "path": "./build/macos/Build/Products/Release/BarBox.app"
     }
   ]
 }

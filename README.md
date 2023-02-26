@@ -1,4 +1,4 @@
-# Spamify BETA
+# BarBox BETA
 
 
 ## Email client for spams at your mac menubar!

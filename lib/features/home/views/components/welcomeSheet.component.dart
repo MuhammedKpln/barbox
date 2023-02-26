@@ -23,7 +23,7 @@ class HomeWelcomeSheet extends StatelessWidget {
                 margin: const EdgeInsets.only(bottom: 50),
                 child: Column(
                   children: [
-                    Text("Spamify",
+                    Text("BarBox",
                         style: MacosTheme.of(context).typography.largeTitle),
                     Text("Make it simpler & accessible for spam emails",
                         style: MacosTheme.of(context).typography.subheadline),

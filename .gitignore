@@ -46,7 +46,7 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-Spamify.dmg
+BarBox.dmg
 
 *.g.dart
 *.freezed.dart
