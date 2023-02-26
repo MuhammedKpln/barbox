@@ -5,10 +5,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:macos_ui/macos_ui.dart';
-import 'package:spamify/core/auth/controllers/auth.controller.dart';
-import 'package:spamify/features/home/controllers/home.controller.dart';
-import 'package:spamify/core/services/di.service.dart';
-import 'package:spamify/features/home/views/components/welcomeSheet.component.dart';
+import 'package:barbox/core/auth/controllers/auth.controller.dart';
+import 'package:barbox/features/home/controllers/home.controller.dart';
+import 'package:barbox/core/services/di.service.dart';
+import 'package:barbox/features/home/views/components/welcomeSheet.component.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});

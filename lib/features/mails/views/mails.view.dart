@@ -5,13 +5,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:macos_ui/macos_ui.dart';
-import 'package:spamify/core/constants/theme.dart';
-import 'package:spamify/core/services/router/router.controller.dart';
-import 'package:spamify/core/services/router/router.service.dart';
-import 'package:spamify/features/mails/controller/messages.controller.dart';
-import 'package:spamify/features/mails/views/components/message.component.dart';
-import 'package:spamify/core/services/di.service.dart';
-import 'package:spamify/types/messages/message.dart';
+import 'package:barbox/core/constants/theme.dart';
+import 'package:barbox/core/services/router/router.controller.dart';
+import 'package:barbox/core/services/router/router.service.dart';
+import 'package:barbox/features/mails/controller/messages.controller.dart';
+import 'package:barbox/features/mails/views/components/message.component.dart';
+import 'package:barbox/core/services/di.service.dart';
+import 'package:barbox/types/messages/message.dart';
 
 class MailsView extends StatefulWidget {
   const MailsView({super.key});

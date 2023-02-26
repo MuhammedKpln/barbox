@@ -1,6 +1,6 @@
 import 'package:injectable/injectable.dart';
-import 'package:spamify/core/storage/isar/base.db.dart';
-import 'package:spamify/core/storage/isar/local_account.db.dart';
+import 'package:barbox/core/storage/isar/base.db.dart';
+import 'package:barbox/core/storage/isar/local_account.db.dart';
 
 @LazySingleton()
 class AccountStorage {

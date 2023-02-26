@@ -4,11 +4,11 @@ import 'package:beamer/beamer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mobx/mobx.dart';
-import 'package:spamify/core/auth/controllers/auth.controller.dart';
-import 'package:spamify/core/services/notification.service.dart';
-import 'package:spamify/features/app/views/components/sidebarItem.component.dart';
-import 'package:spamify/core/services/router/router.service.dart';
-import 'package:spamify/core/storage/account.storage.dart';
+import 'package:barbox/core/auth/controllers/auth.controller.dart';
+import 'package:barbox/core/services/notification.service.dart';
+import 'package:barbox/features/app/views/components/sidebarItem.component.dart';
+import 'package:barbox/core/services/router/router.service.dart';
+import 'package:barbox/core/storage/account.storage.dart';
 
 part 'app.controller.g.dart';
 

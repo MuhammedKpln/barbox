@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 import 'package:isar/isar.dart';
-import 'package:spamify/types/single_message/attachment.dart';
+import 'package:barbox/types/single_message/attachment.dart';
 
 import 'from.dart';
 import 'to.dart';

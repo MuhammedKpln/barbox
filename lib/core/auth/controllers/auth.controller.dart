@@ -1,9 +1,9 @@
 import 'package:injectable/injectable.dart';
 import 'package:mobx/mobx.dart';
-import 'package:spamify/core/storage/account.storage.dart';
-import 'package:spamify/core/storage/isar/local_account.db.dart';
-import 'package:spamify/core/storage/messages.storage.dart';
-import 'package:spamify/types/account.dart';
+import 'package:barbox/core/storage/account.storage.dart';
+import 'package:barbox/core/storage/isar/local_account.db.dart';
+import 'package:barbox/core/storage/messages.storage.dart';
+import 'package:barbox/types/account.dart';
 part 'auth.controller.g.dart';
 
 enum AuthState { loggedIn, none }

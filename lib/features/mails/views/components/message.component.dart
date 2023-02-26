@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:macos_ui/macos_ui.dart';
-import 'package:spamify/core/constants/theme.dart';
+import 'package:barbox/core/constants/theme.dart';
 
 class MessageComponent extends StatelessWidget {
   const MessageComponent(

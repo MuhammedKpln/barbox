@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:macos_ui/macos_ui.dart';
-import 'package:spamify/core/services/di.service.dart';
-import 'package:spamify/features/home/controllers/home.controller.dart';
+import 'package:barbox/core/services/di.service.dart';
+import 'package:barbox/features/home/controllers/home.controller.dart';
 
 class HomeWelcomeSheet extends StatelessWidget {
   const HomeWelcomeSheet({super.key});

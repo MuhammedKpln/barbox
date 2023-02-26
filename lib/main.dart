@@ -2,11 +2,11 @@ import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:macos_ui/macos_ui.dart';
 
-import 'package:spamify/core/services/di.service.dart';
-import 'package:spamify/core/services/router/router.service.dart';
-import 'package:spamify/core/storage/isar/base.db.dart';
-import 'package:spamify/core/storage/isar/local_account.db.dart';
-import 'package:spamify/types/messages/message.dart';
+import 'package:barbox/core/services/di.service.dart';
+import 'package:barbox/core/services/router/router.service.dart';
+import 'package:barbox/core/storage/isar/base.db.dart';
+import 'package:barbox/core/storage/isar/local_account.db.dart';
+import 'package:barbox/types/messages/message.dart';
 
 final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
     GlobalKey<ScaffoldMessengerState>();

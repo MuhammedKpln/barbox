@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
-import 'package:spamify/config.dart';
-import 'package:spamify/features/settings/models/update.model.dart';
+import 'package:barbox/config.dart';
+import 'package:barbox/features/settings/models/update.model.dart';
 
 @LazySingleton()
 class UpdateRepository {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
-import 'package:spamify/core/constants/theme.dart';
-import 'package:spamify/main.dart';
+import 'package:barbox/core/constants/theme.dart';
+import 'package:barbox/main.dart';
 
 /// It's a class that shows a toast
 @LazySingleton()

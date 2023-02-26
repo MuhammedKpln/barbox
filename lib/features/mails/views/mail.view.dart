@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:macos_ui/macos_ui.dart';
-import 'package:spamify/core/services/di.service.dart';
-import 'package:spamify/features/mails/controller/message.controller.dart';
+import 'package:barbox/core/services/di.service.dart';
+import 'package:barbox/features/mails/controller/message.controller.dart';
 
 class MailView extends StatefulWidget {
   const MailView({super.key, required this.msgId});

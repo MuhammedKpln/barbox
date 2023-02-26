@@ -1,15 +1,15 @@
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
-import 'package:spamify/core/services/di.service.dart';
-import 'package:spamify/core/services/router/guards/auth.guard.dart';
-import 'package:spamify/core/services/router/router.controller.dart';
-import 'package:spamify/features/app/views/app.view.dart';
-import 'package:spamify/features/home/views/home.view.dart';
-import 'package:spamify/features/home/views/home.wrapper.dart';
-import 'package:spamify/features/mails/views/mail.view.dart';
-import 'package:spamify/features/mails/views/mails.view.dart';
-import 'package:spamify/features/settings/views/settings.view.dart';
-import 'package:spamify/types/messages/message.dart';
+import 'package:barbox/core/services/di.service.dart';
+import 'package:barbox/core/services/router/guards/auth.guard.dart';
+import 'package:barbox/core/services/router/router.controller.dart';
+import 'package:barbox/features/app/views/app.view.dart';
+import 'package:barbox/features/home/views/home.view.dart';
+import 'package:barbox/features/home/views/home.wrapper.dart';
+import 'package:barbox/features/mails/views/mail.view.dart';
+import 'package:barbox/features/mails/views/mails.view.dart';
+import 'package:barbox/features/settings/views/settings.view.dart';
+import 'package:barbox/types/messages/message.dart';
 
 enum RouterMeta {
   fetchEmailAddress("/fetch-email-adress", "Fetch new email address"),

@@ -5,11 +5,11 @@ import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
-import 'package:spamify/config.dart';
-import 'package:spamify/core/services/dio.service.dart';
-import 'package:spamify/types/messages/message.dart';
-import 'package:spamify/types/messages/messages.dart';
-import 'package:spamify/types/single_message/single_message.dart';
+import 'package:barbox/config.dart';
+import 'package:barbox/core/services/dio.service.dart';
+import 'package:barbox/types/messages/message.dart';
+import 'package:barbox/types/messages/messages.dart';
+import 'package:barbox/types/single_message/single_message.dart';
 
 abstract class MessagesRespositoryBase {
   Future<Messages> fetchMessages();

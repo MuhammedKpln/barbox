@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mobx/mobx.dart';
-import 'package:spamify/core/auth/controllers/auth.controller.dart';
-import 'package:spamify/core/storage/app.storage.dart';
-import 'package:spamify/features/home/repositories/account.repository.dart';
-import 'package:spamify/core/services/dio.service.dart';
-import 'package:spamify/core/storage/account.storage.dart';
-import 'package:spamify/utils.dart';
+import 'package:barbox/core/auth/controllers/auth.controller.dart';
+import 'package:barbox/core/storage/app.storage.dart';
+import 'package:barbox/features/home/repositories/account.repository.dart';
+import 'package:barbox/core/services/dio.service.dart';
+import 'package:barbox/core/storage/account.storage.dart';
+import 'package:barbox/utils.dart';
 
 part 'home.controller.g.dart';
 

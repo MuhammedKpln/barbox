@@ -1,11 +1,11 @@
 import 'dart:io';
 
 import 'package:injectable/injectable.dart';
-import 'package:spamify/core/services/dio.service.dart';
-import 'package:spamify/types/account.dart';
-import 'package:spamify/types/domains.dart';
-import 'package:spamify/types/login.dart';
-import 'package:spamify/utils.dart';
+import 'package:barbox/core/services/dio.service.dart';
+import 'package:barbox/types/account.dart';
+import 'package:barbox/types/domains.dart';
+import 'package:barbox/types/login.dart';
+import 'package:barbox/utils.dart';
 
 abstract class BaseAccountRepository {
   Future<LoginResponse> login(String email, String password);

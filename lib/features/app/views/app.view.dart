@@ -3,11 +3,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:macos_ui/macos_ui.dart';
-import 'package:spamify/core/auth/controllers/auth.controller.dart';
-import 'package:spamify/core/services/router/router.service.dart';
-import 'package:spamify/features/app/controller/app.controller.dart';
-import 'package:spamify/main.dart';
-import 'package:spamify/core/services/di.service.dart';
+import 'package:barbox/core/auth/controllers/auth.controller.dart';
+import 'package:barbox/core/services/router/router.service.dart';
+import 'package:barbox/features/app/controller/app.controller.dart';
+import 'package:barbox/main.dart';
+import 'package:barbox/core/services/di.service.dart';
 
 class App extends StatefulWidget {
   const App({super.key});

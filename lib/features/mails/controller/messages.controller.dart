@@ -3,12 +3,12 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mobx/mobx.dart';
-import 'package:spamify/core/services/notification.service.dart';
-import 'package:spamify/core/storage/account.storage.dart';
-import 'package:spamify/features/mails/repositories/messages.repository.dart';
-import 'package:spamify/core/storage/messages.storage.dart';
-import 'package:spamify/types/messages/message.dart';
-import 'package:spamify/types/single_message/single_message.dart';
+import 'package:barbox/core/services/notification.service.dart';
+import 'package:barbox/core/storage/account.storage.dart';
+import 'package:barbox/features/mails/repositories/messages.repository.dart';
+import 'package:barbox/core/storage/messages.storage.dart';
+import 'package:barbox/types/messages/message.dart';
+import 'package:barbox/types/single_message/single_message.dart';
 
 part 'messages.controller.g.dart';
 

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:macos_ui/macos_ui.dart';
-import 'package:spamify/core/auth/controllers/auth.controller.dart';
-import 'package:spamify/core/constants/theme.dart';
-import 'package:spamify/features/settings/controllers/settings.controller.dart';
-import 'package:spamify/core/services/di.service.dart';
-import 'package:spamify/features/settings/views/components/checkForUpdateSheet.component.dart';
+import 'package:barbox/core/auth/controllers/auth.controller.dart';
+import 'package:barbox/core/constants/theme.dart';
+import 'package:barbox/features/settings/controllers/settings.controller.dart';
+import 'package:barbox/core/services/di.service.dart';
+import 'package:barbox/features/settings/views/components/checkForUpdateSheet.component.dart';
 
 class SettingsView extends StatefulWidget {
   const SettingsView({super.key});

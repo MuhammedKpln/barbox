@@ -1,6 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
-import 'package:spamify/core/services/di.service.config.dart';
+import 'package:barbox/core/services/di.service.config.dart';
 
 final getIt = GetIt.instance;
 
