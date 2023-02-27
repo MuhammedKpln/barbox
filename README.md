@@ -1,14 +1,27 @@
-# BarBox BETA
+<img src="https://user-images.githubusercontent.com/17166855/221623447-c16b70e5-a662-4d40-ae61-e08f717114f0.png" width="300" height="300"/>
+
+# BarBox
+
+Your one-click solution for disposable emails, right from your Mac menu bar
 
 
-## Email client for spams at your mac menubar!
+[![MIT License](https://img.shields.io/badge/License-GPL-green.svg)](https://choosealicense.com/licenses/gpl-3.0/)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/muhammedkpln/barbox)
+![GitHub release (latest by date including pre-releases)](https://img.shields.io/github/v/release/muhammedkpln/barbox?include_prereleases&label=pre-release)
 
-<img src="https://user-images.githubusercontent.com/17166855/159119853-3cd91cf9-3b3d-4ed7-9766-b266ac071047.jpeg" width="450" height="300"/>
+## Features
+
+- [x] Your temporary mail box right from your mac
+- [ ] Multiple accounts (#10)
+- [x] Notification when new message arrived
+- [x] Read/unread messages
+- [ ] Downloading message attachments (#11)
 
 
 ## Demo
-https://user-images.githubusercontent.com/17166855/159119836-c33cb180-800d-4b07-93df-b3b22e227092.mov
+![](https://muhammedkpln.github.io/barbox/img/macbook.png)
 
+## License
 
+[GPLv3](https://choosealicense.com/licenses/gpl-3.0/)
 
-Built with Flutter.
