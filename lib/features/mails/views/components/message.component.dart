@@ -29,7 +29,7 @@ class MessageComponent extends StatelessWidget {
       child: MouseRegion(
         cursor: SystemMouseCursors.click,
         child: Container(
-          color: selected ? MacosColors.appleBlue : null,
+          color: selected ? MacosColors.systemBlueColor : null,
           child: Padding(
             padding: EdgeInsets.all(ThemePadding.small.padding),
             child: Row(
