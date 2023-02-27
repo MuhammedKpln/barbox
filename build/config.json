@@ -17,7 +17,7 @@
       "x": 200,
       "y": 100,
       "type": "file",
-      "path": "./build/macos/Build/Products/Release/BarBox.app"
+      "path": "../lib/build/macos/Build/Products/Release/BarBox.app"
     }
   ]
 }
