@@ -170,6 +170,16 @@ class _MailsViewState extends State<MailsView> {
       ),
       actions: [
         ToolBarIconButton(
+          label: "Copy address",
+          showLabel: true,
+          tooltipMessage: "Copy your address",
+          icon: const MacosIcon(
+            CupertinoIcons.doc_on_doc,
+          ),
+          onPressed: controller.copyAddress,
+        ),
+        const ToolBarDivider(),
+        ToolBarIconButton(
           label: "Select",
           showLabel: true,
           tooltipMessage: "Select one or more messages",

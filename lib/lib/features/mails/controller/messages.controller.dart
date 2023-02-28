@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:barbox/core/auth/controllers/auth.controller.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mobx/mobx.dart';
 import 'package:barbox/core/services/notification.service.dart';
@@ -17,12 +19,13 @@ class MessagesController = _MessagesControllerBase with _$MessagesController;
 
 abstract class _MessagesControllerBase with Store {
   _MessagesControllerBase(this._messagesRepository, this._messagesStorage,
-      this._notificationService, this._accountStorage);
+      this._notificationService, this._accountStorage, this._authController);
 
   final MessagesRepository _messagesRepository;
   final MessagesStorage _messagesStorage;
   final NotificationService _notificationService;
   final AccountStorage _accountStorage;
+  final AuthController _authController;
 
   @observable
   bool isLoading = true;
@@ -194,6 +197,13 @@ abstract class _MessagesControllerBase with Store {
     if (!selectMode) {
       selectedMessages.clear();
     }
+  }
+
+  Future<void> copyAddress() async {
+    final clipboardData =
+        ClipboardData(text: _authController.account.value?.address);
+
+    await Clipboard.setData(clipboardData);
   }
 
   dispose() {
