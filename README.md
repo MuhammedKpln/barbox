@@ -4,6 +4,10 @@
 
 Your one-click solution for disposable emails, right from your Mac menu bar
 
+[![BarBox](https://muhammedkpln.github.io/barbox/img/macbook.png)]()
+
+
+
 
 [![MIT License](https://img.shields.io/badge/License-GPL-green.svg)](https://choosealicense.com/licenses/gpl-3.0/)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/muhammedkpln/barbox)
