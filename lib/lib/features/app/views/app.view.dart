@@ -1,12 +1,10 @@
 import 'package:beamer/beamer.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:macos_ui/macos_ui.dart';
 import 'package:barbox/core/auth/controllers/auth.controller.dart';
 import 'package:barbox/core/services/router/router.service.dart';
 import 'package:barbox/features/app/controller/app.controller.dart';
-import 'package:barbox/main.dart';
 import 'package:barbox/core/services/di.service.dart';
 
 class App extends StatefulWidget {
@@ -34,38 +32,24 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-    return ScaffoldMessenger(
-      key: scaffoldMessengerKey,
-      child: Scaffold(
-        body: MacosScaffold(
-          children: [
-            ContentArea(
-              builder: (context, scrollController) {
-                return MacosWindow(
-                  sidebar: Sidebar(
-                      minWidth: 210,
-                      windowBreakpoint: 300,
-                      isResizable: true,
-                      bottom: _bottomRenderer(),
-                      builder: (context, _) {
-                        return Observer(builder: (_) {
-                          return SidebarItems(
-                            items: controller.tabs,
-                            currentIndex: controller.currentIndex,
-                            onChanged: (index) =>
-                                controller.onItemTapped(context, index),
-                          );
-                        });
-                      }),
-                  child: Beamer(
-                    routerDelegate: appRouterDelegate,
-                    key: appRouterKey,
-                  ),
-                );
-              },
-            )
-          ],
-        ),
+    return MacosWindow(
+      sidebar: Sidebar(
+          minWidth: 210,
+          windowBreakpoint: 300,
+          isResizable: true,
+          bottom: _bottomRenderer(),
+          builder: (context, _) {
+            return Observer(builder: (_) {
+              return SidebarItems(
+                items: controller.tabs,
+                currentIndex: controller.currentIndex,
+                onChanged: (index) => controller.onItemTapped(context, index),
+              );
+            });
+          }),
+      child: Beamer(
+        routerDelegate: appRouterDelegate,
+        key: appRouterKey,
       ),
     );
   }

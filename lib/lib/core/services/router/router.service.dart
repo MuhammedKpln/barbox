@@ -91,6 +91,7 @@ class AppLocation extends BeamLocation<BeamState> {
   List<BeamPage> buildPages(BuildContext context, BeamState state) {
     const pages = [
       BeamPage(
+        type: BeamPageType.cupertino,
         key: ValueKey('app'),
         child: App(),
       ),
