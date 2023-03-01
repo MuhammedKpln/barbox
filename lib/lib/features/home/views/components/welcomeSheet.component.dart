@@ -1,3 +1,4 @@
+import 'package:barbox/config.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:macos_ui/macos_ui.dart';
 import 'package:barbox/core/services/di.service.dart';
@@ -23,7 +24,7 @@ class HomeWelcomeSheet extends StatelessWidget {
                 margin: const EdgeInsets.only(bottom: 50),
                 child: Column(
                   children: [
-                    Text("BarBox",
+                    Text(APP_NAME,
                         style: MacosTheme.of(context).typography.largeTitle),
                     Text("Make it simpler & accessible for spam emails",
                         style: MacosTheme.of(context).typography.subheadline),

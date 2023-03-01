@@ -1,3 +1,4 @@
+import 'package:barbox/main.dart';
 import 'package:beamer/beamer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -33,6 +34,7 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     return MacosWindow(
+      key: mainAppKey,
       sidebar: Sidebar(
           minWidth: 210,
           windowBreakpoint: 300,

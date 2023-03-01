@@ -6,3 +6,4 @@ const UPDATE_DOWNLOAD_URL =
 const CHECK_FOR_UPDATE_URL =
     "https://raw.githubusercontent.com/MuhammedKpln/barbox/main/updates.json";
 const SSE_API_URL = "https://mercure.mail.tm/.well-known/mercure";
+const APP_NAME = "BarBox";
