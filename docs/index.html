@@ -6,21 +6,43 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <title>Barbox - Your one-click solution for disposable emails, right from your Mac menu bar</title>
-  <meta name="description" content="Your disposable mail address at your Mac menubar!" />
+  <meta name="description" content="Your one-click solution for disposable emails, right from your Mac menu bar" />
 
   <!--Inter UI font-->
   <link href="https://rsms.me/inter/inter-ui.css" rel="stylesheet" />
-
-  <!--vendors styles-->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 
   <!-- Bootstrap CSS / Color Scheme -->
   <link rel="stylesheet" href="css/indigo.css" id="theme-color" />
 </head>
 
 <body>
+  <nav class="navbar navbar-expand-lg bg-body-tertiary sticky-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Barbox</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="#download">Download</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#features">Features</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#create-issue">Create an issue</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="https://github.com/MuhammedKpln/barbox">GitHub</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
   <!--hero header-->
-  <section class="py-5 py-md-7" id="home">
+  <section class="py-5 py-md-7" id="download">
     <div class="container">
       <div class="row">
         <div class="col-md-6 my-md-auto mb-5 mb-md-0 text-center text-md-left">
@@ -56,9 +78,9 @@
                   </div>
                 </div>
                 <div class="media-body">
-                  <h5 class="mt-0">Simplicty</h5>
-                  <span class="text-muted">Create your disposable mail address with one click, from
-                    your macOS menubar!</span>
+                  <h5 class="mt-0">Productivy</h5>
+                  <span class="text-muted"> Barbox is a powerful yet simple application that lets you create temporary
+                    email addresses with just a few clicks, helping you stay organized and focused on your tasks.</span>
                 </div>
               </div>
             </div>
@@ -66,13 +88,14 @@
               <div class="media">
                 <div class="icon-box mt-0 ml-0">
                   <div class="icon-box-inner small-xs text-primary">
-                    <span data-feather="repeat" width="30" height="30"></span>
+                    <span data-feather="shield" width="30" height="30"></span>
                   </div>
                 </div>
                 <div class="media-body">
-                  <h5 class="mt-0">Unlimited</h5>
-                  <span class="text-muted">Create as many temporary email addresses as you
-                    want</span>
+                  <h5 class="mt-0">Security</h5>
+                  <span class="text-muted">With Barbox, you can keep your personal email address safe from spam and
+                    hackers by generating disposable email addresses that automatically expire after a set period of
+                    time.</span>
                 </div>
               </div>
             </div>
@@ -80,12 +103,14 @@
               <div class="media">
                 <div class="icon-box mt-0 ml-0">
                   <div class="icon-box-inner small-xs text-primary">
-                    <span data-feather="archive" width="30" height="30"></span>
+                    <i data-feather="archive" width="30" height="30"></i>
                   </div>
                 </div>
                 <div class="media-body">
-                  <h5 class="mt-0">Keep it forever</h5>
-                  <span class="text-muted">Keep your temporary address as long as you want!</span>
+                  <h5 class="mt-0">Convenience</h5>
+                  <span class="text-muted">Say goodbye to the hassle of signing up for online services with your
+                    personal email address. Barbox makes it easy to create and manage temporary email addresses right
+                    from your Mac menu bar.</span>
                 </div>
               </div>
             </div>
@@ -98,14 +123,17 @@
                 </div>
                 <div class="media-body">
                   <h5 class="mt-0">Lighting fast</h5>
-                  <span class="text-muted">It is not based on Electron.</span>
+                  <span class="text-muted">Barbox is lightning fast and lets you generate temporary email addresses in
+                    seconds, so you can stay focused on what matters most. Our app runs seamlessly in the background,
+                    allowing you to create new email addresses with just a few clicks from your Mac menu bar, without
+                    disrupting your workflow.</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="row mt-4">
+      <div class="row mt-4" id="create-issue">
         <div class="col-md-6 mx-auto text-center">
           <h5 class="mb-4">Have questions?</h5>
           <a href="https://github.com/muhammedkpln/barbox/issues" class="btn btn-primary page-scroll">Create an
@@ -140,16 +168,10 @@
 
   <!--scroll to top-->
   <div class="scroll-top">
-    <i class="fa fa-angle-up" aria-hidden="true"></i>
+    <i data-feather="arrow-up" width="15" height="15"></i>
   </div>
 
-  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js"
-    integrity="sha512-7x3zila4t2qNycrtZ31HO0NnJr8kg2VI67YLoRSyi9hGhRN66FHYWr7Axa9Y1J9tGYHVBPqIjSE1ogHrJTz51g=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://unpkg.com/feather-icons"></script>
   <script src="js/scripts.js"></script>
 </body>
 
