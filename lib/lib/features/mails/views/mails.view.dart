@@ -248,7 +248,11 @@ class _MailsViewState extends State<MailsView> {
           },
         ),
       ],
-      title: const Text("Inbox"),
+      title: Observer(
+          builder: (_) => Text(
+                "Inbox - ${controller.currentAccount?.address}",
+                style: MacosTheme.of(context).typography.headline,
+              )),
     );
   }
 }

@@ -74,9 +74,9 @@ class DioService {
   Future<Response<dynamic>?> stream(
       {required String path,
       required CancelToken cancelToken,
+      required String authToken,
       Map<String, dynamic>? queryParams}) async {
     final _dio = Dio();
-    _dio.interceptors.add(authInterceptor);
 
     Response<ResponseBody> response = await _dio.get<ResponseBody>(
       path,
@@ -84,6 +84,7 @@ class DioService {
         headers: {
           "Accept": "text/event-stream",
           "Cache-Control": "no-cache",
+          "Authorization": "Bearer $authToken"
         },
         responseType: ResponseType.stream,
       ),

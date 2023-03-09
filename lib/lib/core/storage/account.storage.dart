@@ -1,6 +1,7 @@
 import 'package:injectable/injectable.dart';
 import 'package:barbox/core/storage/isar/base.db.dart';
 import 'package:barbox/core/storage/isar/local_account.db.dart';
+import 'package:isar/isar.dart';
 
 @LazySingleton()
 class AccountStorage {
@@ -16,16 +17,18 @@ class AccountStorage {
     });
   }
 
-  Future<LocalAccount?> getAccount() async {
-    final count = await isarInstance.localAccounts.count();
+  Future<LocalAccount?> getAccount({int? id}) async {
+    return isarInstance.localAccounts.get(id ?? 1);
+  }
 
-    return isarInstance.localAccounts.get(count);
+  Future<List<LocalAccount>> getAllAvailableAccounts() async {
+    return isarInstance.localAccounts.where().findAll();
   }
 
   Future<bool> isLoggedIn() async {
-    final exists = await getAccount();
+    final exists = await getAllAvailableAccounts();
 
-    if (exists != null) {
+    if (exists.isNotEmpty) {
       return true;
     }
 

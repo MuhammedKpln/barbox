@@ -1,12 +1,12 @@
 import 'dart:async';
 
 import 'package:barbox/core/auth/controllers/auth.controller.dart';
+import 'package:barbox/core/storage/isar/local_account.db.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mobx/mobx.dart';
 import 'package:barbox/core/services/notification.service.dart';
-import 'package:barbox/core/storage/account.storage.dart';
 import 'package:barbox/features/mails/repositories/messages.repository.dart';
 import 'package:barbox/core/storage/messages.storage.dart';
 import 'package:barbox/types/messages/message.dart';
@@ -19,12 +19,11 @@ class MessagesController = _MessagesControllerBase with _$MessagesController;
 
 abstract class _MessagesControllerBase with Store {
   _MessagesControllerBase(this._messagesRepository, this._messagesStorage,
-      this._notificationService, this._accountStorage, this._authController);
+      this._notificationService, this._authController);
 
   final MessagesRepository _messagesRepository;
   final MessagesStorage _messagesStorage;
   final NotificationService _notificationService;
-  final AccountStorage _accountStorage;
   final AuthController _authController;
 
   @observable
@@ -46,17 +45,28 @@ abstract class _MessagesControllerBase with Store {
   @observable
   bool selectMode = false;
 
-  final _cancelToken = CancelToken();
+  @computed
+  LocalAccount? get currentAccount => _authController.account.value;
 
-  StreamSubscription? _newMessagesStream;
+  final List<CancelToken?> _cancelTokens = [];
+
+  final List<StreamSubscription?> _newMessagesStreams = [];
 
   ReactionDisposer? _selectModeWatcher;
 
   @action
   init() async {
-    await fetchLocalMessages();
+    await fetchLocalMessages(_authController.account.value!.accountId!);
     await fetchMessages();
     await listenToNewMessages();
+
+    _authController.account.observe(
+      (_) async {
+        print("sqe");
+        await fetchLocalMessages(_.newValue!.accountId!);
+        await fetchMessages();
+      },
+    );
 
     _selectModeWatcher = autorun((_) {
       if (!selectMode) {
@@ -67,46 +77,56 @@ abstract class _MessagesControllerBase with Store {
 
   Future<void> listenToNewMessages() async {
     final _messages = _messagesWithoutStream;
-    final account = await _accountStorage.getAccount();
-    final String accountId = account!.accountId!;
 
-    final stream =
-        await _messagesRepository.listenToNewMessages(_cancelToken, accountId);
+    for (var account in _authController.availableAccounts!) {
+      final cToken = CancelToken();
+      final String accountId = account.accountId!;
 
-    _newMessagesStream = stream.listen((message) {
-      final isAlreadyExists =
-          _messagesWithoutStream.indexWhere((msg) => msg.id == message.id) !=
-              -1;
+      _cancelTokens.add(cToken);
 
-      // Message already exists, update it.
-      if (isAlreadyExists) {
-        // Deleted.
-        if (message.isDeleted) {
-          _messagesWithoutStream
-              .removeWhere((element) => element.id == message.id);
+      final stream = await _messagesRepository.listenToNewMessages(
+          cToken, accountId, account.token!);
+
+      final _newMessagesStream = stream.listen((message) {
+        final isAlreadyExists =
+            _messagesWithoutStream.indexWhere((msg) => msg.id == message.id) !=
+                -1;
+
+        // Message already exists, update it.
+        if (isAlreadyExists) {
+          // Deleted.
+          if (message.isDeleted) {
+            _messagesWithoutStream
+                .removeWhere((element) => element.id == message.id);
+            messages.sink.add(_messages);
+
+            return;
+          }
+
+          final index =
+              _messagesWithoutStream.indexWhere((msg) => msg.id == message.id);
+          _messagesWithoutStream[index] = message;
           messages.sink.add(_messages);
-
           return;
         }
 
-        final index =
-            _messagesWithoutStream.indexWhere((msg) => msg.id == message.id);
-        _messagesWithoutStream[index] = message;
-        messages.sink.add(_messages);
-        return;
-      }
+        _notificationService.showNotification(
+          title: message.subject ?? "New mail arrived!",
+          body: message.intro ?? "",
+          payload: message.toJson(),
+        );
 
-      _notificationService.showNotification(
-        title: message.subject ?? "New mail arrived!",
-        body: message.intro ?? "",
-        payload: message.toJson(),
-      );
+        _saveMessageToDatabase(message);
+        _messages.insert(0, message);
 
-      _saveMessageToDatabase(message);
-      _messages.insert(0, message);
-      messages.sink.add(_messages);
-      _messagesWithoutStream = _messages;
-    });
+        if (_authController.account.value!.id == account.id) {
+          messages.sink.add(_messages);
+          _messagesWithoutStream = _messages;
+        }
+      });
+
+      _newMessagesStreams.add(_newMessagesStream);
+    }
   }
 
   @action
@@ -133,8 +153,8 @@ abstract class _MessagesControllerBase with Store {
   }
 
   @action
-  Future<void> fetchLocalMessages() async {
-    final messagesFromRepo = await _messagesStorage.fetchMessages();
+  Future<void> fetchLocalMessages(String accountId) async {
+    final messagesFromRepo = await _messagesStorage.fetchMessages(accountId);
 
     messages.sink.add(messagesFromRepo);
     _messagesWithoutStream = messagesFromRepo;
@@ -207,8 +227,12 @@ abstract class _MessagesControllerBase with Store {
   }
 
   dispose() {
-    _cancelToken.cancel();
-    _newMessagesStream?.cancel();
+    for (var element in _cancelTokens) {
+      element?.cancel();
+    }
+    for (var element in _newMessagesStreams) {
+      element?.cancel();
+    }
     _selectModeWatcher?.call();
   }
 }

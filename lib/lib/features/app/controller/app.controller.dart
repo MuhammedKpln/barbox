@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:beamer/beamer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:injectable/injectable.dart';
+import 'package:macos_ui/macos_ui.dart';
 import 'package:mobx/mobx.dart';
 import 'package:barbox/core/auth/controllers/auth.controller.dart';
 import 'package:barbox/core/services/notification.service.dart';
@@ -42,6 +43,20 @@ abstract class _AppViewControllerBase with Store {
     });
   }
 
+  @computed
+  List<MacosListTile>? get availableAccounts {
+    return authController.availableAccounts
+        ?.where((element) => element.id != authController.account.value?.id)
+        .map((e) => MacosListTile(
+              title: Text(e.address ?? "s",
+                  style: const TextStyle(fontWeight: FontWeight.normal)),
+              leading: const MacosIcon(CupertinoIcons.person_circle),
+              mouseCursor: SystemMouseCursors.click,
+              onClick: () => authController.switchAccount(e.id),
+            ))
+        .toList();
+  }
+
   @observable
   List<SidebarItemWithRouter> tabs = [
     SidebarItemWithRouter(
@@ -70,7 +85,7 @@ abstract class _AppViewControllerBase with Store {
   @action
   void onItemTapped(BuildContext context, int tabIndex) {
     currentIndex = tabIndex;
-    context.beamToNamed(tabs[tabIndex].initialLocation);
+    context.beamToNamed(tabs[tabIndex].initialLocation!);
   }
 
   Future<void> dispose() async {

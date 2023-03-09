@@ -1,19 +1,25 @@
+import 'package:barbox/core/auth/controllers/auth.controller.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
-import 'package:barbox/core/storage/account.storage.dart';
 
 @LazySingleton()
 class AuthInterceptor extends Interceptor {
-  final AccountStorage accountStorage;
-  AuthInterceptor(this.accountStorage);
+  final AuthController authController;
+  AuthInterceptor(this.authController);
 
   @override
   void onRequest(
       RequestOptions options, RequestInterceptorHandler handler) async {
-    final isLoggedIn = await accountStorage.isLoggedIn();
+    final isLoggedIn = authController.isLoggedIn;
 
     if (isLoggedIn) {
-      final account = await accountStorage.getAccount();
+      authController.account.observe((value) {
+        if (value.newValue != null) {
+          options.headers["Authorization"] = "Bearer ${value.newValue?.token}";
+        }
+      });
+
+      final account = authController.account.value;
       options.headers["Authorization"] = "Bearer ${account?.token}";
     }
 

@@ -17,6 +17,7 @@ class Message extends Equatable {
   final String privateType;
   @Index(unique: true)
   final String id;
+  @Index()
   final String accountId;
   final String msgid;
   final From from;

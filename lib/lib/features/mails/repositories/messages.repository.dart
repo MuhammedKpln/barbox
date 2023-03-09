@@ -17,7 +17,7 @@ abstract class MessagesRespositoryBase {
   Future<bool> deleteMessage(String messageId);
   Future<bool> markAsSeen(String messageId, bool seen);
   Future<Stream<Message>> listenToNewMessages(
-      CancelToken cancelToken, String accountId);
+      CancelToken cancelToken, String accountId, String authToken);
 }
 
 @LazySingleton()
@@ -60,10 +60,11 @@ class MessagesRepository implements MessagesRespositoryBase {
 
   @override
   Future<Stream<Message>> listenToNewMessages(
-      CancelToken cancelToken, String accountId) async {
+      CancelToken cancelToken, String accountId, String authToken) async {
     final response = await _api.stream(
       path: SSE_API_URL,
       cancelToken: cancelToken,
+      authToken: authToken,
       queryParams: {"topic": accountId},
     );
 

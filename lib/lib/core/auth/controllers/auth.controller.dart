@@ -22,11 +22,15 @@ abstract class _AuthControllerBase with Store {
   @observable
   Observable<LocalAccount?> account = Observable(null);
 
+  @observable
+  List<LocalAccount>? availableAccounts;
+
   @computed
   bool get isLoggedIn => authState.value == AuthState.loggedIn;
 
   @action
   Future<void> init() async {
+    availableAccounts = await _accountStorage.getAllAvailableAccounts();
     final isLoggedIn = await _accountStorage.isLoggedIn();
 
     if (isLoggedIn) {
@@ -49,8 +53,6 @@ abstract class _AuthControllerBase with Store {
       {required AccountModel acc,
       required String password,
       required String token}) async {
-    await _cleanUpIfAccountAlreadyExists();
-
     account.value = LocalAccount(
       address: acc.address,
       password: password,
@@ -66,5 +68,11 @@ abstract class _AuthControllerBase with Store {
     if (isLoggedIn) {
       await logout();
     }
+  }
+
+  @action
+  Future<void> switchAccount(int id) async {
+    final toAccount = await _accountStorage.getAccount(id: id);
+    account.value = toAccount;
   }
 }

@@ -4,14 +4,19 @@ import 'package:macos_ui/macos_ui.dart';
 class SidebarItemWithRouter extends SidebarItem {
   SidebarItemWithRouter(
       {required Widget label,
-      required this.initialLocation,
-      required IconData icon})
+      this.initialLocation,
+      IconData? icon,
+      List<SidebarItemWithRouter>? disclosureItems})
       : super(
-            label: label,
-            leading: Icon(
-              icon,
-              size: 14,
-            ));
+          label: label,
+          leading: icon != null
+              ? Icon(
+                  icon,
+                  size: 14,
+                )
+              : null,
+          disclosureItems: disclosureItems,
+        );
 
-  final String initialLocation;
+  final String? initialLocation;
 }

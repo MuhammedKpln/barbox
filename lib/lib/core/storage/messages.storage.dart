@@ -41,8 +41,8 @@ class MessagesStorage {
     return false;
   }
 
-  Future<List<Message>> fetchMessages() async {
-    return isarInstance.messages.where().findAll();
+  Future<List<Message>> fetchMessages(String accountId) async {
+    return isarInstance.messages.where().accountIdEqualTo(accountId).findAll();
   }
 
   Future<void> deleteMessage(int isarId) async {
