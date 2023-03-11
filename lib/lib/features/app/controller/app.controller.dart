@@ -35,7 +35,7 @@ abstract class _AppViewControllerBase with Store {
 
     autoRunDisposer = autorun((_) {
       if (authController.authState.value == AuthState.loggedIn) {
-        tabs = [...tabs, ..._authenticationTabs];
+        tabs = [..._authenticationTabs, ...tabs];
       }
       if (authController.authState.value == AuthState.none) {
         tabs = [..._rawTabs];
@@ -60,17 +60,17 @@ abstract class _AppViewControllerBase with Store {
   @observable
   List<SidebarItemWithRouter> tabs = [
     SidebarItemWithRouter(
-      initialLocation: RouterMeta.fetchEmailAddress.path,
-      label: const Text("Get new email address"),
-      icon: CupertinoIcons.mail,
+      initialLocation: RouterMeta.settings.path,
+      label: const Text("Settings"),
+      icon: CupertinoIcons.settings,
     ),
   ];
 
   final List<SidebarItemWithRouter> _rawTabs = [
     SidebarItemWithRouter(
-      initialLocation: RouterMeta.fetchEmailAddress.path,
-      label: const Text("Get new email address"),
-      icon: CupertinoIcons.mail,
+      initialLocation: RouterMeta.settings.path,
+      label: const Text("Settings"),
+      icon: CupertinoIcons.settings,
     ),
   ];
 

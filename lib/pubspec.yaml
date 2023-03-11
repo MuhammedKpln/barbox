@@ -28,6 +28,7 @@ dependencies:
   flutter_widget_from_html: ^0.10.0
   shared_preferences: ^2.0.18
   copy_with_extension: ^5.0.0
+  cherry_toast: ^1.1.0
 
 
   flutter:

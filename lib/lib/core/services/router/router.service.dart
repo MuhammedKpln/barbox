@@ -1,19 +1,17 @@
+import 'package:barbox/features/home/views/home.view.dart';
+import 'package:barbox/features/settings/views/settings.view.dart';
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:barbox/core/services/di.service.dart';
-import 'package:barbox/core/services/router/guards/auth.guard.dart';
 import 'package:barbox/core/services/router/router.controller.dart';
 import 'package:barbox/features/app/views/app.view.dart';
-import 'package:barbox/features/home/views/home.view.dart';
-import 'package:barbox/features/home/views/home.wrapper.dart';
 import 'package:barbox/features/mails/views/mail.view.dart';
 import 'package:barbox/features/mails/views/mails.view.dart';
-import 'package:barbox/features/settings/views/settings.view.dart';
 import 'package:barbox/types/messages/message.dart';
 
 enum RouterMeta {
   fetchEmailAddress("/fetch-email-adress", "Fetch new email address"),
-  settings("/fetch-email-adress/settings", "Settings"),
+  settings("/settings", "Settings"),
   inbox("/inbox", "Inbox"),
   message("/inbox/:msgId", "Message");
 
@@ -37,25 +35,12 @@ final appRouterDelegate = BeamerDelegate(
   initialPath: RouterMeta.fetchEmailAddress.path,
   locationBuilder: RoutesLocationBuilder(
     routes: {
-      RouterMeta.fetchEmailAddress.path: (p0, p1, p2) =>
-          const HomeWrapperView(),
+      RouterMeta.fetchEmailAddress.path: (p0, p1, p2) => const HomeView(),
       RouterMeta.inbox.path: (p0, p1, p2) => const MailsView(),
+      RouterMeta.settings.path: (p0, p1, p2) => const SettingsView(),
     },
   ),
 );
-
-final homeRouterKey = GlobalKey<BeamerState>();
-final homeRouterDelegate = BeamerDelegate(
-    guards: [
-      AuthGuard(),
-    ],
-    initialPath: RouterMeta.fetchEmailAddress.path,
-    locationBuilder: RoutesLocationBuilder(
-      routes: {
-        RouterMeta.fetchEmailAddress.path: (p0, p1, p2) => const HomeView(),
-        RouterMeta.settings.path: (p0, p1, p2) => const SettingsView()
-      },
-    ));
 
 final mailsRouterKey = GlobalKey<BeamerState>();
 final mailsRouterDelegate = BeamerDelegate(

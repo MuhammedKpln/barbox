@@ -1,3 +1,5 @@
+import 'package:barbox/features/app/views/components/new_account.component.dart';
+import 'package:barbox/main.dart';
 import 'package:beamer/beamer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +35,7 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     return MacosWindow(
+      key: scaffoldMessengerKey,
       sidebar: Sidebar(
           minWidth: 210,
           windowBreakpoint: 300,
@@ -70,10 +73,28 @@ class _AppState extends State<App> {
             size: 15,
           ),
           leading: const MacosIcon(CupertinoIcons.person_circle, size: 15),
-          children: controller.availableAccounts ?? [],
+          children: [
+            ...controller.availableAccounts ?? [],
+            _addNewAccountTile()
+          ],
           childrenPadding: const EdgeInsets.all(10),
         );
       }),
+    );
+  }
+
+  Widget _addNewAccountTile() {
+    return MacosListTile(
+      title: const Text("Add new account",
+          style: TextStyle(fontWeight: FontWeight.normal)),
+      leading: const MacosIcon(CupertinoIcons.plus_app_fill),
+      mouseCursor: SystemMouseCursors.click,
+      onClick: () => showMacosAlertDialog(
+        context: context,
+        builder: (context) => const NewAccountComponent(),
+        barrierDismissible: true,
+        useRootNavigator: true,
+      ),
     );
   }
 }

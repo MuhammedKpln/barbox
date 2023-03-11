@@ -94,6 +94,16 @@ class _SettingsViewState extends State<SettingsView> {
                           onPressed: controller.clearAllCachedMessages,
                         ),
                       ),
+                      Padding(
+                        padding:
+                            EdgeInsets.only(top: ThemePadding.medium.padding),
+                        child: PushButton(
+                          child: const Text("Clear cache"),
+                          buttonSize: ButtonSize.small,
+                          isSecondary: true,
+                          onPressed: controller.clearCache,
+                        ),
+                      ),
                       Observer(builder: (_) {
                         return Text("Version ${controller.packageVersion}",
                             style: MacosTheme.of(context).typography.footnote);

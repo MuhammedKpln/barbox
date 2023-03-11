@@ -1,3 +1,4 @@
+import 'package:barbox/core/storage/app.storage.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mobx/mobx.dart';
@@ -21,12 +22,18 @@ class SettingsViewController = _SettingsViewControllerBase
     with _$SettingsViewController;
 
 abstract class _SettingsViewControllerBase with Store {
-  _SettingsViewControllerBase(this.accountStorage, this.authController,
-      this.messagesStorage, this._toast, this.updateRepository);
+  _SettingsViewControllerBase(
+      this.accountStorage,
+      this.authController,
+      this.messagesStorage,
+      this._toast,
+      this.updateRepository,
+      this._appStorage);
   final AccountStorage accountStorage;
   final AuthController authController;
   final MessagesStorage messagesStorage;
   final UpdateRepository updateRepository;
+  final AppStorage _appStorage;
   final Toast _toast;
 
   @observable
@@ -108,5 +115,9 @@ abstract class _SettingsViewControllerBase with Store {
     if (canOpenUrl) {
       await launchUrl(url, mode: LaunchMode.externalApplication);
     }
+  }
+
+  Future<void> clearCache() async {
+    final instance = await _appStorage.clearAll();
   }
 }

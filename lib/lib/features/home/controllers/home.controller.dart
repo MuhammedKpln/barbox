@@ -1,3 +1,5 @@
+import 'package:barbox/core/services/router/router.service.dart';
+import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
@@ -89,6 +91,8 @@ abstract class _HomeViewControllerBase with Store {
     await _appStorage.setDidShowWelcomeSheet(true);
     await fetchNewAdress();
     Navigator.of(context).pop();
+
+    context.beamToNamed(RouterMeta.inbox.path);
   }
 
   dispose() {}

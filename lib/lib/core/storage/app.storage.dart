@@ -16,4 +16,10 @@ class AppStorage {
 
     return storage.getBool(_AppKeys.didShowWelcomeSheet.name);
   }
+
+  Future<void> clearAll() async {
+    final storage = await SharedPreferences.getInstance();
+
+    await storage.clear();
+  }
 }

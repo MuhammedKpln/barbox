@@ -5,7 +5,6 @@ import 'package:barbox/core/services/dio.service.dart';
 import 'package:barbox/types/account.dart';
 import 'package:barbox/types/domains.dart';
 import 'package:barbox/types/login.dart';
-import 'package:barbox/utils.dart';
 
 abstract class BaseAccountRepository {
   Future<LoginResponse> login(String email, String password);
@@ -36,8 +35,6 @@ class AccountRepository implements BaseAccountRepository {
   Future<DomainsModel> fetchDomains() async {
     final response = await dio.get("/domains");
 
-    print(response?.data);
-
     switch (response?.statusCode) {
       case HttpStatus.ok:
         return DomainsModel.fromJson(response?.data);
@@ -47,11 +44,8 @@ class AccountRepository implements BaseAccountRepository {
   }
 
   @override
-  Future<AccountModel> createAccount(String domain, String password) async {
-    final randomAddress = generateRandomString(5);
-    final randomDomain = domain;
-    final randomEmail = "$randomAddress@$randomDomain";
-    final payload = {"address": randomEmail, "password": password};
+  Future<AccountModel> createAccount(String address, String password) async {
+    final payload = {"address": address, "password": password};
 
     final response = await dio.post("/accounts", payload);
     print(response?.data);
