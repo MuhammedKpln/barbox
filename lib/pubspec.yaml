@@ -1,7 +1,7 @@
 name: barbox
 description: Your one-click solution for disposable emails, right from your Mac menu bar
 
-version: 2.2.1
+version: 2.3.0
 
 environment:
   sdk: ">=2.19.0 <3.0.0"
