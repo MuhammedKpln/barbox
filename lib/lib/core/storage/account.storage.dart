@@ -11,7 +11,13 @@ class AccountStorage {
     });
   }
 
-  Future<void> removeAccount() async {
+  Future<void> removeAccount(LocalAccount account) async {
+    isarInstance.writeTxn(() async {
+      await isarInstance.localAccounts.delete(account.id);
+    });
+  }
+
+  Future<void> removeAllAccounts() async {
     isarInstance.writeTxn(() async {
       await isarInstance.localAccounts.clear();
     });

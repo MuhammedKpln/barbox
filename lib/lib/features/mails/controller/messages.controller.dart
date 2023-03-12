@@ -62,9 +62,10 @@ abstract class _MessagesControllerBase with Store {
 
     _authController.account.observe(
       (_) async {
-        print("sqe");
-        await fetchLocalMessages(_.newValue!.accountId!);
-        await fetchMessages();
+        if (_.newValue != null) {
+          await fetchLocalMessages(_.newValue!.accountId!);
+          await fetchMessages();
+        }
       },
     );
 

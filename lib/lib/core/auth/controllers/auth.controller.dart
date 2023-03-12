@@ -1,3 +1,8 @@
+import 'dart:async';
+
+import 'package:barbox/core/services/di.service.dart';
+import 'package:barbox/features/home/repositories/account.repository.dart';
+import 'package:barbox/utils.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mobx/mobx.dart';
 import 'package:barbox/core/storage/account.storage.dart';
@@ -23,29 +28,35 @@ abstract class _AuthControllerBase with Store {
   Observable<LocalAccount?> account = Observable(null);
 
   @observable
-  List<LocalAccount>? availableAccounts;
+  ObservableList<LocalAccount> availableAccounts = ObservableList();
 
   @computed
   bool get isLoggedIn => authState.value == AuthState.loggedIn;
 
   @action
   Future<void> init() async {
-    availableAccounts = await _accountStorage.getAllAvailableAccounts();
-    final isLoggedIn = await _accountStorage.isLoggedIn();
+    final _accounts = await _accountStorage.getAllAvailableAccounts();
+    availableAccounts = ObservableList.of(_accounts);
 
-    if (isLoggedIn) {
-      account.value = await _accountStorage.getAccount();
+    if (_accounts.isNotEmpty) {
+      account.value = availableAccounts.last;
       authState.value = AuthState.loggedIn;
     }
   }
 
   @action
   Future<void> logout() async {
-    await _accountStorage.removeAccount();
-    await _messagesStorage.clear();
+    await _accountStorage.removeAccount(account.value!);
+    await _messagesStorage.clearMessagesByAddress(account.value!);
 
+    availableAccounts.removeWhere((element) => element.id == account.value!.id);
     account.value = null;
-    authState.value = AuthState.none;
+
+    if (availableAccounts.isEmpty) {
+      authState.value = AuthState.none;
+    } else {
+      account.value = availableAccounts.last;
+    }
   }
 
   @action
@@ -61,18 +72,46 @@ abstract class _AuthControllerBase with Store {
     );
 
     await _accountStorage.saveAccount(account.value!);
+    availableAccounts.add(account.value!);
     authState.value = AuthState.loggedIn;
-  }
-
-  Future<void> _cleanUpIfAccountAlreadyExists() async {
-    if (isLoggedIn) {
-      await logout();
-    }
   }
 
   @action
   Future<void> switchAccount(int id) async {
     final toAccount = await _accountStorage.getAccount(id: id);
     account.value = toAccount;
+  }
+
+  Future<bool> register(
+      {required String username,
+      required String selectedDomain,
+      required String password}) async {
+    try {
+      final _accountRepository = getIt<AccountRepository>();
+      final address = "$username@$selectedDomain";
+
+      final _account =
+          await _accountRepository.createAccount(address, password);
+
+      final token = await _accountRepository.login(_account.address, password);
+
+      await login(acc: _account, password: password, token: token.token);
+
+      return true;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> registerWithRandomUsername() async {
+    final _accountRepository = getIt<AccountRepository>();
+    final domains = await _accountRepository.fetchDomains();
+    final randomString = generateRandomString(10);
+
+    await register(
+      username: randomString,
+      selectedDomain: domains.hydraMember.last.domain,
+      password: randomString,
+    );
   }
 }

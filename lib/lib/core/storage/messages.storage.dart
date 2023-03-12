@@ -1,3 +1,4 @@
+import 'package:barbox/core/storage/isar/local_account.db.dart';
 import 'package:injectable/injectable.dart';
 import 'package:isar/isar.dart';
 import 'package:barbox/core/storage/isar/base.db.dart';
@@ -54,6 +55,15 @@ class MessagesStorage {
   Future<void> clear() async {
     return isarInstance.writeTxn(() async {
       await isarInstance.messages.clear();
+    });
+  }
+
+  Future<void> clearMessagesByAddress(LocalAccount account) async {
+    return isarInstance.writeTxn(() async {
+      await isarInstance.messages
+          .where()
+          .accountIdEqualTo(account.accountId!)
+          .deleteAll();
     });
   }
 }

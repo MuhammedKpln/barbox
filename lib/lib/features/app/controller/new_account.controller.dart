@@ -73,19 +73,19 @@ abstract class _NewAccountControllerBase with Store {
       return;
     }
 
-    final address = "$username@$selectedDomain";
+    try {
+      await _authController.register(
+          username: username!,
+          selectedDomain: selectedDomain!,
+          password: password!);
 
-    final _account = await _accountRepository.createAccount(address, password!);
+      _toastService.showToast("Account created successfully",
+          toastType: ToastType.success);
 
-    final token = await _accountRepository.login(_account.address, password!);
-
-    await _authController.login(
-        acc: _account, password: password!, token: token.token);
-
-    _toastService.showToast("Account created successfully",
-        toastType: ToastType.success);
-
-    Navigator.of(context).pop();
+      Navigator.of(context).pop();
+    } catch (e) {
+      _toastService.showToast(e.toString(), toastType: ToastType.error);
+    }
   }
 
   @action

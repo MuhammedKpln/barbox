@@ -48,7 +48,6 @@ class AccountRepository implements BaseAccountRepository {
     final payload = {"address": address, "password": password};
 
     final response = await dio.post("/accounts", payload);
-    print(response?.data);
     switch (response?.statusCode) {
       case HttpStatus.created:
         return AccountModel.fromJson(response?.data);

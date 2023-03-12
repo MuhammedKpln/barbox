@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:barbox/core/exstensions/toast.extension.dart';
+import 'package:barbox/utils.dart';
 import 'package:beamer/beamer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:injectable/injectable.dart';
@@ -17,12 +19,13 @@ part 'app.controller.g.dart';
 class AppViewController = _AppViewControllerBase with _$AppViewController;
 
 abstract class _AppViewControllerBase with Store {
-  _AppViewControllerBase(
-      this.accountStorage, this.authController, this._notificationService);
+  _AppViewControllerBase(this.accountStorage, this.authController,
+      this._notificationService, this._toast);
 
   final AccountStorage accountStorage;
   final AuthController authController;
   final NotificationService _notificationService;
+  final Toast _toast;
 
   @observable
   int currentIndex = 0;
@@ -32,6 +35,14 @@ abstract class _AppViewControllerBase with Store {
   Future<void> init() async {
     await authController.init();
     await _notificationService.init();
+
+    authController.availableAccounts.observe((value) async {
+      if (value.list.isEmpty) {
+        await authController.registerWithRandomUsername();
+        _toast.showToast(
+            "You've logged out from all accounts, generating random account.");
+      }
+    });
 
     autoRunDisposer = autorun((_) {
       if (authController.authState.value == AuthState.loggedIn) {
@@ -46,7 +57,7 @@ abstract class _AppViewControllerBase with Store {
   @computed
   List<MacosListTile>? get availableAccounts {
     return authController.availableAccounts
-        ?.where((element) => element.id != authController.account.value?.id)
+        .where((element) => element.id != authController.account.value?.id)
         .map((e) => MacosListTile(
               title: Text(e.address ?? "s",
                   style: const TextStyle(fontWeight: FontWeight.normal)),
@@ -58,27 +69,20 @@ abstract class _AppViewControllerBase with Store {
   }
 
   @observable
-  List<SidebarItemWithRouter> tabs = [
-    SidebarItemWithRouter(
-      initialLocation: RouterMeta.settings.path,
-      label: const Text("Settings"),
-      icon: CupertinoIcons.settings,
-    ),
-  ];
+  List<SidebarItemWithRouter> tabs = [];
 
-  final List<SidebarItemWithRouter> _rawTabs = [
-    SidebarItemWithRouter(
-      initialLocation: RouterMeta.settings.path,
-      label: const Text("Settings"),
-      icon: CupertinoIcons.settings,
-    ),
-  ];
+  final List<SidebarItemWithRouter> _rawTabs = [];
 
   final List<SidebarItemWithRouter> _authenticationTabs = [
     SidebarItemWithRouter(
       initialLocation: RouterMeta.inbox.path,
       label: Text(RouterMeta.inbox.displayTitle),
       icon: CupertinoIcons.tray,
+    ),
+    SidebarItemWithRouter(
+      initialLocation: RouterMeta.settings.path,
+      label: const Text("Settings"),
+      icon: CupertinoIcons.settings,
     ),
   ];
 
