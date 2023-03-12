@@ -14,7 +14,7 @@ class AccountsComponent extends StatelessWidget {
 
     return Observer(
       builder: (context) {
-        final items = controller.authController.availableAccounts!
+        final items = controller.authController.availableAccounts
             .map((e) => MacosPopupMenuItem<int>(
                   value: e.id,
                   child: Text(e.id.toString()),

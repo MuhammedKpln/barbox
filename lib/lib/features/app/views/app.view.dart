@@ -35,7 +35,7 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     return MacosWindow(
-      key: scaffoldMessengerKey,
+      key: mainAppKey,
       sidebar: Sidebar(
           minWidth: 210,
           windowBreakpoint: 300,

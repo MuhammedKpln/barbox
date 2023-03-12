@@ -1,3 +1,4 @@
+import 'package:barbox/config.dart';
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:macos_ui/macos_ui.dart';
@@ -8,7 +9,7 @@ import 'package:barbox/core/storage/isar/base.db.dart';
 import 'package:barbox/core/storage/isar/local_account.db.dart';
 import 'package:barbox/types/messages/message.dart';
 
-final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
+final GlobalKey<ScaffoldMessengerState> mainAppKey =
     GlobalKey<ScaffoldMessengerState>();
 
 void main() async {
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MacosApp.router(
-      title: 'BarBox',
+      title: APP_NAME,
       themeMode: ThemeMode.system,
       theme: MacosThemeData.light(),
       darkTheme: MacosThemeData.dark(),

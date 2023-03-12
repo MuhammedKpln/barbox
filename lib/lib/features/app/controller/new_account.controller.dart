@@ -1,6 +1,6 @@
 import 'package:barbox/core/auth/controllers/auth.controller.dart';
-import 'package:barbox/core/constants/theme.dart';
-import 'package:barbox/core/exstensions/toast.extension.dart';
+import 'package:barbox/core/shared/toast/constants/toastType.const.dart';
+import 'package:barbox/core/shared/toast/views/controllers/toast.controller.dart';
 import 'package:barbox/features/home/repositories/account.repository.dart';
 import 'package:barbox/types/domains.dart';
 import 'package:barbox/utils.dart';

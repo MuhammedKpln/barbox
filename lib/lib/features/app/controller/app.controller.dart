@@ -1,7 +1,6 @@
 import 'dart:async';
 
-import 'package:barbox/core/exstensions/toast.extension.dart';
-import 'package:barbox/utils.dart';
+import 'package:barbox/core/shared/toast/views/controllers/toast.controller.dart';
 import 'package:beamer/beamer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:injectable/injectable.dart';

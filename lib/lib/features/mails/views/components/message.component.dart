@@ -57,10 +57,10 @@ class MessageComponent extends StatelessWidget {
                           ),
                           Text(
                             formattedDate,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodySmall
-                                ?.copyWith(
+                            style: MacosTheme.of(context)
+                                .typography
+                                .callout
+                                .copyWith(
                                     color: selected ? MacosColors.white : null),
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
@@ -69,7 +69,7 @@ class MessageComponent extends StatelessWidget {
                       ),
                       Text(
                         description,
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        style: MacosTheme.of(context).typography.body.copyWith(
                             color: selected ? MacosColors.white : null),
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,

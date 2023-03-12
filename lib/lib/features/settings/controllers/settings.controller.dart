@@ -1,12 +1,12 @@
 import 'package:barbox/core/storage/app.storage.dart';
-import 'package:flutter/material.dart';
+import 'package:barbox/core/shared/toast/constants/toastAction.const.dart';
+import 'package:barbox/core/shared/toast/constants/toastType.const.dart';
+import 'package:barbox/core/shared/toast/views/controllers/toast.controller.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mobx/mobx.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:barbox/config.dart';
 import 'package:barbox/core/auth/controllers/auth.controller.dart';
-import 'package:barbox/core/constants/theme.dart';
-import 'package:barbox/core/exstensions/toast.extension.dart';
 import 'package:barbox/core/services/router/router.service.dart';
 import 'package:barbox/core/storage/account.storage.dart';
 import 'package:barbox/core/storage/messages.storage.dart';
@@ -79,7 +79,7 @@ abstract class _SettingsViewControllerBase with Store {
 
     _toast.showToast(
       "You are deleting all cached mails, are you sure?",
-      action: SnackBarAction(label: "Delete all", onPressed: clear),
+      action: ToastAction(label: "Delete all", onPressed: clear),
     );
   }
 

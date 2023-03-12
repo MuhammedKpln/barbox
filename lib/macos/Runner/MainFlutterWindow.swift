@@ -37,8 +37,8 @@ class BlurryContainerViewController: NSViewController {
 
 class MainFlutterWindow: NSWindow, NSWindowDelegate {
   override func awakeFromNib() {
-    delegate = self
-    let blurryContainerViewController = BlurryContainerViewController()
+    let flutterViewController = FlutterViewController.init()
+    flutterViewController.backgroundColor = .clear
     let windowFrame = self.frame
     self.contentViewController = blurryContainerViewController
     self.setFrame(windowFrame, display: true)
