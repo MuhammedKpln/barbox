@@ -71,8 +71,8 @@ class _MailsViewState extends State<MailsView> {
 
                       return Observer(
                         builder: (context) {
-                          print(controller.selectMode);
-                          print(controller.selectedMessages);
+                          debugPrint(controller.selectMode.toString());
+                          debugPrint(controller.selectedMessages.toString());
 
                           final currentRouteLocation =
                               _routerService.currentRoute?.location;

@@ -2,6 +2,7 @@ import 'package:barbox/core/storage/app.storage.dart';
 import 'package:barbox/core/shared/toast/constants/toastAction.const.dart';
 import 'package:barbox/core/shared/toast/constants/toastType.const.dart';
 import 'package:barbox/core/shared/toast/views/controllers/toast.controller.dart';
+import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mobx/mobx.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -95,7 +96,7 @@ abstract class _SettingsViewControllerBase with Store {
       case -1:
         updateAvailable.value = true;
         update = remoteUpdate;
-        print("Update available");
+        debugPrint("Update available");
         break;
       case 0:
         if (toggledFromUi != null) {
@@ -103,7 +104,7 @@ abstract class _SettingsViewControllerBase with Store {
         }
         break;
       case 1:
-        print("Higher version available");
+        debugPrint("Higher version available");
         break;
     }
   }
