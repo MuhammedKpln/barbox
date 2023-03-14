@@ -16,7 +16,7 @@ Your one-click solution for disposable emails, right from your Mac menu bar
 ## Features
 
 - [x] Your temporary mail box right from your mac
-- [ ] Multiple accounts (#10)
+- [x] Multiple accounts (#10)
 - [x] Notification when new message arrived
 - [x] Read/unread messages
 - [ ] Downloading message attachments (#11)
