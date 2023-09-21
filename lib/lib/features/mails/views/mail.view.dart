@@ -1,9 +1,9 @@
+import 'package:barbox/core/services/di.service.dart';
+import 'package:barbox/features/mails/controller/message.controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:macos_ui/macos_ui.dart';
-import 'package:barbox/core/services/di.service.dart';
-import 'package:barbox/features/mails/controller/message.controller.dart';
 
 class MailView extends StatefulWidget {
   const MailView({super.key, required this.msgId});
@@ -46,7 +46,6 @@ class _MailViewState extends State<MailView> {
         enableCaching: true,
         buildAsync: true,
         renderMode: RenderMode.listView,
-        rebuildTriggers: RebuildTriggers([]),
         onLoadingBuilder: (_, __, v) => ProgressCircle(
           value: v,
         ),

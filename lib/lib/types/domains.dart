@@ -40,7 +40,7 @@ class HydraSearch with _$HydraSearch {
     @JsonKey(name: "@type") String? type,
     @JsonKey(name: "hydra:template") required String hydraTemplate,
     @JsonKey(name: "hydra:variableRepresentation")
-        required String hydraVariableRepresentation,
+    required String hydraVariableRepresentation,
     @JsonKey(name: "hydra:mapping") required List<HydraMapping> hydraMapping,
   }) = _HydraSearch;
 

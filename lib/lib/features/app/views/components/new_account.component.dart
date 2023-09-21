@@ -5,6 +5,20 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:macos_ui/macos_ui.dart';
 
+class ss extends PushButton {
+  final NewAccountController controller;
+  final BuildContext context;
+
+  ss({super.key, required this.controller, required this.context})
+      : super(
+          child: const Text("Create"),
+          onPressed: controller.isFormValid
+              ? () => controller.createAddress(context)
+              : null,
+          controlSize: ControlSize.large,
+        );
+}
+
 class NewAccountComponent extends StatefulWidget {
   const NewAccountComponent({super.key});
 
@@ -24,62 +38,62 @@ class _NewAccounSheettComponentState extends State<NewAccountComponent> {
 
   @override
   void dispose() {
-    controller.dispose();
+    getIt.resetLazySingleton<NewAccountController>();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return MacosAlertDialog(
-      horizontalActions: true,
-      appIcon: const MacosIcon(
-        CupertinoIcons.person_add,
-        size: 30,
-      ),
-      title: Text(
-        "Create new address",
-        style: MacosTheme.of(context).typography.headline,
-      ),
-      message: Column(
-        children: [
-          FocusTraversalGroup(
-              policy: WidgetOrderTraversalPolicy(),
-              child: Column(
-                children: [
-                  MacosTextField(
-                    placeholder: "Username",
-                    suffix: _usernameSuffix(),
-                    controller: controller.controllerUsername,
-                    onChanged: controller.updateUsername,
-                  ),
-                  Observer(builder: (_) {
-                    return MacosTextField(
-                      placeholder: "Password",
-                      suffix: _passwordSuffix(),
-                      controller: controller.controllerPassword,
-                      obscureText: controller.obsecuredText,
-                      onChanged: controller.updatePassword,
-                    );
-                  })
-                ],
-              ))
-        ],
-      ),
-      secondaryButton: PushButton(
-        child: const Text("Cancel"),
-        isSecondary: true,
-        buttonSize: ButtonSize.large,
-        onPressed: () => Navigator.of(context).pop(),
-      ),
-      primaryButton: Observer(
-        builder: (context) => PushButton(
-          child: const Text("Create"),
-          buttonSize: ButtonSize.large,
-          onPressed: controller.isFormValid
-              ? () => controller.createAddress(context)
-              : null,
-        ),
-      ),
+    return Observer(
+      builder: (_) {
+        return MacosAlertDialog(
+            horizontalActions: true,
+            appIcon: const MacosIcon(
+              CupertinoIcons.person_add,
+              size: 30,
+            ),
+            title: Text(
+              "Create new address",
+              style: MacosTheme.of(context).typography.headline,
+            ),
+            message: Column(
+              children: [
+                FocusTraversalGroup(
+                    policy: WidgetOrderTraversalPolicy(),
+                    child: Column(
+                      children: [
+                        MacosTextField(
+                          placeholder: "Username",
+                          suffix: _usernameSuffix(),
+                          controller: controller.controllerUsername,
+                          onChanged: controller.updateUsername,
+                        ),
+                        MacosTextField(
+                          placeholder: "Password",
+                          suffix: _passwordSuffix(),
+                          controller: controller.controllerPassword,
+                          obscureText: controller.obsecuredText,
+                          onChanged: controller.updatePassword,
+                        )
+                      ],
+                    ))
+              ],
+            ),
+            secondaryButton: PushButton(
+              secondary: true,
+              child: const Text("Cancel"),
+              controlSize: ControlSize.large,
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+            primaryButton: PushButton(
+              child: const Text("Create"),
+              controlSize: ControlSize.large,
+              secondary: false,
+              onPressed: controller.isFormValid
+                  ? () => controller.createAddress(context)
+                  : null,
+            ));
+      },
     );
   }
 

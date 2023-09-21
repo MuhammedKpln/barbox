@@ -1,16 +1,16 @@
 import 'dart:async';
 
 import 'package:barbox/core/auth/controllers/auth.controller.dart';
+import 'package:barbox/core/services/notification.service.dart';
 import 'package:barbox/core/storage/isar/local_account.db.dart';
+import 'package:barbox/core/storage/messages.storage.dart';
+import 'package:barbox/features/mails/repositories/messages.repository.dart';
+import 'package:barbox/types/messages/message.dart';
+import 'package:barbox/types/single_message/single_message.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mobx/mobx.dart';
-import 'package:barbox/core/services/notification.service.dart';
-import 'package:barbox/features/mails/repositories/messages.repository.dart';
-import 'package:barbox/core/storage/messages.storage.dart';
-import 'package:barbox/types/messages/message.dart';
-import 'package:barbox/types/single_message/single_message.dart';
 
 part 'messages.controller.g.dart';
 
@@ -56,14 +56,14 @@ abstract class _MessagesControllerBase with Store {
 
   @action
   init() async {
-    await fetchLocalMessages(_authController.account.value!.accountId!);
+    await fetchLocalMessages(_authController.account.value!.accountId);
     await fetchMessages();
     await listenToNewMessages();
 
     _authController.account.observe(
       (_) async {
         if (_.newValue != null) {
-          await fetchLocalMessages(_.newValue!.accountId!);
+          await fetchLocalMessages(_.newValue!.accountId);
           await fetchMessages();
         }
       },
@@ -79,14 +79,14 @@ abstract class _MessagesControllerBase with Store {
   Future<void> listenToNewMessages() async {
     final _messages = _messagesWithoutStream;
 
-    for (var account in _authController.availableAccounts!) {
+    for (var account in _authController.availableAccounts) {
       final cToken = CancelToken();
-      final String accountId = account.accountId!;
+      final String accountId = account.accountId;
 
       _cancelTokens.add(cToken);
 
       final stream = await _messagesRepository.listenToNewMessages(
-          cToken, accountId, account.token!);
+          cToken, accountId, account.token);
 
       final _newMessagesStream = stream.listen((message) {
         final isAlreadyExists =
@@ -222,7 +222,7 @@ abstract class _MessagesControllerBase with Store {
 
   Future<void> copyAddress() async {
     final clipboardData =
-        ClipboardData(text: _authController.account.value?.address);
+        ClipboardData(text: _authController.account.value!.address);
 
     await Clipboard.setData(clipboardData);
   }

@@ -73,19 +73,15 @@ abstract class _NewAccountControllerBase with Store {
       return;
     }
 
-    try {
-      await _authController.register(
-          username: username!,
-          selectedDomain: selectedDomain!,
-          password: password!);
+    await _authController.register(
+        username: username!,
+        selectedDomain: selectedDomain!,
+        password: password!);
 
-      _toastService.showToast("Account created successfully",
-          toastType: ToastType.success);
+    _toastService.showToast("Account created successfully",
+        toastType: ToastType.success);
 
-      Navigator.of(context).pop();
-    } catch (e) {
-      _toastService.showToast(e.toString(), toastType: ToastType.error);
-    }
+    Navigator.of(context).pop();
   }
 
   @action
@@ -129,7 +125,10 @@ abstract class _NewAccountControllerBase with Store {
     selectedDomain = value;
   }
 
-  void dispose() {}
+  void dispose() {
+    controllerPassword.dispose();
+    controllerUsername.dispose();
+  }
 }
 
 disposeNewAccountController(NewAccountController instance) {

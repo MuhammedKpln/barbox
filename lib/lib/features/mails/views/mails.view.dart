@@ -1,17 +1,17 @@
 import 'dart:async';
 
+import 'package:barbox/core/constants/theme.dart';
+import 'package:barbox/core/services/di.service.dart';
+import 'package:barbox/core/services/router/router.controller.dart';
+import 'package:barbox/core/services/router/router.service.dart';
+import 'package:barbox/features/mails/controller/messages.controller.dart';
+import 'package:barbox/features/mails/views/components/message.component.dart';
+import 'package:barbox/types/messages/message.dart';
 import 'package:beamer/beamer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:macos_ui/macos_ui.dart';
-import 'package:barbox/core/constants/theme.dart';
-import 'package:barbox/core/services/router/router.controller.dart';
-import 'package:barbox/core/services/router/router.service.dart';
-import 'package:barbox/features/mails/controller/messages.controller.dart';
-import 'package:barbox/features/mails/views/components/message.component.dart';
-import 'package:barbox/core/services/di.service.dart';
-import 'package:barbox/types/messages/message.dart';
 
 class MailsView extends StatefulWidget {
   const MailsView({super.key});
@@ -144,11 +144,10 @@ class _MailsViewState extends State<MailsView> {
                   }
                 });
           },
-          startWidth: 250,
-          maxWidth: 300,
-          minWidth: 150,
           resizableSide: ResizableSide.right,
           isResizable: true,
+          minSize: 150,
+          startSize: 250,
         ),
         ContentArea(
           builder: (context, _) {

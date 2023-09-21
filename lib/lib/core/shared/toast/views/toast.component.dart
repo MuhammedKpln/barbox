@@ -26,20 +26,20 @@ class ToastComponent extends StatelessWidget {
       return closeDialog();
     }
 
-    Widget renderPrimaryButton() {
+    PushButton renderPrimaryButton() {
       if (action != null) {
         return PushButton(
           child: Text(action!.label),
-          buttonSize: ButtonSize.large,
+          controlSize: ControlSize.large,
           onPressed: onPressed,
         );
       }
 
       return PushButton(
-        buttonSize: ButtonSize.large,
+        controlSize: ControlSize.large,
         child: const Text("Close"),
+        secondary: true,
         onPressed: onPressed,
-        isSecondary: true,
       );
     }
 
@@ -61,10 +61,10 @@ class ToastComponent extends StatelessWidget {
       primaryButton: renderPrimaryButton(),
       secondaryButton: action != null
           ? PushButton(
-              buttonSize: ButtonSize.large,
+              controlSize: ControlSize.large,
               child: const Text("Close"),
               onPressed: closeDialog,
-              isSecondary: true,
+              secondary: true,
             )
           : null,
     );

@@ -1,8 +1,8 @@
 import 'package:barbox/config.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:macos_ui/macos_ui.dart';
 import 'package:barbox/core/services/di.service.dart';
 import 'package:barbox/features/home/controllers/home.controller.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:macos_ui/macos_ui.dart';
 
 class HomeWelcomeSheet extends StatelessWidget {
   const HomeWelcomeSheet({super.key});
@@ -53,7 +53,7 @@ class HomeWelcomeSheet extends StatelessWidget {
           PushButton(
             onPressed: () => controller.closeHomeSheet(context),
             child: const Text("Dismiss"),
-            buttonSize: ButtonSize.large,
+            controlSize: ControlSize.large,
           )
         ],
       ),

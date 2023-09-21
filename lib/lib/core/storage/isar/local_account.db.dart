@@ -1,18 +1,24 @@
+import 'dart:math';
+
 import 'package:isar/isar.dart';
 
 part 'local_account.db.g.dart';
 
 @collection
 class LocalAccount {
-  LocalAccount({this.address, this.password, this.token, this.accountId});
+  LocalAccount(
+      {required this.address,
+      required this.password,
+      required this.token,
+      required this.accountId});
 
-  Id id = Isar.autoIncrement;
+  int get id => Random().nextInt(999999);
 
-  String? address;
+  final String address;
 
-  String? password;
+  final String password;
 
-  String? token;
+  final String token;
 
-  String? accountId;
+  final String accountId;
 }

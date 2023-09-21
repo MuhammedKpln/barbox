@@ -1,16 +1,16 @@
 import 'dart:async';
 
+import 'package:barbox/core/auth/controllers/auth.controller.dart';
+import 'package:barbox/core/services/notification.service.dart';
+import 'package:barbox/core/services/router/router.service.dart';
 import 'package:barbox/core/shared/toast/views/controllers/toast.controller.dart';
+import 'package:barbox/core/storage/account.storage.dart';
+import 'package:barbox/features/app/views/components/sidebarItem.component.dart';
 import 'package:beamer/beamer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:injectable/injectable.dart';
 import 'package:macos_ui/macos_ui.dart';
 import 'package:mobx/mobx.dart';
-import 'package:barbox/core/auth/controllers/auth.controller.dart';
-import 'package:barbox/core/services/notification.service.dart';
-import 'package:barbox/features/app/views/components/sidebarItem.component.dart';
-import 'package:barbox/core/services/router/router.service.dart';
-import 'package:barbox/core/storage/account.storage.dart';
 
 part 'app.controller.g.dart';
 
@@ -58,11 +58,11 @@ abstract class _AppViewControllerBase with Store {
     return authController.availableAccounts
         .where((element) => element.id != authController.account.value?.id)
         .map((e) => MacosListTile(
-              title: Text(e.address ?? "s",
+              title: Text(e.address,
                   style: const TextStyle(fontWeight: FontWeight.normal)),
               leading: const MacosIcon(CupertinoIcons.person_circle),
               mouseCursor: SystemMouseCursors.click,
-              onClick: () => authController.switchAccount(e.id),
+              onClick: () => authController.switchAccount(e.accountId),
             ))
         .toList();
   }

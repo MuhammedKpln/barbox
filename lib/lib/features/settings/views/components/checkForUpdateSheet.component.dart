@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:macos_ui/macos_ui.dart';
 import 'package:barbox/core/constants/theme.dart';
 import 'package:barbox/core/services/di.service.dart';
 import 'package:barbox/features/settings/controllers/settings.controller.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:macos_ui/macos_ui.dart';
 
 class CheckForUpdateSheet extends StatelessWidget {
   const CheckForUpdateSheet({
@@ -63,7 +63,7 @@ class CheckForUpdateSheet extends StatelessWidget {
           }),
           PushButton(
             child: const Text("Download"),
-            buttonSize: ButtonSize.large,
+            controlSize: ControlSize.large,
             onPressed: controller.navigateToDownloads,
           )
         ],

@@ -1,11 +1,11 @@
+import 'package:barbox/core/auth/controllers/auth.controller.dart';
+import 'package:barbox/core/constants/theme.dart';
+import 'package:barbox/core/services/di.service.dart';
+import 'package:barbox/features/settings/controllers/settings.controller.dart';
+import 'package:barbox/features/settings/views/components/checkForUpdateSheet.component.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:macos_ui/macos_ui.dart';
-import 'package:barbox/core/auth/controllers/auth.controller.dart';
-import 'package:barbox/core/constants/theme.dart';
-import 'package:barbox/features/settings/controllers/settings.controller.dart';
-import 'package:barbox/core/services/di.service.dart';
-import 'package:barbox/features/settings/views/components/checkForUpdateSheet.component.dart';
 
 class SettingsView extends StatefulWidget {
   const SettingsView({super.key});
@@ -70,7 +70,7 @@ class _SettingsViewState extends State<SettingsView> {
                     children: [
                       PushButton(
                         child: const Text("Logout"),
-                        buttonSize: ButtonSize.large,
+                        controlSize: ControlSize.large,
                         onPressed: controller.logout,
                       ),
                       Padding(
@@ -78,8 +78,8 @@ class _SettingsViewState extends State<SettingsView> {
                             EdgeInsets.only(top: ThemePadding.medium.padding),
                         child: PushButton(
                           child: const Text("Check for updates"),
-                          buttonSize: ButtonSize.large,
-                          isSecondary: true,
+                          controlSize: ControlSize.large,
+                          secondary: true,
                           onPressed: () =>
                               controller.checkForUpdates(toggledFromUi: true),
                         ),
@@ -88,9 +88,9 @@ class _SettingsViewState extends State<SettingsView> {
                         padding:
                             EdgeInsets.only(top: ThemePadding.medium.padding),
                         child: PushButton(
+                          secondary: true,
                           child: const Text("Clear all cached mail"),
-                          buttonSize: ButtonSize.small,
-                          isSecondary: true,
+                          controlSize: ControlSize.small,
                           onPressed: controller.clearAllCachedMessages,
                         ),
                       ),
@@ -99,8 +99,8 @@ class _SettingsViewState extends State<SettingsView> {
                             EdgeInsets.only(top: ThemePadding.medium.padding),
                         child: PushButton(
                           child: const Text("Clear cache"),
-                          buttonSize: ButtonSize.small,
-                          isSecondary: true,
+                          controlSize: ControlSize.small,
+                          secondary: true,
                           onPressed: controller.clearCache,
                         ),
                       ),

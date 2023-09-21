@@ -1,8 +1,9 @@
 import 'dart:convert';
+import 'dart:math';
 
+import 'package:barbox/types/single_message/attachment.dart';
 import 'package:equatable/equatable.dart';
 import 'package:isar/isar.dart';
-import 'package:barbox/types/single_message/attachment.dart';
 
 import 'from.dart';
 import 'to.dart';
@@ -11,10 +12,12 @@ part 'single_message.g.dart';
 
 @Collection(inheritance: false)
 class SingleMessage extends Equatable {
-  final Id isarId = Isar.autoIncrement;
+  @Id()
+  int get isarId => Random().nextInt(99999);
   final String? privateContext;
   final String? privateId;
   final String? privateType;
+  @Index(unique: true)
   final String id;
   final String accountId;
   final String msgid;
