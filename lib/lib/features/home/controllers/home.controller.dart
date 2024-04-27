@@ -1,11 +1,10 @@
+import 'package:barbox/core/auth/controllers/auth.controller.dart';
 import 'package:barbox/core/services/router/router.service.dart';
+import 'package:barbox/core/storage/app.storage.dart';
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mobx/mobx.dart';
-import 'package:barbox/core/auth/controllers/auth.controller.dart';
-import 'package:barbox/core/storage/app.storage.dart';
-import 'package:barbox/utils.dart';
 
 part 'home.controller.g.dart';
 
@@ -30,19 +29,15 @@ abstract class _HomeViewControllerBase with Store {
       shouldShowWelcomeSheet.value = true;
     }
 
-    if (_authController.isLoggedIn) {
+    when((_) => _authController.isLoggedIn == true, () {
       appRouterDelegate.beamToNamed(RouterMeta.inbox.path);
-    }
+    });
   }
 
   @action
   Future<void> closeHomeSheet(BuildContext context) async {
-    final randomString = generateRandomString(10);
     await _appStorage.setDidShowWelcomeSheet(true);
-    await _authController.register(
-        username: randomString,
-        password: randomString,
-        selectedDomain: "eurokool.com");
+    await _authController.registerWithRandomUsername();
     Navigator.of(context).pop();
 
     context.beamToNamed(RouterMeta.inbox.path);
