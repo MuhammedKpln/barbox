@@ -1,12 +1,14 @@
 import 'dart:async';
 
+import 'package:barbox/core/auth/controllers/auth.controller.dart';
+import 'package:barbox/core/services/di.service.dart';
+import 'package:barbox/core/services/router/router.service.dart';
+import 'package:barbox/features/home/controllers/home.controller.dart';
+import 'package:barbox/features/home/views/components/welcomeSheet.component.dart';
+import 'package:beamer/beamer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:macos_ui/macos_ui.dart';
-import 'package:barbox/core/auth/controllers/auth.controller.dart';
-import 'package:barbox/features/home/controllers/home.controller.dart';
-import 'package:barbox/core/services/di.service.dart';
-import 'package:barbox/features/home/views/components/welcomeSheet.component.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -32,6 +34,10 @@ class _HomeViewState extends State<HomeView> {
           return;
         }
       }
+
+      if (authController.isLoggedIn) {
+        context.beamToNamed(RouterMeta.inbox.path);
+      }
     });
   }
 
@@ -51,10 +57,7 @@ class _HomeViewState extends State<HomeView> {
     return MacosScaffold(children: [
       ContentArea(
         builder: (context, scrollController) {
-          return const Center(
-              child: ProgressCircle(
-            value: null,
-          ));
+          return const Text("");
         },
       )
     ]);
