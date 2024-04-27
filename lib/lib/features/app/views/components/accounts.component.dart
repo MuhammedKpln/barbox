@@ -15,17 +15,17 @@ class AccountsComponent extends StatelessWidget {
     return Observer(
       builder: (context) {
         final items = controller.authController.availableAccounts
-            .map((e) => MacosPopupMenuItem<int>(
-                  value: e.id,
-                  child: Text(e.id.toString()),
+            .map((e) => MacosPopupMenuItem<String>(
+                  value: e.accountId,
+                  child: Text(e.accountId),
                   alignment: Alignment.center,
                 ))
             .toList();
 
-        return MacosPopupButton<int>(
+        return MacosPopupButton<String>(
           items: items,
           onChanged: (value) => controller.authController.switchAccount(value!),
-          value: controller.authController.account.value!.id,
+          value: controller.authController.account.value?.accountId,
         );
       },
     );
